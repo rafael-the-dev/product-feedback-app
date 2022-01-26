@@ -6,9 +6,14 @@ export const useResponsive = makeStyles(theme => ({
             alignItems: 'center !important'
         }
     },
+    smAlignStretch: {
+        [theme.breakpoints.up('sm')]: {
+            alignItems: 'stretch !important'
+        }
+    },
     smFlex: {
         [theme.breakpoints.up('sm')]: {
-            display: 'flex !important'
+            display: 'flex !important'//
         }
     },
     smInlineBlock: {
@@ -161,6 +166,11 @@ export const useResponsive = makeStyles(theme => ({
             paddingBottom: '0 !important'
         }
     },
+    smPb2: {
+        [theme.breakpoints.up('sm')]: {
+            paddingBottom: '2rem !important'
+        }
+    },
     smPl2: {
         [theme.breakpoints.up('sm')]: {
             paddingLeft: '2rem !important'
@@ -169,6 +179,11 @@ export const useResponsive = makeStyles(theme => ({
     smPr2: {
         [theme.breakpoints.up('sm')]: {
             paddingRight: '2rem !important'
+        }
+    },
+    smPt0: {
+        [theme.breakpoints.up('sm')]: {
+            paddingTop: '0 !important'
         }
     },
     smPt3: {
@@ -261,6 +276,11 @@ export const useResponsive = makeStyles(theme => ({
             marginTop: '3rem !important'
         }
     },
+    mdPb2: {
+        [theme.breakpoints.up('md')]: {
+            paddingBottom: '2rem !important'
+        }
+    },
     mdPt0: {
         [theme.breakpoints.up('md')]: {
             paddingTop: '0rem !important'
@@ -269,6 +289,11 @@ export const useResponsive = makeStyles(theme => ({
     mdPt2: {
         [theme.breakpoints.up('md')]: {
             paddingTop: '2rem !important'
+        }
+    },
+    mdPt3: {
+        [theme.breakpoints.up('md')]: {
+            paddingTop: '3rem !important'
         }
     },
     mdPl0: {

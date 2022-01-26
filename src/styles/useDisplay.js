@@ -20,6 +20,9 @@ export const useDisplay = makeStyles(theme => ({
     block: {
         display: 'block !important'
     },
+    borderBox: {
+        boxSizing: 'border-box'
+    },
     borderNone: {
         border: 'none !important'
     },

@@ -4,7 +4,15 @@
     font-family: 'Mochiy Pop P One', sans-serif;
 }*/
 
-.carousel .control-dots {
-    bottom: -10px !important;
-    text-align: left !important;
+#root {
+    background-color: #F2F4FF;
+}
+
+@media screen  and (min-width: 900px){
+    #root {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 10%;
+        padding-right: 10%;
+    }
 }
