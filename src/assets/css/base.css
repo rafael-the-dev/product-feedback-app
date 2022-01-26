@@ -1,0 +1,10 @@
+/** {
+    font-family: 'Abril Fatface', cursive;
+    font-family: 'Big Shoulders Text', cursive;
+    font-family: 'Mochiy Pop P One', sans-serif;
+}*/
+
+.carousel .control-dots {
+    bottom: -10px !important;
+    text-align: left !important;
+}
