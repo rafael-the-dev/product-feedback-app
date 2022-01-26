@@ -1,4 +1,4 @@
-import { Chip, Drawer, IconButton, Paper, Typography } from '@mui/material';
+import { Chip, Drawer, Hidden, IconButton, Paper, Typography } from '@mui/material';
 import classNames from 'classnames'
 import { useDisplay, useGlobalStyles, useTypography } from '../../styles'
 import MenuIcon from '@mui/icons-material/Menu';
@@ -49,21 +49,25 @@ const Header = () => {
                     <Typography component="h1" variant="h6">Frontend Mentor</Typography>
                     <Typography className={classNames(text.rem9, display.opacity9)}>Feedback Board</Typography>
                 </div>
-                <IconButton
-                    onClick={toggleMenu}>
-                    { open ? <CloseIcon className={classNames(text.textLight)} /> : <MenuIcon className={classNames(text.textLight)} /> }
-                </IconButton>
+                <Hidden smUp>
+                    <IconButton
+                        onClick={toggleMenu}>
+                        { open ? <CloseIcon className={classNames(text.textLight)} /> : <MenuIcon className={classNames(text.textLight)} /> }
+                    </IconButton>
+                </Hidden>
             </div>
-            <Drawer
-                anchor="right"
-                open={open}
-                onClose={closeMenu}
-                classes={{ paper: classes.drawerPaper, root: classes.drawerRoot }}
-                >
-                <div className={classNames(globalStyles.px, classes.drawerContent, display.pt2, display.pb2)}>
-                    { drawerContent }
-                </div>
-            </Drawer>
+            <Hidden smUp>
+                <Drawer
+                    anchor="right"
+                    open={open}
+                    onClose={closeMenu}
+                    classes={{ paper: classes.drawerPaper, root: classes.drawerRoot }}
+                    >
+                    <div className={classNames(globalStyles.px, classes.drawerContent, display.pt2, display.pb2)}>
+                        { drawerContent }
+                    </div>
+                </Drawer>
+            </Hidden>
         </header>
     );
 };
