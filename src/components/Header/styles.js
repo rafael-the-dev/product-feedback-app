@@ -84,5 +84,9 @@ export const useStyles = makeStyles(theme => ({
         '&::before': {
             backgroundColor: '#62BCFA'
         }
+    },
+    chip: {
+        backgroundColor: '#CFD7FF !important',
+        color: '#4661E6 !important'
     }
 }));

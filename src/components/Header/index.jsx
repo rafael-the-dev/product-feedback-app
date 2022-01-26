@@ -22,9 +22,9 @@ const Header = () => {
         <Chip
             label={ label }
             onClick={() => {}}
-            className={classNames(display.mr1, display.mb1)} 
+            className={classNames(display.mr1, display.mb1, classes.chip)} 
         />
-    ), [ display ])
+    ), [ classes, display ])
 
     const drawerContent = useMemo(() => (
         <>
@@ -50,15 +50,19 @@ const Header = () => {
                         <Link to="/roadmap" className={classNames(text.noUnderline)}>View</Link>
                     </header>
                     <div className={classNames(display.w100, display.mt1)}>
-                        <Typography className={classNames(display.flex, display.justifyBetween, display.alignCenter,
-                            classes.roadmapState)}>
+                        <Typography 
+                            className={classNames(display.flex, display.justifyBetween, display.alignCenter,
+                            classes.roadmapState)}
+                            gutterBottom>
                             <span className={classNames(classes.roadmapStateText, classes.roadmapStateTextPlanned)}>
                                 Planned
                             </span>
                             <span className={classNames(text.font7)}>{ 2 }</span>
                         </Typography>
-                        <Typography className={classNames(display.flex, display.justifyBetween, display.alignCenter,
-                            classes.roadmapState)}>
+                        <Typography 
+                            className={classNames(display.flex, display.justifyBetween, display.alignCenter,
+                            classes.roadmapState)}
+                            gutterBottom>
                             <span className={classNames(classes.roadmapStateText, classes.roadmapStateTextInProgress)}>
                                 In-Progress
                             </span>
