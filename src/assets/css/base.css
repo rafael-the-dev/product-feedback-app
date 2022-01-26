@@ -12,7 +12,6 @@
     #root {
         display: flex;
         justify-content: space-between;
-        padding-left: 10%;
-        padding-right: 10%;
+        padding: 3rem 10%;
     }
 }

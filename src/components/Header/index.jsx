@@ -82,7 +82,7 @@ const Header = () => {
 
     return (
         <header className={classNames(responsive.smFlex, responsive.smPt3, responsive.smPb2, classes.header,
-            responsive.smJustifyBetween, responsive.mdColumn, responsive.smAlignStretch)}>
+            responsive.smJustifyBetween, responsive.mdColumn, responsive.smAlignStretch, responsive.mdPt0)}>
             <div
                 className={classNames(text.textLight, classes.headerHighlight, display.pt1, display.pb1,
                 display.flex, display.justifyBetween, display.alignCenter, globalStyles.px, classes.smPx, 
