@@ -53,5 +53,36 @@ export const useStyles = makeStyles(theme => ({
             paddingLeft: '5%',
             paddingRight: '5%'
         }
+    },
+    roadmapTitle: {
+        color: '#3A4374'
+    },
+    roadmapState: {
+        color: '#647196'
+    },
+    roadmapStateText: {
+        '&::before': {
+            borderRadius: '50%',
+            content: '""',
+            display: 'inline-block',
+            height: 13,
+            marginRight: 13,
+            width: 13
+        }
+    },
+    roadmapStateTextPlanned: {
+        '&::before': {
+            backgroundColor: '#F49F85'
+        }
+    },
+    roadmapStateTextInProgress: {
+        '&::before': {
+            backgroundColor: '#AD1FEA'
+        }
+    },
+    roadmapStateTextLive: {
+        '&::before': {
+            backgroundColor: '#62BCFA'
+        }
     }
 }));
