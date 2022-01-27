@@ -57,7 +57,7 @@ const Roadmap = () => {
     }, [ ]);
 
     const inProgressFeedbacksSection = useMemo(() => (
-        <section className={classNames(globalStyles.px, display.pb3, display.pt2)}>
+        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.smPt0)}>
             <div>
                 <Typography gutterBottom component="h2" variant="h6" className={classNames(text.font7, classes.darkBlueColor)}>
                 In-Progress ({ plansTotal.inProgress })
@@ -70,10 +70,10 @@ const Roadmap = () => {
                 { inProgressFeedbacks }
             </Grid>
         </section>
-    ), [ classes, display, globalStyles, inProgressFeedbacks, plansTotal, text ]);
+    ), [ classes, display, globalStyles, inProgressFeedbacks, plansTotal, responsive, text ]);
 
     const liveFeedbacksSection = useMemo(() => (
-        <section className={classNames(globalStyles.px, display.pb3, display.pt2)}>
+        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.smPt0)}>
             <div>
                 <Typography gutterBottom component="h2" variant="h6" className={classNames(text.font7, classes.darkBlueColor)}>
                     Live ({ plansTotal.live })
@@ -86,10 +86,10 @@ const Roadmap = () => {
                 { liveFeedbacks }
             </Grid>
         </section>
-    ), [ classes, display, globalStyles, liveFeedbacks, plansTotal, text ]);
+    ), [ classes, display, globalStyles, liveFeedbacks, plansTotal, responsive, text ]);
 
     const plannedFeedbacksSection = useMemo(() => (
-        <section className={classNames(globalStyles.px, display.pb3, display.pt2)}>
+        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.smPt0)}>
             <div>
                 <Typography gutterBottom component="h2" variant="h6" className={classNames(text.font7, classes.darkBlueColor)}>
                     Planned ({ plansTotal.planned })
@@ -102,7 +102,7 @@ const Roadmap = () => {
                 { plannedFeedbacks }
             </Grid>
         </section>
-    ), [ classes, display, globalStyles, plannedFeedbacks, plansTotal, text ]);
+    ), [ classes, display, globalStyles, plannedFeedbacks, plansTotal, responsive, text ]);
 
     
     const statusClasses = useMemo(() => ({
@@ -137,6 +137,13 @@ const Roadmap = () => {
                 { status === 'in-progress' && inProgressFeedbacksSection }
                 { status === 'live' && liveFeedbacksSection }
                 { status === 'planned' && plannedFeedbacksSection }
+            </Hidden>
+            <Hidden smDown>
+                <div className={classNames(classes.grid, display.mt2)}>
+                    { plannedFeedbacksSection }
+                    { inProgressFeedbacksSection }
+                    { liveFeedbacksSection }
+                </div>
             </Hidden>
         </main>
     );

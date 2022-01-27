@@ -15,13 +15,13 @@ const FeedbackCard = ({ comments, category, description, status, title, upvotes 
 
     const toggleButton = useMemo(() => (
         <button className={classNames(display.borderNone, display.outlineNone, classes.button,
-            display.flex, display.alignCenter, responsive.smColumn)}>
+            display.flex, display.alignCenter)}>
             <KeyboardArrowDownIcon className={classNames(classes.buttonArrow)} />
             <span className={classNames(classes.darkBlueColor, text.font7, classes.buttonText)}>
                 { upvotes }
             </span>
         </button>
-    ), [ classes, display, responsive, text, upvotes ]);
+    ), [ classes, display, text, upvotes ]);
 
     const commentButton = useMemo(() => (
         <button className={classNames(display.borderNone, display.outlineNone, classes.commentButton,
@@ -45,12 +45,11 @@ const FeedbackCard = ({ comments, category, description, status, title, upvotes 
     return (
         <Grid component="article" item xs={12}>
             <Paper elevation={0} className={classNames(classes.paper, display.mb1, display.pb1, display.pt1,
-                globalStyles.px, responsive.smFlex, display.justifyBetween, display.alignStart, display.relative)}>
+                globalStyles.px, display.justifyBetween, display.alignStart, display.relative)}>
                 <span className={classNames(classes.roadmapStateText, feedbackTextStatus[status], display.block)}>
                     { status.replace('-', ' ') }
                 </span>
-                <div className={classNames(display.flexGrow1, classes.content, responsive.smMl1,
-                    responsive.smMr1, responsive.mdMl2)}>
+                <div className={classNames(display.flexGrow1, classes.content)}>
                     <Typography gutterBottom component="h3" variant="h6" className={classNames(classes.darkBlueColor)}>
                         { title }
                     </Typography>

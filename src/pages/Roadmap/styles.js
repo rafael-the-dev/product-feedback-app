@@ -23,5 +23,11 @@ export const useStyles = makeStyles(theme => ({
     },
     plannedStatus: {
         borderBottom: '3px solid #F49F85'
+    },
+    grid: {
+        display: 'grid',
+        gridGap: '0 1%',
+        gridTemplateColumns: '32.33% 32.33% 32.33%',
+        gridTemplateRows: 'auto'
     }
 }));
