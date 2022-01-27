@@ -10,6 +10,7 @@
 
 @media screen  and (min-width: 900px){
     #root {
+        align-items: flex-start;
         display: flex;
         justify-content: space-between;
         padding: 3rem 10%;

@@ -161,6 +161,11 @@ export const useResponsive = makeStyles(theme => ({
             marginLeft: '3rem !important'
         }
     },
+    smMr1: {
+        [theme.breakpoints.up('sm')]: {
+            marginRight: '1rem !important'
+        }
+    },
     smPb0: {
         [theme.breakpoints.up('sm')]: {
             paddingBottom: '0 !important'

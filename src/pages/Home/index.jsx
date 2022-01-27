@@ -49,7 +49,8 @@ const Home = () => {
                         Add feedback
                     </Button>
                 </div>
-                <Grid container className={classNames(globalStyles.px, display.mt2)}>
+                <Grid container className={classNames(globalStyles.px, display.mt2, responsive.mdPl0, 
+                    responsive.mdPr0)}>
                     { feedbackList }
                 </Grid>
             </main>

@@ -19,7 +19,7 @@ export const useStyles = makeStyles(theme => ({
             width: '31%'
         },
         [theme.breakpoints.up('md')]: {
-            width: '100%'
+            width: 300
         }
     },
     drawerRoot: {

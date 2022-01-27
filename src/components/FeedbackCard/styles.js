@@ -5,6 +5,10 @@ export const useStyles = makeStyles(theme => ({
     paper: {
         borderRadius: '12px !important',
     },
+    content: {
+        [theme.breakpoints.up('sm')]: {
+        }
+    },
     darkBlueColor: {
         color: '#3A4374 !important'
     },
@@ -18,13 +22,20 @@ export const useStyles = makeStyles(theme => ({
     button: {
         backgroundColor: '#F2F4FE',
         borderRadius: 12,
-        padding: '.3rem .7rem'
+        padding: '.3rem .7rem',
+        [theme.breakpoints.up('sm')]: {
+            padding: '.5rem .4rem'
+        }
     },
     buttonArrow: {
         color: '#4661E6 !important'
     },
     buttonText: {
-        marginLeft: 7
+        marginLeft: 7,
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: 0,
+            marginTop: 5
+        }
     },
     commentButton: {
         fontSize: '1.01rem',
