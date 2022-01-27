@@ -65,5 +65,32 @@ export const useStyles = makeStyles(theme => ({
     },
     plannedStatus: {
         backgroundColor: '#F49F85'
-    }
+    },
+    roadmapStateText: {
+        margin: '10px 0 .75rem 0',
+        textTransform: 'capitalize',
+        '&::before': {
+            borderRadius: '50%',
+            content: '""',
+            display: 'inline-block',
+            height: 13,
+            marginRight: 13,
+            width: 13
+        }
+    },
+    roadmapStateTextPlanned: {
+        '&::before': {
+            backgroundColor: '#F49F85'
+        }
+    },
+    roadmapStateTextInProgress: {
+        '&::before': {
+            backgroundColor: '#AD1FEA'
+        }
+    },
+    roadmapStateTextLive: {
+        '&::before': {
+            backgroundColor: '#62BCFA'
+        }
+    },
 }));

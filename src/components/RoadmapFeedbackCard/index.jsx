@@ -36,13 +36,22 @@ const FeedbackCard = ({ comments, category, description, status, title, upvotes 
         planned: classes.plannedStatus
     }), [ classes ]);
 
+    const feedbackTextStatus = useMemo(() => ({
+        'in-progress': classes.roadmapStateTextInProgress,
+        live: classes.roadmapStateTextLive,
+        planned: classes.roadmapStateTextPlanned
+    }), [ classes ]);
+
     return (
         <Grid component="article" item xs={12}>
             <Paper elevation={0} className={classNames(classes.paper, display.mb1, display.pb1, display.pt1,
                 globalStyles.px, responsive.smFlex, display.justifyBetween, display.alignStart, display.relative)}>
+                <span className={classNames(classes.roadmapStateText, feedbackTextStatus[status], display.block)}>
+                    { status.replace('-', ' ') }
+                </span>
                 <div className={classNames(display.flexGrow1, classes.content, responsive.smMl1,
                     responsive.smMr1, responsive.mdMl2)}>
-                    <Typography gutterBottom component="h2" variant="h6" className={classNames(classes.darkBlueColor)}>
+                    <Typography gutterBottom component="h3" variant="h6" className={classNames(classes.darkBlueColor)}>
                         { title }
                     </Typography>
                     <Typography gutterBottom className={classNames(text.rem9, classes.description)}>
