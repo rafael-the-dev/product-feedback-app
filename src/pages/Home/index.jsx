@@ -2,9 +2,12 @@ import Header from '../../components/Header'
 import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
-import { Button, Hidden, Typography } from '@mui/material';
+import { Button, Grid, Hidden, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import FeedbackCard from '../../components/FeedbackCard';
+import data from '../../data.json'
+import { useMemo } from 'react';
 
 const Home = () => {
     const classes = useStyles();
@@ -12,6 +15,13 @@ const Home = () => {
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
     const text = useTypography();
+
+    const feedbackList = useMemo(() => (
+        data.productRequests
+            .map((item, index) => (
+                <FeedbackCard key={index} { ...item } />
+            ))
+    ), [])
 
     return (
         <>
@@ -39,6 +49,9 @@ const Home = () => {
                         Add feedback
                     </Button>
                 </div>
+                <Grid container className={classNames(globalStyles.px)}>
+                    { feedbackList }
+                </Grid>
             </main>
         </>
     )
