@@ -1,10 +1,11 @@
 import { Chip, Grid, Paper, Typography } from '@mui/material'
 import classNames from 'classnames'
-import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
+import { useBackground, useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const FeedbackCard = ({ comments, category, description, title, upvotes }) => {
+    const bg = useBackground();
     const classes = useStyles();
     const display = useDisplay();
     const globalStyles = useGlobalStyles();
@@ -19,17 +20,22 @@ const FeedbackCard = ({ comments, category, description, title, upvotes }) => {
                     <Typography component="h2" variant="h6" className={classNames(classes.darkBlueColor)}>
                         { title }
                     </Typography>
-                    <Typography gutterBottom className={classNames(display.mt1, text.rem9)}>{ description }</Typography>
-                    <Chip label={ category } />
+                    <Typography gutterBottom className={classNames(display.mt1, text.rem9, classes.description)}>
+                        { description }
+                    </Typography>
+                    <Chip label={ category } className={classNames(classes.chip)} />
                 </div>
                 <div className={classNames(display.flex, display.alignCenter, display.justifyBetween,
                     display.mt1)}>
                     <button className={classNames(display.borderNone, display.outlineNone, classes.button,
                         display.flex, display.alignCenter)}>
-                        <KeyboardArrowDownIcon />
-                        <span className={classNames(classes.darkBlueColor, text.font7)}>{ upvotes }</span>
+                        <KeyboardArrowDownIcon className={classNames(classes.buttonArrow)} />
+                        <span className={classNames(classes.darkBlueColor, text.font7, classes.buttonText)}>
+                            { upvotes }
+                        </span>
                     </button>
-                    <button className={classNames(classes.commentButton)}>
+                    <button className={classNames(display.borderNone, display.outlineNone, classes.commentButton,
+                        bg.transparent, classes.darkBlueColor, text.font7, display.flex, display.alignCenter)}>
                         { comments ? comments.length : 0 }
                     </button>
                 </div>

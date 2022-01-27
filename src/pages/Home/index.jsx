@@ -49,7 +49,7 @@ const Home = () => {
                         Add feedback
                     </Button>
                 </div>
-                <Grid container className={classNames(globalStyles.px)}>
+                <Grid container className={classNames(globalStyles.px, display.mt2)}>
                     { feedbackList }
                 </Grid>
             </main>
