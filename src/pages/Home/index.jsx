@@ -16,12 +16,24 @@ const Home = () => {
     const responsive = useResponsive();
     const text = useTypography();
 
+    const totalSuggestions = useMemo(() => {
+        let total = 0;
+        data.productRequests
+            .forEach(item => {
+                if(item.status === 'suggestion') {
+                    total += 1;
+                } 
+            });
+        return total;
+    }, [])
+
     const feedbackList = useMemo(() => (
         data.productRequests
+            .filter(item => item.status === 'suggestion')
             .map((item, index) => (
                 <FeedbackCard key={index} { ...item } />
             ))
-    ), [])
+    ), []);
 
     return (
         <>
@@ -32,7 +44,7 @@ const Home = () => {
                    <div className={classNames(display.flex, display.alignCenter,)}>
                        <Hidden smDown>
                             <Typography component="h2" variant="h6" className={classNames(text.textLight, text.font7, classes.totalSuggestions)}>
-                                { 6 } Suggestions
+                                { totalSuggestions } Suggestions
                             </Typography>
                        </Hidden>
                     <Button

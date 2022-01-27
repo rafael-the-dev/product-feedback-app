@@ -6,6 +6,7 @@ import { useStyles } from './styles'
 import { useCallback, useMemo, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
+import feedbackData from '../../data.json'
 
 const Header = () => {
     const classes = useStyles();
@@ -17,6 +18,21 @@ const Header = () => {
     const [ open, setOpen ] = useState(false);
     const closeMenu = useCallback(() => setOpen(false), []);
     const toggleMenu = useCallback(() => setOpen(o => !o), []);
+
+    const plansTotal = useMemo(() => {
+        const total = { planned: 0, inProgress: 0, live: 0 };
+        feedbackData.productRequests
+            .forEach(item => {
+                if(item.status === 'planned') {
+                    total.planned += 1;
+                } else  if(item.status === 'in-progress') {
+                    total.inProgress += 1;
+                } else if(item.status === 'live') {
+                    total.live += 1;
+                }
+            });
+        return total;
+    }, [])
 
     const CustomChip = useCallback(({ label }) => (
         <Chip
@@ -57,7 +73,7 @@ const Header = () => {
                             <span className={classNames(classes.roadmapStateText, classes.roadmapStateTextPlanned)}>
                                 Planned
                             </span>
-                            <span className={classNames(text.font7)}>{ 2 }</span>
+                            <span className={classNames(text.font7)}>{ plansTotal.planned }</span>
                         </Typography>
                         <Typography 
                             className={classNames(display.flex, display.justifyBetween, display.alignCenter,
@@ -66,19 +82,19 @@ const Header = () => {
                             <span className={classNames(classes.roadmapStateText, classes.roadmapStateTextInProgress)}>
                                 In-Progress
                             </span>
-                            <span className={classNames(text.font7)}>{ 3 }</span>
+                            <span className={classNames(text.font7)}>{ plansTotal.inProgress }</span>
                         </Typography>
                         <Typography className={classNames(display.flex, display.justifyBetween, display.alignCenter,
                             classes.roadmapState)}>
                             <span className={classNames(classes.roadmapStateText, classes.roadmapStateTextLive)}>
                                 Live
                             </span>
-                            <span className={classNames(text.font7)}>{ 1 }</span>
+                            <span className={classNames(text.font7)}>{ plansTotal.live }</span>
                         </Typography>
                     </div>
             </Paper>
         </>
-    ), [ classes, display, globalStyles, responsive, text ])
+    ), [ classes, display, globalStyles, plansTotal, responsive, text ])
 
     return (
         <header className={classNames(responsive.smFlex, responsive.smPt3, responsive.smPb2, classes.header,
