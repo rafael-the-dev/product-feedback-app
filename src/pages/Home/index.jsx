@@ -27,15 +27,62 @@ const Home = () => {
                 } 
             });
         return total;
-    }, [])
+    }, []);
+
+    
+    const filterOptions = useMemo(() => ({
+        mostUpvotes: 'most-upvotes',
+        leastUpvotes: 'least-upvotes',
+        mostComments: 'most-comments',
+        leastComments: 'least-comments'
+    }), []);
+    const [ filter, setFilter ] = useState(filterOptions.mostUpvotes);
+
+    const filterList = useMemo(() => {
+        let list = data.productRequests.filter(item => item.status === 'suggestion');
+
+        if(filter === filterOptions.mostUpvotes) {
+            //list = list.filter(item => item.upvotes >= 61);
+            list = list.sort((a, b) => b.upvotes - a.upvotes);
+        } else if(filter === filterOptions.leastUpvotes) {
+            list = list.sort((a, b) => a.upvotes - b.upvotes);
+        } else if(filter === filterOptions.mostComments) {
+            list = list.sort((a, b) => {
+                let aValue = 0
+                let bValue = 0; //
+
+                if(a.comments)
+                    aValue = a.comments.length;
+
+                if(b.comments)
+                    bValue = b.comments.length;
+
+                return bValue - aValue;
+            });
+        } if(filter === filterOptions.leastComments) {
+            list = list.sort((a, b) => {
+                let aValue = 0
+                let bValue = 0; //
+
+                if(a.comments)
+                    aValue = a.comments.length;
+
+                if(b.comments)
+                    bValue = b.comments.length;
+
+                return aValue - bValue;
+            });
+        }
+
+        return list;
+    }, [ filter, filterOptions ])
 
     const feedbackList = useMemo(() => (
-        data.productRequests
-            .filter(item => item.status === 'suggestion')
+        filterList
             .map((item, index) => (
                 <FeedbackCard key={index} { ...item } />
             ))
-    ), []);
+    ), [ filterList ]);
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -49,14 +96,6 @@ const Home = () => {
 
     const openPopover = Boolean(anchorEl);
     const id = openPopover ? 'simple-popover' : undefined;
-
-    const filterOptions = useMemo(() => ({
-        mostUpvotes: 'most-upvotes',
-        leastUpvotes: 'least-upvotes',
-        mostComments: 'most-comments',
-        leastComments: 'least-comments'
-    }), []);
-    const [ filter, setFilter ] = useState(filterOptions.mostUpvotes);
 
     const listItemClickHandler = useCallback(prop => () => {
         setFilter(prop);
@@ -80,7 +119,9 @@ const Home = () => {
                             endIcon={<KeyboardArrowDownIcon />}
                             onClick={handleClick}>
                             Sort by:
-                            <span className={classNames(text.font7, classes.sortHighlightText)}> Most Upvotes</span>
+                            <span className={classNames(text.font7, classes.sortHighlightText)}> 
+                                { filter.replace('-', ' ')}
+                            </span>
                         </Button>
                    </div>
                     <Button
