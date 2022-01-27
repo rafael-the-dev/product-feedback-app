@@ -31,5 +31,27 @@ export const useStyles = makeStyles(theme => ({
         backgroundColor: '#AD1FEA !important',
         borderRadius: '11px !important',
         padding: '9px 16px !important'
+    },
+    popoverRoot: {
+        top: '111px !important'
+    },
+    filterList: {
+        width: 244
+    },
+    filterListItem: {
+        borderBottom: '1px solid #979797d6',
+        '&:last-child': {
+            borderBottom: 'none'
+        },
+        '&:hover .MuiTypography-root': {
+            color: '#AD1FEA !important',
+        }
+    },
+    filterListItemText: {
+        color: '#647196'
+    },
+    filterListIcon: {
+        color: '#AD1FEA !important',
+        minWidth: '23px !important'
     }
 }));

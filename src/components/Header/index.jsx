@@ -32,7 +32,7 @@ const Header = () => {
                 }
             });
         return total;
-    }, [])
+    }, [ ]);
 
     const CustomChip = useCallback(({ label }) => (
         <Chip
@@ -40,7 +40,11 @@ const Header = () => {
             onClick={() => {}}
             className={classNames(display.mr1, display.mb1, classes.chip)} 
         />
-    ), [ classes, display ])
+    ), [ classes, display ]);
+
+    const chipCategories = useMemo(() => (
+        feedbackData.productRequests.map(item => item.category)
+    ), [])
 
     const drawerContent = useMemo(() => (
         <>
@@ -48,12 +52,11 @@ const Header = () => {
                 className={classNames(display.pt1, display.pb2, globalStyles.px, display.flex, display.alignCenter,
                 display.wrap, classes.paper, display.borderBox, classes.smPx, responsive.mdMt1)}
                 elevation={0}>
-                <CustomChip label="All" />
-                <CustomChip label="UI" />
-                <CustomChip label="UX" />
-                <CustomChip label="Ehancement" />
-                <CustomChip label="Bug" />
-                <CustomChip label="Feature" />
+                    {
+                        [ ...new Set(chipCategories) ].map((item, index) => (
+                            <CustomChip key={index} label={ item } />
+                        ))
+                    }
             </Paper>
             <Paper 
                 className={classNames(display.pt1, display.pb2, globalStyles.px, display.flex, display.alignCenter,
@@ -94,7 +97,7 @@ const Header = () => {
                     </div>
             </Paper>
         </>
-    ), [ classes, display, globalStyles, plansTotal, responsive, text ])
+    ), [ classes, chipCategories, display, globalStyles, plansTotal, responsive, text ]);
 
     return (
         <header className={classNames(responsive.smFlex, responsive.smPt3, responsive.smPb2, classes.header,
