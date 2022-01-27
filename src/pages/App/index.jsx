@@ -9,7 +9,7 @@ const App = () => {
     const theme = createTheme();
 
     const HomePage = loadable(() => import(/* webpackChunkName: "HomePage" */ '../Home'));
-    //const PortfolioPage = loadable(() => import(/* webpackChunkName: "PortfolioPage" */ '../Portfolio'));
+    const RoadmapPage = loadable(() => import(/* webpackChunkName: "RoadmapPage" */ '../Roadmap'));
     //const AboutPage = loadable(() => import(/* webpackChunkName: "AboutPage" */ '../About'));
     //const ContactPage = loadable(() => import(/* webpackChunkName: "ContactPage" */ '../Contact'));
 
@@ -20,6 +20,7 @@ const App = () => {
                     <AppContextProvider>
                         <Router>
                             <Routes>
+                                <Route exact path="/roadmap" element={<RoadmapPage />} />
                                 <Route exact path="/" element={<HomePage />} />
                             </Routes>
                         </Router>
