@@ -1,6 +1,12 @@
 import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles(theme => ({ 
+    avatar: {
+        backgroundImage: 'linear-gradient(205deg, #E84D70, #A337F6, #28A7ED)',
+        left: 0,
+        transform: 'translate(3%, -50%)',
+        top: 0
+    },
     labelDescription: {
         fontWeight: 500,
         lineHeight: '1.4rem',

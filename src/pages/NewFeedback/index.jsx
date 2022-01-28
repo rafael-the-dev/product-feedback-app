@@ -39,10 +39,10 @@ const NewFeedback = () => {
 
     return (
         <main className={classNames(globalStyles.px, display.pt3, display.pb3)}>
-            <Paper elevation={0} component="form" className={classNames(globalStyles.px, display.pt2, display.pb2,
+            <Paper elevation={0} component="form" className={classNames(globalStyles.px, display.pb2,
                 globalStyles.borderRadius, display.relative)}>
                     <Avatar className={classNames(display.absolute, classes.avatar)}><AddIcon /></Avatar>
-                <fieldset>
+                <fieldset className={classNames(display.pt1)}>
                     <Typography component="fieldset" variant="h6" className={classNames(text.font7, text.capitalize,
                         globalStyles.darkBlueColor, )}>
                         Create New Feedback
