@@ -44,4 +44,17 @@ export const useGlobalStyles = makeStyles(theme => ({
     lightBlueColor: {
         color: '#647196 !important'
     },
+    listItem: {
+        borderBottom: '1px solid #979797d6',
+        '&:last-child': {
+            borderBottom: 'none !important'
+        },
+        '&:hover, &:hover .MuiTypography-root': {
+            color: '#AD1FEA !important',
+        }
+    },
+    listIcon: {
+        color: '#AD1FEA !important',
+        minWidth: '23px !important'
+    }
 }));

@@ -4,6 +4,7 @@ import { useStyles } from './styles'
 import { Avatar, Button, Grid, Hidden, MenuItem, Paper, Typography, TextField } from '@mui/material';
 import { useMemo, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
+import CheckIcon from '@mui/icons-material/Check';
 
 const NewFeedback = () => {
     const classes = useStyles();
@@ -90,8 +91,15 @@ const NewFeedback = () => {
                             classes={{ root: globalStyles.borderRadius }}
                             >
                             {categories.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
+                                <MenuItem 
+                                    key={option.value} 
+                                    value={option.value} 
+                                    className={classNames(globalStyles.listItem, classes.listItem, display.flex, 
+                                    display.alignCenter, display.justifyBetween)}>
                                     {option.label}
+                                    { category === option.value && (
+                                        <CheckIcon classes={{ root: classNames(globalStyles.listIcon, 'listIcon') }} />
+                                    )}
                                 </MenuItem>
                             ))}
                         </TextField>

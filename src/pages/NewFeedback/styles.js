@@ -30,7 +30,10 @@ export const useStyles = makeStyles(theme => ({
         },
         '& .MuiSelect-select': {
             color: '#647196',
-            padding: '.8rem 1rem !important'
+            padding: '.8rem 1rem !important',
+            '& .listIcon': {
+                display: 'none !important'
+            }
         },
         '& .MuiOutlinedInput-notchedOutline': {
             border: 'none !important',
@@ -40,5 +43,8 @@ export const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('sm')]: {
             flexDirection: 'row-reverse !important'
         }
+    },
+    listItem: {
+        borderBottom: '1px solid #97979757 !important',
     }
 }));
