@@ -57,7 +57,8 @@ const Roadmap = () => {
     }, [ ]);
 
     const inProgressFeedbacksSection = useMemo(() => (
-        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.smPt0)}>
+        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.mdPt0, responsive.mdPl0,
+            responsive.mdPr0)}>
             <div>
                 <Typography gutterBottom component="h2" variant="h6" className={classNames(text.font7, classes.darkBlueColor)}>
                 In-Progress ({ plansTotal.inProgress })
@@ -66,14 +67,15 @@ const Roadmap = () => {
                     Currently being developed
                 </Typography>
             </div>
-            <Grid container className={classNames(display.mt2)}>
+            <div className={classNames(display.mt2, classes.cardsGrid)}>
                 { inProgressFeedbacks }
-            </Grid>
+            </div>
         </section>
     ), [ classes, display, globalStyles, inProgressFeedbacks, plansTotal, responsive, text ]);
 
     const liveFeedbacksSection = useMemo(() => (
-        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.smPt0)}>
+        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.mdPt0, responsive.mdPl0,
+            responsive.mdPr0)}>
             <div>
                 <Typography gutterBottom component="h2" variant="h6" className={classNames(text.font7, classes.darkBlueColor)}>
                     Live ({ plansTotal.live })
@@ -82,14 +84,15 @@ const Roadmap = () => {
                     Released features
                 </Typography>
             </div>
-            <Grid container className={classNames(display.mt2)}>
+            <div className={classNames(display.mt2, classes.cardsGrid)}>
                 { liveFeedbacks }
-            </Grid>
+            </div>
         </section>
     ), [ classes, display, globalStyles, liveFeedbacks, plansTotal, responsive, text ]);
 
     const plannedFeedbacksSection = useMemo(() => (
-        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.smPt0)}>
+        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.mdPt0, responsive.mdPl0,
+        responsive.mdPr0)}>
             <div>
                 <Typography gutterBottom component="h2" variant="h6" className={classNames(text.font7, classes.darkBlueColor)}>
                     Planned ({ plansTotal.planned })
@@ -98,9 +101,9 @@ const Roadmap = () => {
                     Ideas prioritized for research
                 </Typography>
             </div>
-            <Grid container className={classNames(display.mt2)}>
+            <div className={classNames(display.mt2, classes.cardsGrid)}>
                 { plannedFeedbacks }
-            </Grid>
+            </div>
         </section>
     ), [ classes, display, globalStyles, plannedFeedbacks, plansTotal, responsive, text ]);
 
@@ -132,13 +135,13 @@ const Roadmap = () => {
 
     return (
         <main>
-            <Hidden smUp>
+            <Hidden mdUp>
                 { tabs }
                 { status === 'in-progress' && inProgressFeedbacksSection }
                 { status === 'live' && liveFeedbacksSection }
                 { status === 'planned' && plannedFeedbacksSection }
             </Hidden>
-            <Hidden smDown>
+            <Hidden mdDown>
                 <div className={classNames(classes.grid, display.mt2)}>
                     { plannedFeedbacksSection }
                     { inProgressFeedbacksSection }

@@ -4,6 +4,9 @@ import commentsIcon from '../../assets/images/icons/icon-comments.svg'
 export const useStyles = makeStyles(theme => ({ 
     paper: {
         borderRadius: '12px !important',
+        [theme.breakpoints.up('sm')]: {
+            //width: '95%'
+        }
     },
     content: {
         [theme.breakpoints.up('sm')]: {
