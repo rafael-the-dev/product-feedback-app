@@ -1,6 +1,12 @@
 import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles(theme => ({ 
+    main: {
+        [theme.breakpoints.up('md')]: {
+            marginLeft: 'auto',
+            marginRight: 'auto'
+        }
+    },
     avatar: {
         backgroundImage: 'linear-gradient(205deg, #E84D70, #A337F6, #28A7ED)',
         left: 0,

@@ -29,6 +29,10 @@ const NewFeedback = () => {
         value: 'enhancement',
         label: 'Enhancement',
       },
+      {
+        value: 'bug',
+        label: 'Bug',
+      },
     ], []);
 
     const [ category, setCategory ] = useState('feature');
@@ -38,7 +42,8 @@ const NewFeedback = () => {
     };
 
     return (
-        <main className={classNames(globalStyles.px, display.pt3, display.pb3)}>
+        <main className={classNames(globalStyles.px, display.pt3, display.pb3, classes.main,
+            responsive.mdPl0, responsive.mdPr0)}>
             <Paper elevation={0} component="form" className={classNames(globalStyles.px, display.pb2,
                 globalStyles.borderRadius, display.relative)}>
                     <Avatar className={classNames(display.absolute, classes.avatar)}><AddIcon /></Avatar>
