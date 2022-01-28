@@ -11,7 +11,7 @@ const App = () => {
     const HomePage = loadable(() => import(/* webpackChunkName: "HomePage" */ '../Home'));
     const RoadmapPage = loadable(() => import(/* webpackChunkName: "RoadmapPage" */ '../Roadmap'));
     const NewFeedbackPage = loadable(() => import(/* webpackChunkName: "NewFeedbackPage" */ '../NewFeedback'));
-    //const ContactPage = loadable(() => import(/* webpackChunkName: "ContactPage" */ '../Contact'));
+    const FeedbackDetailsPage = loadable(() => import(/* webpackChunkName: "FeedbackDetailsPage" */ '../FeedbackDetails'));
 
     return (
         <>
@@ -20,6 +20,7 @@ const App = () => {
                     <AppContextProvider>
                         <Router>
                             <Routes>
+                                <Route exact path="/feedback-details" element={<FeedbackDetailsPage />} />
                                 <Route exact path="/new-feedback" element={<NewFeedbackPage />} />
                                 <Route exact path="/roadmap" element={<RoadmapPage />} />
                                 <Route exact path="/" element={<HomePage />} />
