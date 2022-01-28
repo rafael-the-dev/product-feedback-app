@@ -5,7 +5,7 @@ import { Avatar, Button, Grid, Hidden, MenuItem, Paper, Typography, TextField } 
 import FeedbackCard from '../../components/FeedbackCard'
 import CommentCard from '../../components/CommentCard'
 import data from '../../data.json';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const FeedbackDetails = () => {
     const classes = useStyles();
@@ -16,15 +16,36 @@ const FeedbackDetails = () => {
 
     const [ feedback, setFeedback ] = useState({ comments: [] });
 
+    
+    const commentsTotal = useMemo(() => {
+        let total = 0;
+        feedback.comments.forEach(item => {
+            total += 1;
+            if(item.replies) {
+                item.replies.forEach(item => {
+                    total += 1;
+                })
+            }
+        });
+        return total;
+    }, [ feedback ])
+
     useEffect(() => {
         setFeedback(data.productRequests[1])
-    }, [])
+    }, []);
+    
 
     return (
         <main className={classNames(globalStyles.px, display.pt2, display.pb3)}>
             <FeedbackCard { ...feedback } />
-            <Paper elevation={0} className={classNames(globalStyles.borderRadius, '')}>
-                <Grid container className={classNames(globalStyles.px, display.pt2, display.pb3)}>
+            <Paper elevation={0} className={classNames(globalStyles.borderRadius, '', globalStyles.px, display.pt2)}>
+                <Typography 
+                    component="h2" 
+                    variant="h6"
+                    className={classNames(globalStyles.darkBlueColor, text.font7)}>
+                        { commentsTotal } Comment{ commentsTotal > 1 ? "s" : '' }
+                </Typography>
+                <Grid container className={classNames(display.pt2, display.pb3)}>
                     { 
                         feedback.comments.map((item, index) => (
                             <CommentCard key={index} { ...item } />

@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
 import { Avatar, Button, Grid, Hidden, MenuItem, Paper, Typography, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 const CommentCard = ({ content, id, replies, replyingTo, user,  }) => {
     const classes = useStyles();
@@ -11,10 +11,18 @@ const CommentCard = ({ content, id, replies, replyingTo, user,  }) => {
     const responsive = useResponsive();
     const text = useTypography();
 
+
     return (
         <Grid item xs={12} component="article" className={classNames(classes.gridItem)}>
-            <div className={classNames(display.pb1, display.mb1, classes.container, 'grid-item-container')}>
-                <div>
+            <div className={classNames(display.pb1, display.mb1, classes.container, 'grid-item-container',
+                'items-start', responsive.smFlex, responsive.smMb2)}>
+                <Hidden smDown>
+                    <Avatar 
+                        src={process.env.PUBLIC_URL + '/images/user-images/' + user.image}
+                        alt={user.name}
+                    />
+                </Hidden>
+                <div className={classNames(responsive.smMl2)}>
                    <div className={classNames('flex', 'justify-between', 'items-center')}>
                         <div className={classNames('flex', 'justify-between', 'items-center')}>
                             <Hidden smUp>
@@ -23,9 +31,9 @@ const CommentCard = ({ content, id, replies, replyingTo, user,  }) => {
                                     alt={user.name}
                                 />
                             </Hidden>
-                            <div className={classNames(display.ml1)}>
+                            <div className={classNames(display.ml1, responsive.smMl0)}>
                                 <Typography 
-                                    component="h2" 
+                                    component="h3" 
                                     className={classNames(globalStyles.darkBlueColor, text.font7)}>
                                         { user.name }
                                 </Typography>
