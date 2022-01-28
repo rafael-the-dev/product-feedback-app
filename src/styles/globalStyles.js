@@ -25,6 +25,16 @@ export const useGlobalStyles = makeStyles(theme => ({
             width: 90
         },
     },
+    button: {
+        borderRadius: '11px !important',
+        padding: '7px 16px !important'
+    },
+    addFeedbackButton: {
+        backgroundColor: '#AD1FEA !important',
+    },
+    cancelFeedbackButton: {
+        backgroundColor: '#3A4374 !important',
+    },
     borderRadius: {
         borderRadius: '12px !important'
     },

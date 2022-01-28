@@ -109,6 +109,20 @@ const NewFeedback = () => {
                             rows={5}
                         ></textarea>
                     </div>
+                    <Button 
+                        variant="contained"
+                        type="submit"
+                        className={classNames(globalStyles.addFeedbackButton, text.capitalize, display.w100, 
+                            globalStyles.button, display.mt2)}>
+                        Add Feedback
+                    </Button>
+                    <Button 
+                        variant="contained"
+                        type="button"
+                        className={classNames(globalStyles.button, text.capitalize, display.w100, 
+                        display.mt1, globalStyles.cancelFeedbackButton)}>
+                        Cancel
+                    </Button>
                 </fieldset>
             </Paper>
         </main>
