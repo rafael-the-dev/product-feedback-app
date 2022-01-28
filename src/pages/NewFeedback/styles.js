@@ -29,5 +29,10 @@ export const useStyles = makeStyles(theme => ({
         '& .MuiOutlinedInput-notchedOutline': {
             border: 'none !important',
         }
+    },
+    buttonsContainer: {
+        [theme.breakpoints.up('sm')]: {
+            flexDirection: 'row-reverse !important'
+        }
     }
 }));

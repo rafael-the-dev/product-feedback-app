@@ -109,20 +109,23 @@ const NewFeedback = () => {
                             rows={5}
                         ></textarea>
                     </div>
-                    <Button 
-                        variant="contained"
-                        type="submit"
-                        className={classNames(globalStyles.addFeedbackButton, text.capitalize, display.w100, 
-                            globalStyles.button, display.mt2)}>
-                        Add Feedback
-                    </Button>
-                    <Button 
-                        variant="contained"
-                        type="button"
-                        className={classNames(globalStyles.button, text.capitalize, display.w100, 
-                        display.mt1, globalStyles.cancelFeedbackButton)}>
-                        Cancel
-                    </Button>
+                    <div className={classNames(display.flex, display.flexColumn, display.alignStretch, 
+                        display.w100, display.mt2, classes.buttonsContainer, responsive.smAlignCenter)}>
+                        <Button 
+                            variant="contained"
+                            type="submit"
+                            className={classNames(globalStyles.addFeedbackButton, text.capitalize, 
+                                globalStyles.button)}>
+                            Add Feedback
+                        </Button>
+                        <Button 
+                            variant="contained"
+                            type="button"
+                            className={classNames(globalStyles.button, text.capitalize, 
+                            display.mt1, globalStyles.cancelFeedbackButton, responsive.smMt0, responsive.smMr1)}>
+                            Cancel
+                        </Button>
+                    </div>
                 </fieldset>
             </Paper>
         </main>
