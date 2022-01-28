@@ -12,8 +12,8 @@ const CommentCard = ({ content, id, replies, replyingTo, user,  }) => {
     const text = useTypography();
 
     return (
-        <Grid item xs={12} component="article">
-            <div className={classNames(display.mb2)}>
+        <Grid item xs={12} component="article" className={classNames(classes.gridItem)}>
+            <div className={classNames(display.pb1, display.mb1, classes.container, 'grid-item-container')}>
                 <div>
                    <div className={classNames('flex', 'justify-between', 'items-center')}>
                         <div className={classNames('flex', 'justify-between', 'items-center')}>
@@ -37,7 +37,7 @@ const CommentCard = ({ content, id, replies, replyingTo, user,  }) => {
                             </div>
                         </div>
                         <Button 
-                            className={classNames(text.capitalize)}>
+                            className={classNames(text.capitalize, globalStyles.blueColor, text.font7)}>
                             Reply
                         </Button>
                    </div>

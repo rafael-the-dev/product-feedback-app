@@ -38,6 +38,9 @@ export const useGlobalStyles = makeStyles(theme => ({
     borderRadius: {
         borderRadius: '12px !important'
     },
+    blueColor: {
+        color: '#4661E6 !important'
+    },
     darkBlueColor: {
         color: '#3A4374 !important'
     },
