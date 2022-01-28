@@ -18,7 +18,10 @@ const CommentCard = ({ content, id, replies, replyingTo, user,  }) => {
                    <div className={classNames('flex', 'justify-between', 'items-center')}>
                         <div className={classNames('flex', 'justify-between', 'items-center')}>
                             <Hidden smUp>
-                                <Avatar />
+                                <Avatar 
+                                    src={process.env.PUBLIC_URL + '/images/user-images/' + user.image}
+                                    alt={user.name}
+                                />
                             </Hidden>
                             <div className={classNames(display.ml1)}>
                                 <Typography 
