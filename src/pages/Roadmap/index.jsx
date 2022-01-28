@@ -5,7 +5,9 @@ import { useStyles } from './styles'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import RoadmapFeedbackCard from '../../components/RoadmapFeedbackCard';
 import data from '../../data.json'
-import { Grid, Hidden, Typography } from '@mui/material'
+import { Button, Hidden, Typography } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const Roadmap = () => {
     const bg = useBackground();
@@ -134,21 +136,42 @@ const Roadmap = () => {
     ), [ classes, display, plansTotal, status ]);
 
     return (
-        <main>
-            <Hidden mdUp>
-                { tabs }
-                { status === 'in-progress' && inProgressFeedbacksSection }
-                { status === 'live' && liveFeedbacksSection }
-                { status === 'planned' && plannedFeedbacksSection }
-            </Hidden>
-            <Hidden mdDown>
-                <div className={classNames(classes.grid, display.mt2)}>
-                    { plannedFeedbacksSection }
-                    { inProgressFeedbacksSection }
-                    { liveFeedbacksSection }
+        <>
+            <main>
+                <div className={classNames(display.flex, display.alignCenter, display.justifyBetween,
+                    globalStyles.px, classes.toolsContainer)}>
+                    <div className={classNames(display.flex, display.flexColumn)}>
+                        <Button 
+                            startIcon={<ArrowBackIosNewIcon />} 
+                            className={classNames(text.textLight, text.capitalize, display.pl0, display.pr0)}>
+                            Go back
+                        </Button>
+                        <Typography component="h2" variant="h6" className={classNames(text.textLight, text.font7)}>
+                            Roadmap
+                        </Typography>
+                    </div>
+                    <Button
+                        className={classNames(classes.addFeedbackButton, text.capitalize)}
+                        endIcon={<AddIcon />}
+                        variant="contained">
+                        Add feedback
+                    </Button>
                 </div>
-            </Hidden>
-        </main>
+                <Hidden mdUp>
+                    { tabs }
+                    { status === 'in-progress' && inProgressFeedbacksSection }
+                    { status === 'live' && liveFeedbacksSection }
+                    { status === 'planned' && plannedFeedbacksSection }
+                </Hidden>
+                <Hidden mdDown>
+                    <div className={classNames(classes.grid, display.mt3, display.justifyBetween)}>
+                        { plannedFeedbacksSection }
+                        { inProgressFeedbacksSection }
+                        { liveFeedbacksSection }
+                    </div>
+                </Hidden>
+            </main>
+        </>
     );
 };
 

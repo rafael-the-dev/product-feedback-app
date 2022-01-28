@@ -1,6 +1,24 @@
 import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles(theme => ({ 
+    toolsContainer: {
+        backgroundColor: '#373F68',
+        paddingBottom: 10,
+        paddingTop: 10,
+        [theme.breakpoints.up('sm')]: {
+            paddingLeft: '1.5rem',
+            paddingRight: '1.2rem'
+        },
+        [theme.breakpoints.up('md')]: {
+            borderRadius: 12,
+
+        }
+    },
+    addFeedbackButton: {
+        backgroundColor: '#AD1FEA !important',
+        borderRadius: '11px !important',
+        padding: '7px 16px !important'
+    },
     darkBlueColor: {
         color: '#3A4374 !important'
     },
