@@ -44,6 +44,9 @@ export const useGlobalStyles = makeStyles(theme => ({
     lightBlueColor: {
         color: '#647196 !important'
     },
+    purpleColor: {
+        color: '#AD1FEA !important'
+    },
     listItem: {
         borderBottom: '1px solid #979797d6',
         '&:last-child': {
