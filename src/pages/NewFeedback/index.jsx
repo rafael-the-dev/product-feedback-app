@@ -54,8 +54,8 @@ const NewFeedback = () => {
                 </Button>
             </div>
             <Paper elevation={0} component="form" className={classNames(globalStyles.px, display.pb2,
-                globalStyles.borderRadius, display.relative)}>
-                    <Avatar className={classNames(display.absolute, classes.avatar)}><AddIcon /></Avatar>
+                globalStyles.borderRadius, 'relative')}>
+                    <Avatar className={classNames(display.absolute, classes.avatar, 'top-0', 'left-0')}><AddIcon /></Avatar>
                 <fieldset className={classNames(display.pt1)}>
                     <Typography component="fieldset" variant="h6" className={classNames(text.font7, text.capitalize,
                         globalStyles.darkBlueColor, )}>
@@ -74,7 +74,7 @@ const NewFeedback = () => {
                         </label>
                         <input 
                             className={classNames(display.borderNone, display.outlineNone, classes.input, display.w100,
-                                display.borderBox, display.mt1, globalStyles.darkBlueColor)} 
+                                'box-border', display.mt1, globalStyles.darkBlueColor)} 
                             id="feadback-title"
                         />
                     </div>
@@ -125,12 +125,12 @@ const NewFeedback = () => {
                         </label>
                         <textarea 
                             className={classNames(display.borderNone, display.outlineNone, classes.input, display.w100,
-                                display.borderBox, display.mt1, globalStyles.darkBlueColor)} 
+                                'box-border', display.mt1, globalStyles.darkBlueColor)} 
                             id="feadback-detail"
                             rows={5}
                         ></textarea>
                     </div>
-                    <div className={classNames(display.flex, display.flexColumn, display.alignStretch, 
+                    <div className={classNames('flex', display.flexColumn, display.alignStretch, 
                         display.w100, display.mt2, classes.buttonsContainer, responsive.smAlignCenter)}>
                         <Button 
                             variant="contained"
