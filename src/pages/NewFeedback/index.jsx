@@ -5,6 +5,7 @@ import { Avatar, Button, Grid, Hidden, MenuItem, Paper, Typography, TextField } 
 import { useMemo, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const NewFeedback = () => {
     const classes = useStyles();
@@ -45,6 +46,13 @@ const NewFeedback = () => {
     return (
         <main className={classNames(globalStyles.px, display.pt3, display.pb3, classes.main,
             responsive.mdPl0, responsive.mdPr0)}>
+            <div className={classNames(display.mb3)}>
+                <Button 
+                    startIcon={<ArrowBackIosNewIcon />}
+                    className={classNames(globalStyles.darkBlueColor, text.capitalize)}>
+                    Go back
+                </Button>
+            </div>
             <Paper elevation={0} component="form" className={classNames(globalStyles.px, display.pb2,
                 globalStyles.borderRadius, display.relative)}>
                     <Avatar className={classNames(display.absolute, classes.avatar)}><AddIcon /></Avatar>
