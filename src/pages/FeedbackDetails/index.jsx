@@ -5,9 +5,10 @@ import { Avatar, Button, Grid, Hidden, MenuItem, Paper, Typography, TextField } 
 import FeedbackCard from '../../components/FeedbackCard'
 import CommentCard from '../../components/CommentCard'
 import data from '../../data.json';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { AppContext } from '../../context/AppContext'
 
 const FeedbackDetails = () => {
     const classes = useStyles();
@@ -16,6 +17,7 @@ const FeedbackDetails = () => {
     const responsive = useResponsive();
     const text = useTypography();
 
+    const { feedbacksList } = useContext(AppContext)
     const [ feedback, setFeedback ] = useState({ comments: [] });
 
     const commentsTotal = useMemo(() => {
@@ -47,12 +49,12 @@ const FeedbackDetails = () => {
     const { id } = useParams();
     useEffect(() => {
         if(id) {
-            const result = data.productRequests.find(item => item.id === parseInt(id));
+            const result = feedbacksList.find(item => item.id === parseInt(id));
             if(result) {
                 setFeedback(result)
             }
         }
-    }, [ id ]);
+    }, [ feedbacksList, id ]);
     
 
     return (
