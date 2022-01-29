@@ -20,7 +20,7 @@ const App = () => {
                     <AppContextProvider>
                         <Router>
                             <Routes>
-                                <Route exact path="/feedback-details" element={<FeedbackDetailsPage />} />
+                                <Route exact path="/feedbacks/:id" element={<FeedbackDetailsPage />} />
                                 <Route exact path="/new-feedback" element={<NewFeedbackPage />} />
                                 <Route exact path="/roadmap" element={<RoadmapPage />} />
                                 <Route exact path="/" element={<HomePage />} />

@@ -6,6 +6,7 @@ import FeedbackCard from '../../components/FeedbackCard'
 import CommentCard from '../../components/CommentCard'
 import data from '../../data.json';
 import { useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom'
 
 const FeedbackDetails = () => {
     const classes = useStyles();
@@ -29,10 +30,17 @@ const FeedbackDetails = () => {
         });
         return total;
     }, [ feedback ])
-
+    
+    const { id } = useParams();
     useEffect(() => {
-        setFeedback(data.productRequests[1])
-    }, []);
+        if(id) {
+            const result = data.productRequests.find(item => item.id === parseInt(id));
+            console.log(id, result)
+            if(result) {
+                setFeedback(result)
+            }
+        }
+    }, [ id ]);
     
 
     return (
