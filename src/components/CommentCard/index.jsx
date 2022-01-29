@@ -5,12 +5,12 @@ import { Avatar, Button, Collapse, Grid, Hidden, MenuItem, Paper, Typography, Te
 import { useCallback, useContext, useRef, useState, useMemo } from 'react';
 import { AppContext } from '../../context/AppContext';
 
-const CommentCard = ({ content, id, isMainCommentCard, replies, replyingTo, user,  feedbackID }) => {
+const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, replyingTo, user,  feedbackID }) => {
     const classes = useStyles();
     const display = useDisplay();
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
-    const text = useTypography();
+    const text = useTypography(); 
 
     const { nextUser, generateNextUser, setFeedbackList } = useContext(AppContext)
 
@@ -33,18 +33,20 @@ const CommentCard = ({ content, id, isMainCommentCard, replies, replyingTo, user
             const immutableList = [ ...list ];
             const result = immutableList.find(item => item.id === feedbackID);
             if(result) {
-                const userComment = result.comments.find(item => item.id === id);
+                //const tempID = id ? id : commentID;
+                //console.log('temp id', tempID);
+                const userComment = result.comments.find(item => item.id === commentID);
+
                 if(userComment) {
                     const repliesList =  userComment.replies ?  userComment.replies : [];
                     userComment.replies = [ ...repliesList, 
                         {
-                        "id": id,
-                          "content": commentRef.current,
-                          "replyingTo": "hummingbird1",
-                          "user": nextUser.current
-                        }
+                            "content": commentRef.current,
+                            "replyingTo": user.username,
+                            "user": nextUser.current
+                            }
                     ];
-                    setOpenCollapse('')
+                    setOpenCollapse(false)
                     setComment('');
                     generateNextUser();
 
@@ -52,7 +54,7 @@ const CommentCard = ({ content, id, isMainCommentCard, replies, replyingTo, user
             }
             return immutableList;
         })
-    }, [ feedbackID, generateNextUser, id, nextUser, setFeedbackList ]);
+    }, [ commentID, feedbackID, generateNextUser, nextUser, setFeedbackList, user ]);
 
     return (
         <Grid item xs={12} component="article" className={classNames({ [classes.gridItem]: isMainCommentCard })}>
@@ -122,7 +124,7 @@ const CommentCard = ({ content, id, isMainCommentCard, replies, replyingTo, user
                     { replies && <Grid container className={classNames(display.pl2, display.pt2)}>
                         {
                             replies.map((item, index) => (
-                                <CommentCard key={index} { ...item } feedbackID={feedbackID} />
+                                <CommentCard key={index} { ...item } commentID={commentID} feedbackID={feedbackID} />
                             ))
                         }
                     </Grid>
