@@ -5,7 +5,7 @@ import { Avatar, Button, Grid, Hidden, MenuItem, Paper, Typography, TextField } 
 import FeedbackCard from '../../components/FeedbackCard'
 import CommentCard from '../../components/CommentCard'
 import data from '../../data.json';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
@@ -18,7 +18,6 @@ const FeedbackDetails = () => {
 
     const [ feedback, setFeedback ] = useState({ comments: [] });
 
-    
     const commentsTotal = useMemo(() => {
         let total = 0;
         if(feedback.comments) {
@@ -33,6 +32,17 @@ const FeedbackDetails = () => {
         }
         return total;
     }, [ feedback ])
+    
+    const [ comment, setComment ] = useState('');
+    const totalCommetLenght = useRef(225);
+    const changeHandler = useCallback(event => {
+        const value = event.target.value; 
+        if(totalCommetLenght.current + 1 > value.length) {
+            setComment(value)
+        }
+    }, []);
+
+    const leftLength = useMemo(() => totalCommetLenght.current - comment.length, [ comment ]);
     
     const { id } = useParams();
     useEffect(() => {
@@ -98,13 +108,15 @@ const FeedbackDetails = () => {
                         className={classNames('border-none outline-none', globalStyles.input, display.w100,
                             'box-border', display.mt1, globalStyles.darkBlueColor)} 
                         id="feedback-comment"
+                        onChange={changeHandler}
+                        value={comment}
                         rows={4}
                     ></textarea>
                     <div className={classNames('flex justify-between items-center', display.mt1)}>
                         <label 
                             className={classNames(globalStyles.lightBlueColor)}
                             htmlFor='feedback-comment'>
-                            225 characters left
+                            { leftLength } characters left
                         </label>
                         <Button 
                             variant="contained"
