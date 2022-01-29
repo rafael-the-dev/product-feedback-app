@@ -1,11 +1,12 @@
 import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
-import { Avatar, Button, Grid, Hidden, MenuItem, Paper, Typography, TextField } from '@mui/material';
+import { Avatar, Button, MenuItem, Paper, Typography, TextField } from '@mui/material';
 import { useMemo, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { Link, useLocation } from 'react-router-dom';
 
 const NewFeedback = () => {
     const classes = useStyles();
@@ -13,6 +14,11 @@ const NewFeedback = () => {
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
     const text = useTypography();
+    
+    const { search } = useLocation();
+    const query = new URLSearchParams(search);
+    const id = query.get('id');
+    console.log(id)
     
     const categories = useMemo(() => [
       {
@@ -47,11 +53,13 @@ const NewFeedback = () => {
         <main className={classNames(globalStyles.px, display.pt3, display.pb3, classes.main,
             responsive.mdPl0, responsive.mdPr0)}>
             <div className={classNames(display.mb3)}>
-                <Button 
-                    startIcon={<ArrowBackIosNewIcon />}
-                    className={classNames(globalStyles.darkBlueColor, text.capitalize)}>
-                    Go back
-                </Button>
+                <Link to={`/feedbacks/${id}`}>
+                    <Button 
+                        startIcon={<ArrowBackIosNewIcon />}
+                        className={classNames(globalStyles.darkBlueColor, text.capitalize, text.font7)}>
+                        Go back
+                    </Button>
+                </Link>
             </div>
             <Paper elevation={0} component="form" className={classNames(globalStyles.px, display.pb2,
                 globalStyles.borderRadius, 'relative')}>

@@ -6,7 +6,8 @@ import FeedbackCard from '../../components/FeedbackCard'
 import CommentCard from '../../components/CommentCard'
 import data from '../../data.json';
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const FeedbackDetails = () => {
     const classes = useStyles();
@@ -45,6 +46,24 @@ const FeedbackDetails = () => {
 
     return (
         <main className={classNames(globalStyles.px, display.pt2, display.pb3)}>
+            <div className={classNames(display.mb2, 'flex', 'justify-between items-center')}>
+                <Link to="/" className={classNames()}>
+                    <Button 
+                        startIcon={<ArrowBackIosNewIcon />}
+                        className={classNames(globalStyles.darkBlueColor, text.capitalize, text.font7)}>
+                        Go back
+                    </Button>
+                </Link>
+                <Link to={`/new-feedback?id=${id}`} className={classNames()}>
+                    <Button 
+                        variant="contained"
+                        type="submit"
+                        className={classNames(text.capitalize, 
+                            globalStyles.button)}>
+                        Edit feedback
+                    </Button>
+                </Link>
+            </div>
             <FeedbackCard { ...feedback } />
             <Paper elevation={0} className={classNames(globalStyles.borderRadius, '', globalStyles.px, display.pt2)}>
                 <Typography 
