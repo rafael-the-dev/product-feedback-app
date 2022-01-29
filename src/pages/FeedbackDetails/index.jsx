@@ -17,11 +17,12 @@ const FeedbackDetails = () => {
     const responsive = useResponsive();
     const text = useTypography();
 
-    const { feedbacksList } = useContext(AppContext)
+    const { feedbacksList, setFeedbackList } = useContext(AppContext)
     const [ feedback, setFeedback ] = useState({ comments: [] });
 
     const commentsTotal = useMemo(() => {
         let total = 0;
+        console.log(feedbacksList.length)
         if(feedback.comments) {
             feedback.comments.forEach(item => {
                 total += 1;
@@ -33,13 +34,15 @@ const FeedbackDetails = () => {
             });
         }
         return total;
-    }, [ feedback ])
+    }, [ feedback, feedbacksList ])
     
     const [ comment, setComment ] = useState('');
+    const commentRef = useRef('');
     const totalCommetLenght = useRef(225);
     const changeHandler = useCallback(event => {
         const value = event.target.value; 
         if(totalCommetLenght.current + 1 > value.length) {
+            commentRef.current = value;
             setComment(value)
         }
     }, []);
@@ -55,6 +58,31 @@ const FeedbackDetails = () => {
             }
         }
     }, [ feedbacksList, id ]);
+
+    const submitHandler = useCallback(event => {
+        event.preventDefault();
+        setFeedbackList(list => {
+            const immutableList = [ ...list ];
+            const result = immutableList.find(item => item.id === feedback.id);
+            if(result) {
+                const commentsList =  result.comments ?  result.comments : [];
+                const commentID = commentsList.length + 1;
+                result.comments = [ ...commentsList, 
+                    {
+                      "id": commentID,
+                      "content": commentRef.current,
+                      "user": {
+                        "image": "image-thomas.jpg",
+                        "name": "Thomas Hood",
+                        "username": "brawnybrave"
+                      }
+                    }
+                ];
+                setComment('')
+            }
+            return immutableList;
+        })
+    }, [ feedback, setFeedbackList ]);
     
 
     return (
@@ -99,7 +127,8 @@ const FeedbackDetails = () => {
                 className={classNames(globalStyles.px, globalStyles.borderRadius, display.pt1, display.pb2, 
                     display.mt2)}
                 component="form"
-                elevation={0} >
+                elevation={0} 
+                onSubmit={submitHandler}>
                 <div className={classNames(display.mt1)}>
                     <label 
                         htmlFor='feedback-comment' className={classNames(globalStyles.darkBlueColor, classes.label,
@@ -121,6 +150,7 @@ const FeedbackDetails = () => {
                             { leftLength } characters left
                         </label>
                         <Button 
+                            disabled={!Boolean(comment.trim())}
                             variant="contained"
                             type="submit"
                             className={classNames(globalStyles.addFeedbackButton, text.capitalize, 

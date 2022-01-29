@@ -8,8 +8,9 @@ import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FeedbackCard from '../../components/FeedbackCard';
 import data from '../../data.json'
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
+import { AppContext } from '../../context/AppContext'
 
 const Home = () => {
     const classes = useStyles();
@@ -17,6 +18,8 @@ const Home = () => {
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
     const text = useTypography();
+
+    const { feedbacksList } = useContext(AppContext)
 
     const totalSuggestions = useMemo(() => {
         let total = 0;
@@ -39,7 +42,7 @@ const Home = () => {
     const [ filter, setFilter ] = useState(filterOptions.mostUpvotes);
 
     const filterList = useMemo(() => {
-        let list = data.productRequests.filter(item => item.status === 'suggestion');
+        let list = feedbacksList.filter(item => item.status === 'suggestion');
 
         if(filter === filterOptions.mostUpvotes) {
             //list = list.filter(item => item.upvotes >= 61);
@@ -75,7 +78,7 @@ const Home = () => {
         }
 
         return list;
-    }, [ filter, filterOptions ])
+    }, [ feedbacksList, filter, filterOptions ])
 
     const feedbackList = useMemo(() => (
         filterList
