@@ -80,7 +80,7 @@ const Home = () => {
     const feedbackList = useMemo(() => (
         filterList
             .map((item, index) => (
-                <FeedbackCard key={index} { ...item } />
+                <FeedbackCard key={index} isClickable={true} { ...item } />
             ))
     ), [ filterList ]);
 

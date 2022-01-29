@@ -3,9 +3,10 @@ import classNames from 'classnames'
 import { useBackground, useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom'
 
-const FeedbackCard = ({ comments, category, description, title, upvotes }) => {
+const FeedbackCard = ({ comments, category, description, id, title, upvotes, isClickable }) => {
     const bg = useBackground();
     const classes = useStyles();
     const display = useDisplay();
@@ -29,11 +30,22 @@ const FeedbackCard = ({ comments, category, description, title, upvotes }) => {
             { comments ? comments.length : 0 }
         </button>
     ), [ bg, comments, classes, display, text ]);
+    
+    const navigate = useNavigate();
+    const clickHandler = useCallback(() => {
+        if(clickHandler) {
+            navigate(`/feedbacks/${id}`)
+        }
+    }, [ id, navigate ])
 
     return (
         <Grid component="article" item xs={12}>
-            <Paper elevation={0} className={classNames(classes.paper, display.mb1, display.pb1, display.pt1,
-                globalStyles.px, responsive.smFlex, display.justifyBetween, display.alignStart)}>
+            <Paper 
+                elevation={0} 
+                onClick={clickHandler}
+                className={classNames(classes.paper, display.mb1, display.pb1, display.pt1,
+                globalStyles.px, responsive.smFlex, display.justifyBetween, display.alignStart,
+                { [classes.clickablePaper]: isClickable })}>
                 <Hidden smDown>
                     { toggleButton }
                 </Hidden>

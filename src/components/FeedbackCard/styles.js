@@ -5,6 +5,11 @@ export const useStyles = makeStyles(theme => ({
     paper: {
         borderRadius: '12px !important',
     },
+    clickablePaper: {
+        '&:hover': {
+            border: '1px solid #4661E6 !important'
+        }
+    },
     content: {
         [theme.breakpoints.up('sm')]: {
         }
