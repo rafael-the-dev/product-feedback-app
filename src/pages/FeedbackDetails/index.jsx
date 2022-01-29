@@ -83,6 +83,39 @@ const FeedbackDetails = () => {
             </Paper> : (
                 <></>
             ) }
+            <Paper 
+                className={classNames(globalStyles.px, globalStyles.borderRadius, display.pt1, display.pb2, 
+                    display.mt2)}
+                component="form"
+                elevation={0} >
+                <div className={classNames(display.mt1)}>
+                    <label 
+                        htmlFor='feedback-comment' className={classNames(globalStyles.darkBlueColor, classes.label,
+                        text.font7, text.capitalize)}>
+                        Add comment
+                    </label>
+                    <textarea 
+                        className={classNames('border-none outline-none', globalStyles.input, display.w100,
+                            'box-border', display.mt1, globalStyles.darkBlueColor)} 
+                        id="feedback-comment"
+                        rows={4}
+                    ></textarea>
+                    <div className={classNames('flex justify-between items-center', display.mt1)}>
+                        <label 
+                            className={classNames(globalStyles.lightBlueColor)}
+                            htmlFor='feedback-comment'>
+                            225 characters left
+                        </label>
+                        <Button 
+                            variant="contained"
+                            type="submit"
+                            className={classNames(globalStyles.addFeedbackButton, text.capitalize, 
+                                globalStyles.button)}>
+                            Post comment
+                        </Button>
+                    </div>
+                </div>
+            </Paper>
         </main>
     );
 };

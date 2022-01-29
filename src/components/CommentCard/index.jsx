@@ -22,7 +22,7 @@ const CommentCard = ({ content, id, replies, replyingTo, user,  }) => {
                         alt={user.name}
                     />
                 </Hidden>
-                <div className={classNames(responsive.smMl2)}>
+                <div className={classNames(responsive.smMl2, 'grow')}>
                    <div className={classNames('flex', 'justify-between', 'items-center')}>
                         <div className={classNames('flex', 'justify-between', 'items-center')}>
                             <Hidden smUp>

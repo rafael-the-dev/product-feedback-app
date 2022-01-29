@@ -62,5 +62,13 @@ export const useGlobalStyles = makeStyles(theme => ({
     listIcon: {
         color: '#AD1FEA !important',
         minWidth: '23px !important'
-    }
+    },
+    input: {
+        backgroundColor: '#F7F8FD',
+        borderRadius: 12,
+        padding: '.8rem 1rem',
+        '&:focus': {
+            border: '1px solid #4661E6 !important'
+        }
+    },
 }));
