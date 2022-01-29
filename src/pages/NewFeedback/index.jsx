@@ -18,7 +18,6 @@ const NewFeedback = () => {
     const { search } = useLocation();
     const query = new URLSearchParams(search);
     const id = query.get('id');
-    console.log(id)
     
     const categories = useMemo(() => [
       {

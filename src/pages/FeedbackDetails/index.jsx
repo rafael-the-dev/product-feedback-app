@@ -21,14 +21,16 @@ const FeedbackDetails = () => {
     
     const commentsTotal = useMemo(() => {
         let total = 0;
-        feedback.comments.forEach(item => {
-            total += 1;
-            if(item.replies) {
-                item.replies.forEach(item => {
-                    total += 1;
-                })
-            }
-        });
+        if(feedback.comments) {
+            feedback.comments.forEach(item => {
+                total += 1;
+                if(item.replies) {
+                    item.replies.forEach(item => {
+                        total += 1;
+                    })
+                }
+            });
+        }
         return total;
     }, [ feedback ])
     
@@ -36,7 +38,6 @@ const FeedbackDetails = () => {
     useEffect(() => {
         if(id) {
             const result = data.productRequests.find(item => item.id === parseInt(id));
-            console.log(id, result)
             if(result) {
                 setFeedback(result)
             }
@@ -45,7 +46,7 @@ const FeedbackDetails = () => {
     
 
     return (
-        <main className={classNames(globalStyles.px, display.pt2, display.pb3)}>
+        <main className={classNames(globalStyles.px, display.pt2, display.pb3, classes.main)}>
             <div className={classNames(display.mb2, 'flex', 'justify-between items-center')}>
                 <Link to="/" className={classNames()}>
                     <Button 
@@ -65,7 +66,7 @@ const FeedbackDetails = () => {
                 </Link>
             </div>
             <FeedbackCard { ...feedback } />
-            <Paper elevation={0} className={classNames(globalStyles.borderRadius, '', globalStyles.px, display.pt2)}>
+            { feedback.comments ? <Paper elevation={0} className={classNames(globalStyles.borderRadius, '', globalStyles.px, display.pt2)}>
                 <Typography 
                     component="h2" 
                     variant="h6"
@@ -79,7 +80,9 @@ const FeedbackDetails = () => {
                         ))
                     }
                 </Grid>
-            </Paper>
+            </Paper> : (
+                <></>
+            ) }
         </main>
     );
 };
