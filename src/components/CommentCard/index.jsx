@@ -2,25 +2,60 @@ import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
 import { Avatar, Button, Collapse, Grid, Hidden, MenuItem, Paper, Typography, TextField } from '@mui/material';
-import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
+import { useCallback, useContext, useRef, useState, useMemo } from 'react';
+import { AppContext } from '../../context/AppContext'
 
-const CommentCard = ({ content, id, replies, replyingTo, user,  }) => {
+const CommentCard = ({ content, id, replies, replyingTo, user,  feedbackID }) => {
     const classes = useStyles();
     const display = useDisplay();
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
     const text = useTypography();
 
+    const { setFeedbackList } = useContext(AppContext)
+
     const [ openCollapse, setOpenCollapse ] = useState(false);
     const [ comment, setComment ] = useState('');
+    const commentRef = useRef('');
 
     const totalCommetLenght = useRef(225);
     const changeHandler = useCallback(event => {
         const value = event.target.value; 
         if(totalCommetLenght.current + 1 > value.length) {
+            commentRef.current = value;
             setComment(value)
         }
     }, []);
+
+    const submitHandler = useCallback(event => {
+        event.preventDefault();
+        setFeedbackList(list => {
+            const immutableList = [ ...list ];
+            const result = immutableList.find(item => item.id === feedbackID);
+            if(result) {
+                const userComment = result.comments.find(item => item.id === id);
+                if(userComment) {
+                    const repliesList =  userComment.replies ?  userComment.replies : [];
+                    userComment.replies = [ ...repliesList, 
+                        {
+                        "id": id,
+                          "content": commentRef.current,
+                          "replyingTo": "hummingbird1",
+                          "user": {
+                            "image": "image-thomas.jpg",
+                            "name": "Thomas Hood",
+                            "username": "brawnybrave"
+                          }
+                        }
+                    ];
+                    setOpenCollapse('')
+                    setComment('');
+
+                }
+            }
+            return immutableList;
+        })
+    }, [ feedbackID, id, setFeedbackList ]);
 
     return (
         <Grid item xs={12} component="article" className={classNames(classes.gridItem)}>
@@ -66,7 +101,9 @@ const CommentCard = ({ content, id, replies, replyingTo, user,  }) => {
                         { replyingTo ? <span className={classNames(globalStyles.purpleColor, text.font7)}>@{ replyingTo }</span> : ''} { content }
                     </Typography>
                     <Collapse in={openCollapse} timeout="auto" unmountOnExit>
-                       <form className={classNames('flex items-start', display.mt1)}>
+                       <form 
+                            className={classNames('flex items-start', display.mt1)}
+                            onSubmit={submitHandler}>
                             <textarea 
                                 className={classNames('border-none outline-none grow', globalStyles.input,
                                     'box-border', globalStyles.darkBlueColor)} 
@@ -88,7 +125,7 @@ const CommentCard = ({ content, id, replies, replyingTo, user,  }) => {
                     { replies && <Grid container className={classNames(display.pl2, display.pt2)}>
                         {
                             replies.map((item, index) => (
-                                <CommentCard key={index} { ...item } />
+                                <CommentCard key={index} { ...item } feedbackID={feedbackID} />
                             ))
                         }
                     </Grid>

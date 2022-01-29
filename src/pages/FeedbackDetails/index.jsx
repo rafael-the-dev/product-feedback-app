@@ -116,7 +116,7 @@ const FeedbackDetails = () => {
                 <Grid container className={classNames(display.pt2, display.pb3)}>
                     { 
                         feedback.comments.map((item, index) => (
-                            <CommentCard key={index} { ...item } />
+                            <CommentCard key={index} { ...item } feedbackID={feedback.id} />
                         ))
                     }
                 </Grid>
