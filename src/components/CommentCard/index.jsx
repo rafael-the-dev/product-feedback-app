@@ -3,16 +3,16 @@ import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../..
 import { useStyles } from './styles'
 import { Avatar, Button, Collapse, Grid, Hidden, MenuItem, Paper, Typography, TextField } from '@mui/material';
 import { useCallback, useContext, useRef, useState, useMemo } from 'react';
-import { AppContext } from '../../context/AppContext'
+import { AppContext } from '../../context/AppContext';
 
-const CommentCard = ({ content, id, replies, replyingTo, user,  feedbackID }) => {
+const CommentCard = ({ content, id, isMainCommentCard, replies, replyingTo, user,  feedbackID }) => {
     const classes = useStyles();
     const display = useDisplay();
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
     const text = useTypography();
 
-    const { setFeedbackList } = useContext(AppContext)
+    const { nextUser, generateNextUser, setFeedbackList } = useContext(AppContext)
 
     const [ openCollapse, setOpenCollapse ] = useState(false);
     const [ comment, setComment ] = useState('');
@@ -41,25 +41,22 @@ const CommentCard = ({ content, id, replies, replyingTo, user,  feedbackID }) =>
                         "id": id,
                           "content": commentRef.current,
                           "replyingTo": "hummingbird1",
-                          "user": {
-                            "image": "image-thomas.jpg",
-                            "name": "Thomas Hood",
-                            "username": "brawnybrave"
-                          }
+                          "user": nextUser.current
                         }
                     ];
                     setOpenCollapse('')
                     setComment('');
+                    generateNextUser();
 
                 }
             }
             return immutableList;
         })
-    }, [ feedbackID, id, setFeedbackList ]);
+    }, [ feedbackID, generateNextUser, id, nextUser, setFeedbackList ]);
 
     return (
-        <Grid item xs={12} component="article" className={classNames(classes.gridItem)}>
-            <div className={classNames(display.pb1, display.mb1, classes.container, 'grid-item-container',
+        <Grid item xs={12} component="article" className={classNames({ [classes.gridItem]: isMainCommentCard })}>
+            <div className={classNames(display.pb1, display.mb1, classes.container, { 'grid-item-container': isMainCommentCard},
                 'items-start', responsive.smFlex, responsive.smMb2)}>
                 <Hidden smDown>
                     <Avatar 
@@ -91,8 +88,8 @@ const CommentCard = ({ content, id, replies, replyingTo, user,  feedbackID }) =>
                         </div>
                         <Button 
                             className={classNames(text.capitalize, globalStyles.blueColor, text.font7)}
-                            onClick={() => setOpenCollapse(true)}>
-                            Reply
+                            onClick={() => setOpenCollapse(b => !b)}>
+                            { openCollapse ? 'cancel' : 'Reply' }
                         </Button>
                    </div>
                    <Typography 

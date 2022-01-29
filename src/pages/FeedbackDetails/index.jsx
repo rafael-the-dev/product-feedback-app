@@ -17,7 +17,7 @@ const FeedbackDetails = () => {
     const responsive = useResponsive();
     const text = useTypography();
 
-    const { feedbacksList, setFeedbackList } = useContext(AppContext)
+    const { feedbacksList, generateNextUser, nextUser, setFeedbackList } = useContext(AppContext)
     const [ feedback, setFeedback ] = useState({ comments: [] });
 
     const commentsTotal = useMemo(() => {
@@ -71,18 +71,15 @@ const FeedbackDetails = () => {
                     {
                       "id": commentID,
                       "content": commentRef.current,
-                      "user": {
-                        "image": "image-thomas.jpg",
-                        "name": "Thomas Hood",
-                        "username": "brawnybrave"
-                      }
+                      "user": nextUser.current
                     }
                 ];
-                setComment('')
+                setComment('');
+                generateNextUser()
             }
             return immutableList;
         })
-    }, [ feedback, setFeedbackList ]);
+    }, [ feedback, generateNextUser, nextUser, setFeedbackList ]);
     
 
     return (
@@ -116,7 +113,7 @@ const FeedbackDetails = () => {
                 <Grid container className={classNames(display.pt2, display.pb3)}>
                     { 
                         feedback.comments.map((item, index) => (
-                            <CommentCard key={index} { ...item } feedbackID={feedback.id} />
+                            <CommentCard key={index} { ...item } isMainCommentCard={true} feedbackID={feedback.id} />
                         ))
                     }
                 </Grid>
