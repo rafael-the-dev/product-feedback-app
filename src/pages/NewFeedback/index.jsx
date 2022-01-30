@@ -304,26 +304,24 @@ const NewFeedback = () => {
                                     onClick={editClickHandler}>
                                     Save changes
                                 </Button>
-                                <Button 
-                                    variant="contained"
-                                    type="button"
-                                    className={classNames(globalStyles.cancelFeedbackButton, text.capitalize, 
-                                        globalStyles.button, responsive.smMr1)}>
-                                    cancel
-                                </Button>
-                            </div>
-                            {
-                                feedback.id && (
+                                <Link to={`/`}>
                                     <Button 
                                         variant="contained"
                                         type="button"
-                                        className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
-                                        globalStyles.button, display.mt1, responsive.smMt0)}
-                                        onClick={() => setOpenDeleteDialog(true)}>
-                                        Delete
+                                        className={classNames(globalStyles.cancelFeedbackButton, text.capitalize, 
+                                            globalStyles.button, responsive.smMr1)}>
+                                        cancel
                                     </Button>
-                                )
-                            }
+                                </Link>
+                            </div>
+                            <Button 
+                                variant="contained"
+                                type="button"
+                                className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
+                                globalStyles.button, display.mt1, responsive.smMt0)}
+                                onClick={() => setOpenDeleteDialog(true)}>
+                                Delete
+                            </Button>
                         </div>
                     ) : (
                         <div className={classNames('flex flex-col items-stretch sm:items-center md:flex-row-reverse', 
@@ -335,13 +333,15 @@ const NewFeedback = () => {
                                     globalStyles.button)}>
                                 Add Feedback
                             </Button>
-                            <Button 
-                                variant="contained"
-                                type="button"
-                                className={classNames(globalStyles.button, text.capitalize, 
-                                display.mt1, globalStyles.cancelFeedbackButton, responsive.smMt0, responsive.smMr1)}>
-                                Cancel
-                            </Button>
+                            <Link to="/">
+                                <Button 
+                                    variant="contained"
+                                    type="button"
+                                    className={classNames(globalStyles.button, text.capitalize, 
+                                    display.mt1, globalStyles.cancelFeedbackButton, responsive.smMt0, responsive.smMr1)}>
+                                    Cancel
+                                </Button>
+                            </Link>
                         </div>
                     )}
                 </fieldset>

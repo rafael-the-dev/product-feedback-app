@@ -8,6 +8,7 @@ import data from '../../data.json'
 import { Button, Hidden, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { Link } from 'react-router-dom'
 
 const Roadmap = () => {
     const bg = useBackground();
@@ -139,11 +140,13 @@ const Roadmap = () => {
         <div className={classNames(display.flex, display.alignCenter, display.justifyBetween,
             globalStyles.px, classes.toolsContainer)}>
             <div className={classNames(display.flex, display.flexColumn)}>
-                <Button 
-                    startIcon={<ArrowBackIosNewIcon />} 
-                    className={classNames(text.textLight, text.capitalize, display.pl0, display.pr0)}>
-                    Go back
-                </Button>
+                <Link to="/">
+                    <Button 
+                        startIcon={<ArrowBackIosNewIcon />} 
+                        className={classNames(text.textLight, text.capitalize, display.pl0, display.pr0)}>
+                        Go back
+                    </Button>
+                </Link>
                 <Typography component="h2" variant="h6" className={classNames(text.textLight, text.font7)}>
                     Roadmap
                 </Typography>

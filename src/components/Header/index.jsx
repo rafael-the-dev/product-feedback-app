@@ -66,7 +66,11 @@ const Header = () => {
                     <header className={classNames(display.flex, display.justifyBetween, display.w100, 
                         display.alignCenter)}>
                         <Typography component="h2" className={classNames(classes.roadmapTitle)}>Roadmap</Typography>
-                        <Link to="/roadmap" className={classNames(text.noUnderline)}>View</Link>
+                        <Link 
+                            to="/roadmap" 
+                            className={classNames(text.noUnderline, 'text-sky-600 hover:underline')}>
+                            View
+                        </Link>
                     </header>
                     <div className={classNames(display.w100, display.mt1)}>
                         <Typography 
