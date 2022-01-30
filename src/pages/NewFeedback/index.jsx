@@ -2,14 +2,14 @@ import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
 import { Avatar, Button, MenuItem, Paper, Typography, TextField } from '@mui/material';
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Link, useLocation } from 'react-router-dom';
 import { useCallback, useContext, useEffect } from 'react'
 import { AppContext } from '../../context/AppContext';
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 const NewFeedback = () => {
     const classes = useStyles();
@@ -24,8 +24,9 @@ const NewFeedback = () => {
 
     
     const { feedbacksList, setFeedbackList } = useContext(AppContext);
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+    const { control, register, handleSubmit, getValues , reset, setValue, formState: { errors } } = useForm();
     const [ feedback, setFeedback ] = useState({})
+    const canIFillIn = useRef(true);
     
     const categories = useMemo(() => [
       {
@@ -85,9 +86,32 @@ const NewFeedback = () => {
         })
     }, [ feedback, setFeedbackList ]);
 
+    const editClickHandler = useCallback(() => {
+        setFeedbackList(list => {
+            const innerList = [ ...list ];
+            const result = innerList.find(item => item.id === feedback.id);
+
+            if(result) {
+                result.title = getValues('feadback-title');
+                result.description = getValues('feadback-detail');
+                result.status = getValues('feadback-status');
+                result.category = getValues('feadback-category');
+                canIFillIn.current = false;
+                reset();
+                //setCategory('feature')
+                //setStatus('suggestion')
+            }
+
+            return innerList;
+
+        })
+    }, [ feedback, getValues, reset, setFeedbackList ]);
+
+    const onSubmit = data => reset();
+
     useEffect(() => {
         const result = feedbacksList.find(item => item.id === parseInt(id));
-        if(result) {
+        if(Boolean(result) && canIFillIn.current) {
             setValue('feadback-title', result.title)
             setCategory(result.category)
             setStatus(result.status)
@@ -109,7 +133,8 @@ const NewFeedback = () => {
                 </Link>
             </div>
             <Paper elevation={0} component="form" className={classNames(globalStyles.px, display.pb2,
-                globalStyles.borderRadius, 'relative')}>
+                globalStyles.borderRadius, 'relative')}
+                onSubmit={handleSubmit(onSubmit)} >
                     <Avatar className={classNames(display.absolute, classes.avatar, 'top-0', 'left-0')}><AddIcon /></Avatar>
                 <fieldset className={classNames(display.pt1)}>
                     <Typography component="fieldset" variant="h6" className={classNames(text.font7, text.capitalize,
@@ -129,7 +154,7 @@ const NewFeedback = () => {
                         </label>
                         <input 
                             className={classNames(display.borderNone, display.outlineNone, classes.input, display.w100,
-                                'box-border', display.mt1, globalStyles.darkBlueColor)} 
+                            'box-border', display.mt1, globalStyles.darkBlueColor)}
                             {...register("feadback-title", { required: true })}
                         />
                     </div>
@@ -251,7 +276,8 @@ const NewFeedback = () => {
                                     variant="contained"
                                     type="button"
                                     className={classNames(globalStyles.button, text.capitalize, 
-                                    display.mt1, globalStyles.addFeedbackButton, responsive.smMt0)}>
+                                    display.mt1, globalStyles.addFeedbackButton, responsive.smMt0)}
+                                    onClick={editClickHandler}>
                                     Save changes
                                 </Button>
                             </div>
