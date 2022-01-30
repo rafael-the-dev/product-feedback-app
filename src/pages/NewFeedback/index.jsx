@@ -7,6 +7,9 @@ import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Link, useLocation } from 'react-router-dom';
+import { useContext, useEffect } from 'react'
+import { AppContext } from '../../context/AppContext';
+import { useForm } from "react-hook-form";
 
 const NewFeedback = () => {
     const classes = useStyles();
@@ -18,6 +21,11 @@ const NewFeedback = () => {
     const { search } = useLocation();
     const query = new URLSearchParams(search);
     const id = query.get('id');
+
+    
+    const { feedbacksList } = useContext(AppContext);
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+    const [ feedback, setFeedback ] = useState({})
     
     const categories = useMemo(() => [
       {
@@ -47,6 +55,16 @@ const NewFeedback = () => {
     const handleChange = (event) => {
         setCategory(event.target.value);
     };
+
+    useEffect(() => {
+        const result = feedbacksList.find(item => item.id === parseInt(id));
+        if(result) {
+            setValue('feadback-title', result.title)
+            setCategory(result.category)
+            setValue('feadback-detail', result.description)
+            setFeedback(result);
+        }
+    }, [ feedbacksList, id, setValue ])
 
     return (
         <main className={classNames(globalStyles.px, display.pt3, display.pb3, classes.main,
@@ -82,7 +100,7 @@ const NewFeedback = () => {
                         <input 
                             className={classNames(display.borderNone, display.outlineNone, classes.input, display.w100,
                                 'box-border', display.mt1, globalStyles.darkBlueColor)} 
-                            id="feadback-title"
+                            {...register("feadback-title", { required: true })}
                         />
                     </div>
                     <div className={classNames(display.mt2)}>
@@ -97,13 +115,13 @@ const NewFeedback = () => {
                             </span>
                         </label>
                         <TextField
-                            id="feadback-category"
                             select
                             fullWidth
                             value={category}
                             onChange={handleChange}
                             className={classNames(classes.input, display.mt1, classes.categories)}
                             classes={{ root: globalStyles.borderRadius }}
+                            {...register("feadback-category", { required: true })}
                             >
                             {categories.map((option) => (
                                 <MenuItem 
@@ -133,8 +151,8 @@ const NewFeedback = () => {
                         <textarea 
                             className={classNames(display.borderNone, display.outlineNone, classes.input, display.w100,
                                 'box-border', display.mt1, globalStyles.darkBlueColor)} 
-                            id="feadback-detail"
                             rows={5}
+                            {...register("feadback-detail", { required: true })}
                         ></textarea>
                     </div>
                     <div className={classNames('flex', display.flexColumn, display.alignStretch, 
