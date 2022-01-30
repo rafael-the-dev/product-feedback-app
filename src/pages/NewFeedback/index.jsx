@@ -142,7 +142,7 @@ const NewFeedback = () => {
         <main className={classNames(globalStyles.px, display.pt3, display.pb3, classes.main,
             responsive.mdPl0, responsive.mdPr0)}>
             <div className={classNames(display.mb3)}>
-                <Link to={`/feedbacks/${id}`}>
+                <Link to={ feedback.id ? `/feedbacks/${id}` : '/' }>
                     <Button 
                         startIcon={<ArrowBackIosNewIcon />}
                         className={classNames(globalStyles.darkBlueColor, text.capitalize, text.font7)}>

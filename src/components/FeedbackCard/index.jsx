@@ -3,8 +3,9 @@ import classNames from 'classnames'
 import { useBackground, useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { AppContext } from '../../context/AppContext';
 
 const FeedbackCard = ({ comments, category, description, id, title, upvotes, isClickable }) => {
     const bg = useBackground();
@@ -14,15 +15,34 @@ const FeedbackCard = ({ comments, category, description, id, title, upvotes, isC
     const responsive = useResponsive();
     const text = useTypography();
 
+    const { setFeedbackList } = useContext(AppContext);
+    
+    const editClickHandler = useCallback(() => {
+        setFeedbackList(list => {
+            const innerList = [ ...list ];
+            const result = innerList.find(item => item.id === id);
+
+            if(result) {
+                result.upvotes += 1;
+            }
+
+            return innerList;
+
+        })
+    }, [ id, setFeedbackList ]);
+
     const toggleButton = useMemo(() => (
-        <button className={classNames(display.borderNone, display.outlineNone, classes.button,
-            display.flex, display.alignCenter, responsive.smColumn)}>
-            <KeyboardArrowDownIcon className={classNames(classes.buttonArrow)} />
-            <span className={classNames(classes.darkBlueColor, text.font7, classes.buttonText)}>
+        <button 
+            className={classNames(display.borderNone, display.outlineNone, classes.button,
+            display.flex, display.alignCenter, responsive.smColumn)}
+            id="increase-upvotes"
+            onClick={editClickHandler}>
+            <KeyboardArrowDownIcon id="increase-upvotes-icon" className={classNames('rotate-180', classes.buttonArrow)} />
+            <span id="increase-upvotes-text" className={classNames(classes.darkBlueColor, text.font7, classes.buttonText)}>
                 { upvotes }
             </span>
         </button>
-    ), [ classes, display, responsive, text, upvotes ]);
+    ), [ classes, display, editClickHandler, responsive, text, upvotes ]);
 
     const commentButton = useMemo(() => (
         <button className={classNames(display.borderNone, display.outlineNone, classes.commentButton,
@@ -32,11 +52,13 @@ const FeedbackCard = ({ comments, category, description, id, title, upvotes, isC
     ), [ bg, comments, classes, display, text ]);
     
     const navigate = useNavigate();
-    const clickHandler = useCallback(() => {
-        if(clickHandler) {
-            navigate(`/feedbacks/${id}`)
+    const clickHandler = useCallback(event => {
+        if(!['increase-upvotes', 'increase-upvotes-icon', 'increase-upvotes-text'].includes(event.target.id)) {
+            if(clickHandler) {
+                navigate(`/feedbacks/${id}`)
+            }
         }
-    }, [ id, navigate ])
+    }, [ id, navigate ]);
 
     return (
         <Grid component="article" item xs={12}>
