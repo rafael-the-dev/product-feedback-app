@@ -33,8 +33,6 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
             const immutableList = [ ...list ];
             const result = immutableList.find(item => item.id === feedbackID);
             if(result) {
-                //const tempID = id ? id : commentID;
-                //console.log('temp id', tempID);
                 const userComment = result.comments.find(item => item.id === commentID);
 
                 if(userComment) {
