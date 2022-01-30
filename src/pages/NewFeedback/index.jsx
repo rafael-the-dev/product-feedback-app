@@ -293,22 +293,17 @@ const NewFeedback = () => {
                         )}
                     </div>
                     { feedback.id ? (
-                        <div className={classNames('flex justify-between', display.flexColumn, display.alignStretch, 
-                            display.w100, display.mt2, classes.buttonsContainer, responsive.smAlignCenter,
-                            responsive.mdRow)}>
-                            {
-                                feedback.id && (
-                                    <Button 
-                                        variant="contained"
-                                        type="button"
-                                        className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
-                                        globalStyles.button)}
-                                        onClick={() => setOpenDeleteDialog(true)}>
-                                        Delete
-                                    </Button>
-                                )
-                            }
-                            <div className={classNames('flex items-center')}>
+                        <div className={classNames('flex flex-col justify-between items-stretch sm:flex-row-reverse', 
+                            'sm:items-center', display.w100, display.mt2, classes.buttonsContainer,)}>
+                            <div className={classNames('flex flex-col items-stretch sm:flex-row-reverse')}>
+                                <Button 
+                                    variant="contained"
+                                    type="button"
+                                    className={classNames(globalStyles.button, text.capitalize, 
+                                    display.mb1, globalStyles.addFeedbackButton, responsive.smMt0, responsive.smMb0)}
+                                    onClick={editClickHandler}>
+                                    Save changes
+                                </Button>
                                 <Button 
                                     variant="contained"
                                     type="button"
@@ -316,20 +311,23 @@ const NewFeedback = () => {
                                         globalStyles.button, responsive.smMr1)}>
                                     cancel
                                 </Button>
-                                <Button 
-                                    variant="contained"
-                                    type="button"
-                                    className={classNames(globalStyles.button, text.capitalize, 
-                                    display.mt1, globalStyles.addFeedbackButton, responsive.smMt0)}
-                                    onClick={editClickHandler}>
-                                    Save changes
-                                </Button>
                             </div>
+                            {
+                                feedback.id && (
+                                    <Button 
+                                        variant="contained"
+                                        type="button"
+                                        className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
+                                        globalStyles.button, display.mt1, responsive.smMt0)}
+                                        onClick={() => setOpenDeleteDialog(true)}>
+                                        Delete
+                                    </Button>
+                                )
+                            }
                         </div>
                     ) : (
-                        <div className={classNames('flex', display.flexColumn, display.alignStretch, 
-                            display.w100, display.mt2, classes.buttonsContainer, responsive.smAlignCenter,
-                            responsive.mdRowReverse)}>
+                        <div className={classNames('flex flex-col items-stretch sm:items-center md:flex-row-reverse', 
+                            display.w100, display.mt2, classes.buttonsContainer)}>
                             <Button 
                                 variant="contained"
                                 type="submit"
