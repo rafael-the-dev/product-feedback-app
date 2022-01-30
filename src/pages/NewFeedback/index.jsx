@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Link, useLocation } from 'react-router-dom';
-import { useContext, useEffect } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 import { AppContext } from '../../context/AppContext';
 import { useForm } from "react-hook-form";
 
@@ -50,17 +50,39 @@ const NewFeedback = () => {
       },
     ], []);
 
-    const [ category, setCategory ] = useState('feature');
+    const statusList = useMemo(() => [
+        {
+          value: 'suggestion',
+          label: 'Suggestion',
+        },
+        {
+          value: 'planned',
+          label: 'Planned',
+        },
+        {
+          value: 'in-progress',
+          label: 'In-Progress',
+        },
+        {
+          value: 'live',
+          label: 'Live',
+        }
+    ], []);
 
-    const handleChange = (event) => {
-        setCategory(event.target.value);
-    };
+    const [ category, setCategory ] = useState('feature');
+    const [ status, setStatus ] = useState('suggestion');
+
+
+    const handleChange = useCallback(func => (event) => {
+        func(event.target.value);
+    }, []);
 
     useEffect(() => {
         const result = feedbacksList.find(item => item.id === parseInt(id));
         if(result) {
             setValue('feadback-title', result.title)
             setCategory(result.category)
+            setStatus(result.status)
             setValue('feadback-detail', result.description)
             setFeedback(result);
         }
@@ -118,7 +140,7 @@ const NewFeedback = () => {
                             select
                             fullWidth
                             value={category}
-                            onChange={handleChange}
+                            onChange={handleChange(setCategory)}
                             className={classNames(classes.input, display.mt1, classes.categories)}
                             classes={{ root: globalStyles.borderRadius }}
                             {...register("feadback-category", { required: true })}
@@ -137,6 +159,44 @@ const NewFeedback = () => {
                             ))}
                         </TextField>
                     </div>
+                    {
+                        feedback.id && (
+                            <div>
+                                <label 
+                                    htmlFor='feadback-status' className={classNames(globalStyles.darkBlueColor, classes.label,
+                                    text.font7, 'capitalize')}>
+                                    Update status
+                                    <br/>
+                                    <span className={classNames(classes.labelDescription, globalStyles.lightBlueColor,
+                                        display.block)}>
+                                        Change feature state
+                                    </span>
+                                </label>
+                                <TextField
+                                    select
+                                    fullWidth
+                                    value={status}
+                                    onChange={handleChange(setStatus)}
+                                    className={classNames(classes.input, display.mt1, classes.categories)}
+                                    classes={{ root: globalStyles.borderRadius }}
+                                    {...register("feadback-status", { required: true })}
+                                    >
+                                    {statusList.map((option) => (
+                                        <MenuItem 
+                                            key={option.value} 
+                                            value={option.value} 
+                                            className={classNames(globalStyles.listItem, classes.listItem, display.flex, 
+                                            display.alignCenter, display.justifyBetween, 'capitalize')}>
+                                            {option.label}
+                                            { status === option.value && (
+                                                <CheckIcon classes={{ root: classNames(globalStyles.listIcon, 'listIcon') }} />
+                                            )}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                        )
+                    }
                     <div className={classNames(display.mt2)}>
                         <label 
                             htmlFor='feadback-detail' className={classNames(globalStyles.darkBlueColor, classes.label,
