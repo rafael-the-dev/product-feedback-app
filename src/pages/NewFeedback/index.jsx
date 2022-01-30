@@ -25,7 +25,7 @@ const NewFeedback = () => {
 
     
     const { feedbacksList, setFeedbackList } = useContext(AppContext);
-    const { control, register, handleSubmit, getValues , reset, setValue, formState: { errors } } = useForm();
+    const { register, handleSubmit, getValues , reset, setFocus, setValue, formState: { errors } } = useForm();
     const [ feedback, setFeedback ] = useState({})
     const [ openDeleteDialog, setOpenDeleteDialog ] = useState(false);
     const canIFillIn = useRef(true);
@@ -162,7 +162,8 @@ const NewFeedback = () => {
                     <div className={classNames(display.mt1)}>
                         <label 
                             htmlFor='feadback-title' className={classNames(globalStyles.darkBlueColor, classes.label,
-                            text.font7)}>
+                            text.font7)}
+                            onClick={() => setFocus("feadback-title")}>
                             Feedback Title
                             <br/>
                             <span className={classNames(classes.labelDescription, globalStyles.lightBlueColor,
@@ -171,15 +172,27 @@ const NewFeedback = () => {
                             </span>
                         </label>
                         <input 
-                            className={classNames(display.borderNone, display.outlineNone, classes.input, display.w100,
-                            'box-border', display.mt1, globalStyles.darkBlueColor)}
+                            className={classNames(display.outlineNone, classes.input, display.w100,
+                            'box-border', display.mt1, globalStyles.darkBlueColor, 
+                            { 'border border-red-600': Boolean(errors['feadback-title']), 'border-0':  !Boolean(errors['feadback-title'])})}
+                            placeholder="enter feedback title"
                             {...register("feadback-title", { required: true })}
                         />
+                        { errors['feadback-title'] && (
+                            <label 
+                                className={classNames('text-red-600')}
+                                htmlFor='feadback-title'
+                                onClick={() => setFocus("feadback-title")}>
+                                This field is required
+                            </label>
+                        )}
                     </div>
                     <div className={classNames(display.mt2)}>
                         <label 
-                            htmlFor='feadback-category' className={classNames(globalStyles.darkBlueColor, classes.label,
-                            text.font7)}>
+                            htmlFor='feadback-category' 
+                            className={classNames(globalStyles.darkBlueColor, classes.label,
+                            text.font7)}
+                            onClick={() => setFocus("feadback-category")}>
                             Category
                             <br/>
                             <span className={classNames(classes.labelDescription, globalStyles.lightBlueColor,
@@ -214,8 +227,10 @@ const NewFeedback = () => {
                         feedback.id && (
                             <div>
                                 <label 
-                                    htmlFor='feadback-status' className={classNames(globalStyles.darkBlueColor, classes.label,
-                                    text.font7, 'capitalize')}>
+                                    htmlFor='feadback-status' 
+                                    className={classNames(globalStyles.darkBlueColor, classes.label,
+                                    text.font7, 'capitalize')}
+                                    onClick={() => setFocus("feadback-status")}>
                                     Update status
                                     <br/>
                                     <span className={classNames(classes.labelDescription, globalStyles.lightBlueColor,
@@ -251,7 +266,8 @@ const NewFeedback = () => {
                     <div className={classNames(display.mt2)}>
                         <label 
                             htmlFor='feadback-detail' className={classNames(globalStyles.darkBlueColor, classes.label,
-                            text.font7)}>
+                            text.font7)}
+                            onClick={() => setFocus("feadback-detail")}>
                             Feedback Detail
                             <br/>
                             <span className={classNames(classes.labelDescription, globalStyles.lightBlueColor,
@@ -260,11 +276,21 @@ const NewFeedback = () => {
                             </span>
                         </label>
                         <textarea 
-                            className={classNames(display.borderNone, display.outlineNone, classes.input, display.w100,
-                                'box-border', display.mt1, globalStyles.darkBlueColor)} 
+                            className={classNames(display.outlineNone, classes.input, display.w100,
+                            'box-border', display.mt1, globalStyles.darkBlueColor,
+                            { 'border border-red-600': Boolean(errors['feadback-detail']), 'border-0':  !Boolean(errors['feadback-detail'])})} 
+                            placeholder='enter feedback detail'
                             rows={5}
                             {...register("feadback-detail", { required: true })}
                         ></textarea>
+                        { errors['feadback-detail'] && (
+                            <label 
+                                className={classNames('text-red-600')}
+                                htmlFor='feadback-detail'
+                                onClick={() => setFocus("feadback-detail")}>
+                                This field is required
+                            </label>
+                        )}
                     </div>
                     { feedback.id ? (
                         <div className={classNames('flex justify-between', display.flexColumn, display.alignStretch, 
