@@ -9,7 +9,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Link, useLocation } from 'react-router-dom';
 import { useCallback, useContext, useEffect } from 'react'
 import { AppContext } from '../../context/AppContext';
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 const NewFeedback = () => {
     const classes = useStyles();
@@ -82,7 +82,6 @@ const NewFeedback = () => {
         setFeedbackList(list => {
             const filteredList = list.filter(item => item.id !== feedback.id);
             return filteredList;
-
         })
     }, [ feedback, setFeedbackList ]);
 
@@ -98,8 +97,8 @@ const NewFeedback = () => {
                 result.category = getValues('feadback-category');
                 canIFillIn.current = false;
                 reset();
-                //setCategory('feature')
-                //setStatus('suggestion')
+                setCategory('feature')
+                setStatus('suggestion')
             }
 
             return innerList;
@@ -173,10 +172,10 @@ const NewFeedback = () => {
                             select
                             fullWidth
                             value={category}
-                            onChange={handleChange(setCategory)}
                             className={classNames(classes.input, display.mt1, classes.categories)}
                             classes={{ root: globalStyles.borderRadius }}
                             {...register("feadback-category", { required: true })}
+                            onChange={handleChange(setCategory)}
                             >
                             {categories.map((option) => (
                                 <MenuItem 
@@ -209,10 +208,10 @@ const NewFeedback = () => {
                                     select
                                     fullWidth
                                     value={status}
-                                    onChange={handleChange(setStatus)}
                                     className={classNames(classes.input, display.mt1, classes.categories)}
                                     classes={{ root: globalStyles.borderRadius }}
                                     {...register("feadback-status", { required: true })}
+                                    onChange={handleChange(setStatus)}
                                     >
                                     {statusList.map((option) => (
                                         <MenuItem 
