@@ -23,7 +23,7 @@ const NewFeedback = () => {
     const id = query.get('id');
 
     
-    const { feedbacksList } = useContext(AppContext);
+    const { feedbacksList, setFeedbackList } = useContext(AppContext);
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const [ feedback, setFeedback ] = useState({})
     
@@ -77,6 +77,14 @@ const NewFeedback = () => {
         func(event.target.value);
     }, []);
 
+    const deleteClickHandler = useCallback(() => {
+        setFeedbackList(list => {
+            const filteredList = list.filter(item => item.id !== feedback.id);
+            return filteredList;
+
+        })
+    }, [ feedback, setFeedbackList ]);
+
     useEffect(() => {
         const result = feedbacksList.find(item => item.id === parseInt(id));
         if(result) {
@@ -86,7 +94,7 @@ const NewFeedback = () => {
             setValue('feadback-detail', result.description)
             setFeedback(result);
         }
-    }, [ feedbacksList, id, setValue ])
+    }, [ feedbacksList, id, setValue ]);
 
     return (
         <main className={classNames(globalStyles.px, display.pt3, display.pb3, classes.main,
@@ -223,9 +231,10 @@ const NewFeedback = () => {
                                 feedback.id && (
                                     <Button 
                                         variant="contained"
-                                        type="submit"
+                                        type="button"
                                         className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
-                                            globalStyles.button)}>
+                                        globalStyles.button)}
+                                        onClick={deleteClickHandler}>
                                         Delete
                                     </Button>
                                 )
@@ -233,7 +242,7 @@ const NewFeedback = () => {
                             <div className={classNames('flex items-center')}>
                                 <Button 
                                     variant="contained"
-                                    type="submit"
+                                    type="button"
                                     className={classNames(globalStyles.cancelFeedbackButton, text.capitalize, 
                                         globalStyles.button, responsive.smMr1)}>
                                     cancel
