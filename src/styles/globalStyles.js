@@ -35,6 +35,9 @@ export const useGlobalStyles = makeStyles(theme => ({
     cancelFeedbackButton: {
         backgroundColor: '#3A4374 !important',
     },
+    deleteFeedbackButton: {
+        backgroundColor: '#D73737 !important',
+    },
     borderRadius: {
         borderRadius: '12px !important'
     },

@@ -39,7 +39,7 @@ export const useStyles = makeStyles(theme => ({
     },
     buttonsContainer: {
         [theme.breakpoints.up('sm')]: {
-            flexDirection: 'row-reverse !important'
+            //flexDirection: 'row-reverse !important'
         }
     },
     listItem: {

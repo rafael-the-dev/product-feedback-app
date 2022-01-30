@@ -215,23 +215,58 @@ const NewFeedback = () => {
                             {...register("feadback-detail", { required: true })}
                         ></textarea>
                     </div>
-                    <div className={classNames('flex', display.flexColumn, display.alignStretch, 
-                        display.w100, display.mt2, classes.buttonsContainer, responsive.smAlignCenter)}>
-                        <Button 
-                            variant="contained"
-                            type="submit"
-                            className={classNames(globalStyles.addFeedbackButton, text.capitalize, 
-                                globalStyles.button)}>
-                            Add Feedback
-                        </Button>
-                        <Button 
-                            variant="contained"
-                            type="button"
-                            className={classNames(globalStyles.button, text.capitalize, 
-                            display.mt1, globalStyles.cancelFeedbackButton, responsive.smMt0, responsive.smMr1)}>
-                            Cancel
-                        </Button>
-                    </div>
+                    { feedback.id ? (
+                        <div className={classNames('flex justify-between', display.flexColumn, display.alignStretch, 
+                            display.w100, display.mt2, classes.buttonsContainer, responsive.smAlignCenter,
+                            responsive.mdRow)}>
+                            {
+                                feedback.id && (
+                                    <Button 
+                                        variant="contained"
+                                        type="submit"
+                                        className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
+                                            globalStyles.button)}>
+                                        Delete
+                                    </Button>
+                                )
+                            }
+                            <div className={classNames('flex items-center')}>
+                                <Button 
+                                    variant="contained"
+                                    type="submit"
+                                    className={classNames(globalStyles.cancelFeedbackButton, text.capitalize, 
+                                        globalStyles.button, responsive.smMr1)}>
+                                    cancel
+                                </Button>
+                                <Button 
+                                    variant="contained"
+                                    type="button"
+                                    className={classNames(globalStyles.button, text.capitalize, 
+                                    display.mt1, globalStyles.addFeedbackButton, responsive.smMt0)}>
+                                    Save changes
+                                </Button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className={classNames('flex', display.flexColumn, display.alignStretch, 
+                            display.w100, display.mt2, classes.buttonsContainer, responsive.smAlignCenter,
+                            responsive.mdRowReverse)}>
+                            <Button 
+                                variant="contained"
+                                type="submit"
+                                className={classNames(globalStyles.addFeedbackButton, text.capitalize, 
+                                    globalStyles.button)}>
+                                Add Feedback
+                            </Button>
+                            <Button 
+                                variant="contained"
+                                type="button"
+                                className={classNames(globalStyles.button, text.capitalize, 
+                                display.mt1, globalStyles.cancelFeedbackButton, responsive.smMt0, responsive.smMr1)}>
+                                Cancel
+                            </Button>
+                        </div>
+                    )}
                 </fieldset>
             </Paper>
         </main>
