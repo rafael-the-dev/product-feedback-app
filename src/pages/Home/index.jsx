@@ -11,6 +11,7 @@ import data from '../../data.json'
 import { useCallback, useContext, useMemo, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import { AppContext } from '../../context/AppContext'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
     const classes = useStyles();
@@ -127,12 +128,14 @@ const Home = () => {
                             </span>
                         </Button>
                    </div>
+                   <Link to="/new-feedback">
                     <Button
-                        className={classNames(classes.addFeedbackButton, text.capitalize)}
-                        endIcon={<AddIcon />}
-                        variant="contained">
-                        Add feedback
-                    </Button>
+                            className={classNames(classes.addFeedbackButton, text.capitalize)}
+                            endIcon={<AddIcon />}
+                            variant="contained">
+                            Add feedback
+                        </Button>
+                   </Link>
                     <Popover
                         id={id}
                         open={openPopover}

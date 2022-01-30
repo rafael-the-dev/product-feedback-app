@@ -110,7 +110,22 @@ const NewFeedback = () => {
         })
     }, [ feedback, getValues, reset, setFeedbackList ]);
 
-    const onSubmit = data => reset();
+    const onSubmit = data => {
+        console.log(data)
+        setFeedbackList(list  => {
+            const newFeedback = {
+                "id": list.length + 1,
+                "title": data['feadback-title'],
+                "category": data['feadback-category'],
+                "upvotes": 0,
+                "status": "suggestion",
+                "description": data['feadback-detail'],
+                "comments": []
+            }
+            return [ ...list, newFeedback ];
+        });
+        reset();
+    }
 
     useEffect(() => {
         const result = feedbacksList.find(item => item.id === parseInt(id));
