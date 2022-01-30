@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
-import { Avatar, Button, MenuItem, Paper, Typography, TextField } from '@mui/material';
+import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, MenuItem, Paper, Typography, TextField } from '@mui/material';
 import { useMemo, useRef, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCallback, useContext, useEffect } from 'react'
 import { AppContext } from '../../context/AppContext';
 import { useForm } from "react-hook-form";
@@ -19,6 +19,7 @@ const NewFeedback = () => {
     const text = useTypography();
     
     const { search } = useLocation();
+    const navigate = useNavigate()
     const query = new URLSearchParams(search);
     const id = query.get('id');
 
@@ -26,8 +27,10 @@ const NewFeedback = () => {
     const { feedbacksList, setFeedbackList } = useContext(AppContext);
     const { control, register, handleSubmit, getValues , reset, setValue, formState: { errors } } = useForm();
     const [ feedback, setFeedback ] = useState({})
+    const [ openDeleteDialog, setOpenDeleteDialog ] = useState(false);
     const canIFillIn = useRef(true);
     
+    const closeDeleteDialog = () => setOpenDeleteDialog(false);
     const categories = useMemo(() => [
       {
         value: 'feature',
@@ -82,8 +85,9 @@ const NewFeedback = () => {
         setFeedbackList(list => {
             const filteredList = list.filter(item => item.id !== feedback.id);
             return filteredList;
-        })
-    }, [ feedback, setFeedbackList ]);
+        });
+        navigate('/')
+    }, [ feedback, navigate, setFeedbackList ]);
 
     const editClickHandler = useCallback(() => {
         setFeedbackList(list => {
@@ -258,7 +262,7 @@ const NewFeedback = () => {
                                         type="button"
                                         className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
                                         globalStyles.button)}
-                                        onClick={deleteClickHandler}>
+                                        onClick={() => setOpenDeleteDialog(true)}>
                                         Delete
                                     </Button>
                                 )
@@ -303,6 +307,35 @@ const NewFeedback = () => {
                     )}
                 </fieldset>
             </Paper>
+            <Dialog
+                    open={openDeleteDialog}
+                    onClose={closeDeleteDialog}
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure that you want to delete this feedback?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button 
+                            variant="contained"
+                            type="button"
+                            className={classNames(globalStyles.cancelFeedbackButton, text.capitalize, 
+                            globalStyles.button, responsive.smMr1)}
+                            onClick={closeDeleteDialog}>
+                            cancel
+                        </Button>
+                        <Button 
+                            variant="contained"
+                            type="button"
+                            className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
+                            globalStyles.button)}
+                            onClick={deleteClickHandler}>
+                            Delete
+                        </Button>     
+                    </DialogActions>
+                </Dialog>
         </main>
     );
 };
