@@ -97,7 +97,7 @@ const FeedbackDetails = () => {
                         variant="contained"
                         type="submit"
                         className={classNames(text.capitalize, 
-                            globalStyles.button)}>
+                            globalStyles.button, 'hover:opacity-80')}>
                         Edit feedback
                     </Button>
                 </Link>

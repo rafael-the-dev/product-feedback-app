@@ -28,6 +28,7 @@ export const useStyles = makeStyles(theme => ({
         backgroundColor: '#F2F4FE',
         borderRadius: 12,
         padding: '.3rem .7rem',
+        '&:hover': { backgroundColor: '#CFD7FF'},
         [theme.breakpoints.up('sm')]: {
             padding: '.5rem .4rem'
         }

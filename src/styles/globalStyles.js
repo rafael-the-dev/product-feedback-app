@@ -31,9 +31,15 @@ export const useGlobalStyles = makeStyles(theme => ({
     },
     addFeedbackButton: {
         backgroundColor: '#AD1FEA !important',
+        '&:hover': {
+            backgroundColor: '#C75AF6 !important',
+        }
     },
     cancelFeedbackButton: {
         backgroundColor: '#3A4374 !important',
+        '&:hover': {
+            backgroundColor: '#656EA3 !important',
+        }
     },
     deleteFeedbackButton: {
         backgroundColor: '#D73737 !important',

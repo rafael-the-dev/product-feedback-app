@@ -318,7 +318,7 @@ const NewFeedback = () => {
                                 variant="contained"
                                 type="button"
                                 className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
-                                globalStyles.button, display.mt1, responsive.smMt0)}
+                                globalStyles.button, display.mt1, responsive.smMt0, 'hover:opacity-80')}
                                 onClick={() => setOpenDeleteDialog(true)}>
                                 Delete
                             </Button>
@@ -369,7 +369,7 @@ const NewFeedback = () => {
                             variant="contained"
                             type="button"
                             className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
-                            globalStyles.button)}
+                            globalStyles.button, 'hover:opacity-80')}
                             onClick={deleteClickHandler}>
                             Delete
                         </Button>     

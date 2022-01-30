@@ -140,7 +140,7 @@ const Roadmap = () => {
         <div className={classNames(display.flex, display.alignCenter, display.justifyBetween,
             globalStyles.px, classes.toolsContainer)}>
             <div className={classNames(display.flex, display.flexColumn)}>
-                <Link to="/">
+                <Link to="/" className={classNames('hover:underline')}>
                     <Button 
                         startIcon={<ArrowBackIosNewIcon />} 
                         className={classNames(text.textLight, text.capitalize, display.pl0, display.pr0)}>
@@ -152,7 +152,7 @@ const Roadmap = () => {
                 </Typography>
             </div>
             <Button
-                className={classNames(classes.addFeedbackButton, text.capitalize)}
+                className={classNames(globalStyles.button, globalStyles.addFeedbackButton, text.capitalize)}
                 endIcon={<AddIcon />}
                 variant="contained">
                 Add feedback
