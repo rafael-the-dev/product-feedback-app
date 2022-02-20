@@ -1,10 +1,9 @@
 import classNames from 'classnames';
-import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
+import { useDisplay, useGlobalStyles, useTypography } from '../../styles'
 import { useStyles } from './styles'
-import { Avatar, Button, Grid, Hidden, MenuItem, Paper, Typography, TextField } from '@mui/material';
+import { Button, Grid, Paper, Typography } from '@mui/material';
 import FeedbackCard from '../../components/FeedbackCard'
 import CommentCard from '../../components/CommentCard'
-import data from '../../data.json';
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -14,7 +13,7 @@ const FeedbackDetails = () => {
     const classes = useStyles();
     const display = useDisplay();
     const globalStyles = useGlobalStyles();
-    const responsive = useResponsive();
+   // const responsive = useResponsive();
     const text = useTypography();
 
     const { feedbacksList, generateNextUser, nextUser, setFeedbackList } = useContext(AppContext)
