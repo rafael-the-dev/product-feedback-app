@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
-import { Avatar, Button, Collapse, Grid, Hidden, MenuItem, Paper, Typography, TextField } from '@mui/material';
-import { useCallback, useContext, useRef, useState, useMemo } from 'react';
+import { Avatar, Button, Collapse, Grid, Hidden, Typography } from '@mui/material';
+import { useCallback, useContext, useRef, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
 
 const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, replyingTo, user,  feedbackID }) => {
