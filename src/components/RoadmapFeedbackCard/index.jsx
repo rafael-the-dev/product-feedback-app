@@ -1,6 +1,6 @@
-import { Chip, Grid, Hidden, Paper, Typography } from '@mui/material'
+import { Chip, Paper, Typography } from '@mui/material'
 import classNames from 'classnames'
-import { useBackground, useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
+import { useBackground, useDisplay, useGlobalStyles, useTypography } from '../../styles'
 import { useStyles } from './styles'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useMemo } from 'react';
@@ -10,7 +10,7 @@ const FeedbackCard = ({ comments, category, description, status, title, upvotes 
     const classes = useStyles();
     const display = useDisplay();
     const globalStyles = useGlobalStyles();
-    const responsive = useResponsive();
+    //const responsive = useResponsive();
     const text = useTypography();
 
     const toggleButton = useMemo(() => (

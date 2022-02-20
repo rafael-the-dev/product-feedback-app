@@ -3,7 +3,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { StylesProvider } from '@mui/styles';
 import { AppContextProvider } from '../../context/AppContext';
 import loadable from '@loadable/component';
-import { useEffect } from "react";
 
 const App = () => {
     const theme = createTheme();
