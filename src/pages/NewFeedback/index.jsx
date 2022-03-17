@@ -10,6 +10,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCallback, useContext, useEffect } from 'react'
 import { AppContext } from '../../context/AppContext';
 import { useForm } from "react-hook-form";
+import { useDispatch } from 'react-redux'
+import { addProduct } from '../../redux/actions'
 
 const NewFeedback = () => {
     const classes = useStyles();
@@ -23,6 +25,7 @@ const NewFeedback = () => {
     const query = new URLSearchParams(search);
     const id = query.get('id');
 
+    const dispatch = useDispatch();
     
     const { feedbacksList, setFeedbackList } = useContext(AppContext);
     const { register, handleSubmit, getValues , reset, setFocus, setValue, formState: { errors } } = useForm();
@@ -111,7 +114,7 @@ const NewFeedback = () => {
     }, [ feedback, getValues, reset, setFeedbackList ]);
 
     const onSubmit = data => {
-        console.log(data)
+        /*console.log(data)
         setFeedbackList(list  => {
             const newFeedback = {
                 "id": list.length + 1,
@@ -123,7 +126,8 @@ const NewFeedback = () => {
                 "comments": []
             }
             return [ ...list, newFeedback ];
-        });
+        });*/
+        dispatch(addProduct(data))
         reset();
     }
 

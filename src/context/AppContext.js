@@ -1,13 +1,16 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import data from '../data.json';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addProducts } from '../redux/actions'
+import { selectAllProducts } from '../redux/selectors'
 
 export const AppContext = createContext();
 AppContext.displayName = 'AppContext';
 
 export const AppContextProvider = ({ children }) => {
     const dispatch = useDispatch();
+    const allFeedbacks = useSelector(selectAllProducts);
+
     const localStoraFeedbacksName = useRef('feedback-app__feedbacks');
 
     const [ feedbacksList, setFeedbackList ] = useState([]);
@@ -91,9 +94,9 @@ export const AppContextProvider = ({ children }) => {
     }, [ dispatch ]);
 
     useEffect(() => {
-        if(feedbacksList.length > 0)
-            localStorage.setItem(localStoraFeedbacksName.current, JSON.stringify(feedbacksList));
-    }, [ feedbacksList ]);
+        if(allFeedbacks.length > 0)
+            localStorage.setItem(localStoraFeedbacksName.current, JSON.stringify(allFeedbacks));
+    }, [ allFeedbacks ]);
 
     return (
         <AppContext.Provider value={{ feedbacksList, generateNextUser, nextUser, setFeedbackList }}>{ children }</AppContext.Provider>
