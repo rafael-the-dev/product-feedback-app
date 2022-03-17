@@ -7,3 +7,8 @@ export const addProduct = (product) => ({
     payload: product,
     type: 'ADD_PRODUCT'
 });
+
+export const removeFeedback = (product) => ({
+    payload: product,
+    type: 'REMOVE_PRODUCT'
+});

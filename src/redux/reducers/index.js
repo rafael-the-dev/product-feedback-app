@@ -1,5 +1,5 @@
 import { initialState } from '../state'
-import { addProduct, addProducts } from '../actions';
+import { addProduct, addProducts, removeFeedback } from '../actions';
 
 const addNewFeedback = (state, data) => {
     const newFeedback = {
@@ -12,6 +12,11 @@ const addNewFeedback = (state, data) => {
         "comments": []
     };
     return { ...state, products: [ ...state.products, newFeedback ] };
+};
+
+const deleteFeedback = (state, feedback) => {
+    const products = state.products.filter(item => item.id !== feedback.id);
+    return { ...state, products };
 }
 
 export const productsReducer = (state=initialState, action) => {
@@ -21,6 +26,9 @@ export const productsReducer = (state=initialState, action) => {
         }
         case addProducts().type: {
             return { ...state, products: action.payload };
+        }
+        case removeFeedback().type: {
+            return deleteFeedback(state, action.payload);
         }
         default: {
             return state;

@@ -11,7 +11,7 @@ import { useCallback, useContext, useEffect } from 'react'
 import { AppContext } from '../../context/AppContext';
 import { useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux'
-import { addProduct } from '../../redux/actions'
+import { addProduct, removeFeedback } from '../../redux/actions'
 
 const NewFeedback = () => {
     const classes = useStyles();
@@ -85,12 +85,13 @@ const NewFeedback = () => {
     }, []);
 
     const deleteClickHandler = useCallback(() => {
-        setFeedbackList(list => {
+        dispatch(removeFeedback(feedback))
+        /*setFeedbackList(list => {
             const filteredList = list.filter(item => item.id !== feedback.id);
             return filteredList;
-        });
+        });*/
         navigate('/')
-    }, [ feedback, navigate, setFeedbackList ]);
+    }, [ dispatch, feedback, navigate, ]);
 
     const editClickHandler = useCallback(() => {
         setFeedbackList(list => {
