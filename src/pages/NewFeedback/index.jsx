@@ -10,8 +10,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCallback, useContext, useEffect } from 'react'
 import { AppContext } from '../../context/AppContext';
 import { useForm } from "react-hook-form";
-import { useDispatch } from 'react-redux'
-import { addProduct, removeFeedback } from '../../redux/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { addProduct, editFeedback, removeFeedback } from '../../redux/actions'
+import { selectAllProducts } from '../../redux/selectors';
 
 const NewFeedback = () => {
     const classes = useStyles();
@@ -26,8 +27,9 @@ const NewFeedback = () => {
     const id = query.get('id');
 
     const dispatch = useDispatch();
+    const feedbacksList = useSelector(selectAllProducts);
     
-    const { feedbacksList, setFeedbackList } = useContext(AppContext);
+    const { setFeedbackList } = useContext(AppContext);
     const { register, handleSubmit, getValues , reset, setFocus, setValue, formState: { errors } } = useForm();
     const [ feedback, setFeedback ] = useState({})
     const [ openDeleteDialog, setOpenDeleteDialog ] = useState(false);
@@ -94,7 +96,20 @@ const NewFeedback = () => {
     }, [ dispatch, feedback, navigate, ]);
 
     const editClickHandler = useCallback(() => {
-        setFeedbackList(list => {
+        dispatch(editFeedback({
+            id: feedback.id,
+            description: getValues('feadback-detail'),
+            category: getValues('feadback-category'),
+            status: getValues('feadback-status'),
+            title: getValues('feadback-title')
+        }));
+        
+        canIFillIn.current = false;
+        reset();
+        setCategory('feature')
+        setStatus('suggestion')
+
+        /*setFeedbackList(list => {
             const innerList = [ ...list ];
             const result = innerList.find(item => item.id === feedback.id);
 
@@ -111,8 +126,8 @@ const NewFeedback = () => {
 
             return innerList;
 
-        })
-    }, [ feedback, getValues, reset, setFeedbackList ]);
+        })*/
+    }, [ dispatch, feedback, getValues, reset ]);
 
     const onSubmit = data => {
         /*console.log(data)

@@ -1,5 +1,5 @@
 import { initialState } from '../state'
-import { addProduct, addProducts, removeFeedback } from '../actions';
+import { addProduct, addProducts, editFeedback, removeFeedback } from '../actions';
 
 const addNewFeedback = (state, data) => {
     const newFeedback = {
@@ -17,7 +17,20 @@ const addNewFeedback = (state, data) => {
 const deleteFeedback = (state, feedback) => {
     const products = state.products.filter(item => item.id !== feedback.id);
     return { ...state, products };
-}
+};
+
+const editFeedbackFunc = (state, feedback) => {
+    const result = state.products.find(item => item.id === feedback.id);
+
+    if(result) {
+        result.title = feedback.title;
+        result.description = feedback.description;
+        result.status = feedback.status;
+        result.category = feedback.category;
+    }
+
+    return { ...state };
+};
 
 export const productsReducer = (state=initialState, action) => {
     switch(action.type) {
@@ -26,6 +39,9 @@ export const productsReducer = (state=initialState, action) => {
         }
         case addProducts().type: {
             return { ...state, products: action.payload };
+        }
+        case editFeedback().type: {
+            return editFeedbackFunc(state, action.payload);
         }
         case removeFeedback().type: {
             return deleteFeedback(state, action.payload);
