@@ -1,5 +1,5 @@
 import { initialState } from '../state'
-import { addProduct, addProducts, editFeedback, incrementUpvotes, removeFeedback } from '../actions';
+import { addComent, addProduct, addProducts, editFeedback, incrementUpvotes, removeFeedback } from '../actions';
 
 const addNewFeedback = (state, data) => {
     const newFeedback = {
@@ -12,6 +12,28 @@ const addNewFeedback = (state, data) => {
         "comments": []
     };
     return { ...state, products: [ ...state.products, newFeedback ] };
+};
+
+const addNewComment = (state, payload) => {
+    const { commentRef, feedback, generateNextUser, nextUser, setComment } = payload;
+    const products = [ ...state.products ];
+    const result = products.find(item => item.id === feedback.id);
+
+    if(result) {
+        const commentsList =  result.comments ?  result.comments : [];
+        const commentID = commentsList.length + 1;
+        result.comments = [ ...commentsList, 
+            {
+                "id": commentID,
+                "content": commentRef.current,
+                "user": nextUser.current
+            }
+        ];
+
+        setComment('');
+        generateNextUser()
+    }
+    return { ...state, products };
 };
 
 const deleteFeedback = (state, feedback) => {
@@ -46,6 +68,9 @@ const editFeedbackFunc = (state, feedback) => {
 
 export const productsReducer = (state=initialState, action) => {
     switch(action.type) {
+        case addComent().type: {
+            return addNewComment(state, action.payload);
+        }
         case addProduct().type: {
             return addNewFeedback(state, action.payload);
         }

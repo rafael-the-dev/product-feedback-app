@@ -8,6 +8,9 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'r
 import { Link, useParams } from 'react-router-dom'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { AppContext } from '../../context/AppContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { addComent, incrementUpvotes } from '../../redux/actions';
+import { selectAllProducts, selectFeedbackByID } from '../../redux/selectors';
 
 const FeedbackDetails = () => {
     const classes = useStyles();
@@ -16,7 +19,10 @@ const FeedbackDetails = () => {
    // const responsive = useResponsive();
     const text = useTypography();
 
-    const { feedbacksList, generateNextUser, nextUser, setFeedbackList } = useContext(AppContext)
+    const dispatch = useDispatch();
+    const feedbacksList = useSelector(selectAllProducts);
+
+    const { generateNextUser, nextUser, setFeedbackList } = useContext(AppContext)
     const [ feedback, setFeedback ] = useState({ comments: [] });
 
     const commentsTotal = useMemo(() => {
@@ -60,7 +66,11 @@ const FeedbackDetails = () => {
 
     const submitHandler = useCallback(event => {
         event.preventDefault();
-        setFeedbackList(list => {
+        dispatch(addComent({
+            commentRef, feedback, generateNextUser, nextUser, setComment
+        }));
+
+        /*setFeedbackList(list => {
             const immutableList = [ ...list ];
             const result = immutableList.find(item => item.id === feedback.id);
             if(result) {
@@ -77,8 +87,8 @@ const FeedbackDetails = () => {
                 generateNextUser()
             }
             return immutableList;
-        })
-    }, [ feedback, generateNextUser, nextUser, setFeedbackList ]);
+        })*/
+    }, [ dispatch, feedback, generateNextUser, nextUser ]);
     
 
     return (

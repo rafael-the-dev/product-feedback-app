@@ -1,3 +1,8 @@
+export const addComent = (feedback) => ({
+    payload: feedback,
+    type: 'ADD_COMMENT'
+});
+
 export const addProducts = (productsList) => ({
     payload: productsList,
     type: 'ADD_ALL_PRODUCTS'
