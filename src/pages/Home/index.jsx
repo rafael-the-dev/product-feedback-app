@@ -12,6 +12,7 @@ import { useCallback, useContext, useMemo, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import { AppContext } from '../../context/AppContext'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const Home = () => {
     const classes = useStyles();
@@ -19,6 +20,8 @@ const Home = () => {
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
     const text = useTypography();
+    const reduxProducts = useSelector(state => state.products);
+    console.log(reduxProducts)
 
     const { feedbacksList } = useContext(AppContext)
 

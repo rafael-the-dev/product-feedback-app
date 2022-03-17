@@ -7,7 +7,7 @@ export const productsReducer = (state=initialState, action) => {
             return {};
         }
         case addProducts().type: {
-            return {};
+            return { ...state, products: action.payload };
         }
         default: {
             return state;
