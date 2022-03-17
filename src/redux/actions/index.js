@@ -13,6 +13,11 @@ export const editFeedback = (product) => ({
     type: 'EDIT_PRODUCT'
 });
 
+export const incrementUpvotes = (payload) => ({
+    payload,
+    type: 'INCREMENT_UPVOTES'
+});
+
 export const removeFeedback = (product) => ({
     payload: product,
     type: 'REMOVE_PRODUCT'
