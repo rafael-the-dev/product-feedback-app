@@ -13,6 +13,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { AppContext } from '../../context/AppContext'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { selectAllProducts } from '../../redux/selectors'
 
 const Home = () => {
     const classes = useStyles();
@@ -20,8 +21,7 @@ const Home = () => {
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
     const text = useTypography();
-    const reduxProducts = useSelector(state => state.products);
-    console.log(reduxProducts)
+    const reduxProducts = useSelector(selectAllProducts);
 
     const { feedbacksList } = useContext(AppContext)
 
@@ -46,7 +46,7 @@ const Home = () => {
     const [ filter, setFilter ] = useState(filterOptions.mostUpvotes);
 
     const filterList = useMemo(() => {
-        let list = feedbacksList.filter(item => item.status === 'suggestion');
+        let list = reduxProducts.filter(item => item.status === 'suggestion');
 
         if(filter === filterOptions.mostUpvotes) {
             //list = list.filter(item => item.upvotes >= 61);
@@ -82,7 +82,7 @@ const Home = () => {
         }
 
         return list;
-    }, [ feedbacksList, filter, filterOptions ])
+    }, [ reduxProducts, filter, filterOptions ])
 
     const feedbackList = useMemo(() => (
         filterList
