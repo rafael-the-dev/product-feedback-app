@@ -6,7 +6,8 @@ import { useStyles } from './styles'
 import { useCallback, useMemo, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
-import feedbackData from '../../data.json'
+import { useSelector } from 'react-redux'
+import { selectAllProducts } from '../../redux/selectors'
 
 const Header = () => {
     const classes = useStyles();
@@ -15,13 +16,15 @@ const Header = () => {
     const responsive = useResponsive();
     const text = useTypography();
 
+    const feedbacksList = useSelector(selectAllProducts);
+
     const [ open, setOpen ] = useState(false);
     const closeMenu = useCallback(() => setOpen(false), []);
     const toggleMenu = useCallback(() => setOpen(o => !o), []);
 
     const plansTotal = useMemo(() => {
         const total = { planned: 0, inProgress: 0, live: 0 };
-        feedbackData.productRequests
+        feedbacksList
             .forEach(item => {
                 if(item.status === 'planned') {
                     total.planned += 1;
@@ -32,7 +35,7 @@ const Header = () => {
                 }
             });
         return total;
-    }, [ ]);
+    }, [ feedbacksList ]);
 
     const CustomChip = useCallback(({ label }) => (
         <Chip
@@ -43,8 +46,8 @@ const Header = () => {
     ), [ classes, display ]);
 
     const chipCategories = useMemo(() => (
-        feedbackData.productRequests.map(item => item.category)
-    ), [])
+        feedbacksList.map(item => item.category)
+    ), [ feedbacksList ])
 
     const drawerContent = useMemo(() => (
         <>
