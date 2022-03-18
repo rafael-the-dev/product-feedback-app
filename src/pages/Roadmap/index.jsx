@@ -9,6 +9,8 @@ import { Button, Hidden, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectAllProducts} from '../../redux/selectors'
 
 const Roadmap = () => {
     const bg = useBackground();
@@ -18,35 +20,37 @@ const Roadmap = () => {
     const responsive = useResponsive();
     const text = useTypography();
 
+    const feedbacksList = useSelector(selectAllProducts);
+
     const [ status, setStatus ] = useState('in-progress');
 
     const inProgressFeedbacks = useMemo(() => (
-        data.productRequests
+        feedbacksList
             .filter(item => item.status === 'in-progress')
             .map((item, index) => (
                 <RoadmapFeedbackCard key={index} { ...item } />
             ))
-    ), []);
+    ), [ feedbacksList ]);
 
     const plannedFeedbacks = useMemo(() => (
-        data.productRequests
+        feedbacksList
             .filter(item => item.status === 'planned')
             .map((item, index) => (
                 <RoadmapFeedbackCard key={index} { ...item } />
             ))
-    ), []);
+    ), [ feedbacksList ]);
 
     const liveFeedbacks = useMemo(() => (
-        data.productRequests
+        feedbacksList
             .filter(item => item.status === 'live')
             .map((item, index) => (
                 <RoadmapFeedbackCard key={index} { ...item } />
             ))
-    ), []);
+    ), [ feedbacksList ]);
 
     const plansTotal = useMemo(() => {
         const total = { planned: 0, inProgress: 0, live: 0 };
-        data.productRequests
+        feedbacksList
             .forEach(item => {
                 if(item.status === 'planned') {
                     total.planned += 1;
@@ -57,7 +61,7 @@ const Roadmap = () => {
                 }
             });
         return total;
-    }, [ ]);
+    }, [ feedbacksList ]);
 
     const inProgressFeedbacksSection = useMemo(() => (
         <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.mdPt0, responsive.mdPl0,
