@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useTypography } from '../../styles'
 import { useStyles } from './styles'
-import { Button, Grid, Paper, Typography } from '@mui/material';
+import { Button, Grid, IconButton, Paper, Snackbar, Typography } from '@mui/material';
 import FeedbackCard from '../../components/FeedbackCard'
 import CommentCard from '../../components/CommentCard'
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -11,6 +11,7 @@ import { AppContext } from '../../context/AppContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { addComent } from '../../redux/actions';
 import { selectAllProducts } from '../../redux/selectors';
+import CloseIcon from '@mui/icons-material/Close';
 
 const FeedbackDetails = () => {
     const classes = useStyles();
@@ -23,6 +24,7 @@ const FeedbackDetails = () => {
 
     const { generateNextUser, nextUser } = useContext(AppContext)
     const [ feedback, setFeedback ] = useState({ comments: [] });
+    const [ openCommentSnackbar, setOpenOpenCommentSnackbar ] = useState(false);
 
     const commentsTotal = useMemo(() => {
         let total = 0;
@@ -66,7 +68,7 @@ const FeedbackDetails = () => {
     const submitHandler = useCallback(event => {
         event.preventDefault();
         dispatch(addComent({
-            commentRef, feedback, generateNextUser, nextUser, setComment
+            commentRef, feedback, generateNextUser, nextUser, setComment, setOpenOpenCommentSnackbar
         }));
     }, [ dispatch, feedback, generateNextUser, nextUser ]);
     
@@ -150,6 +152,22 @@ const FeedbackDetails = () => {
                         </Button>
                     </div>
                 </div>
+                <Snackbar
+                    open={openCommentSnackbar}
+                    autoHideDuration={6000}
+                    onClose={() => setOpenOpenCommentSnackbar(false)}
+                    message="New comment added"
+                    action={
+                        <IconButton
+                            size="small"
+                            aria-label="close"
+                            color="inherit"
+                            onClick={() => setOpenOpenCommentSnackbar(false)}
+                        >
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    }
+                />
             </Paper>
         </main>
     );

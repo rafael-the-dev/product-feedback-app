@@ -15,7 +15,7 @@ const addNewFeedback = (state, data) => {
 };
 
 const addNewComment = (state, payload) => {
-    const { commentRef, feedback, generateNextUser, nextUser, setComment } = payload;
+    const { commentRef, feedback, generateNextUser, nextUser, setComment, setOpenOpenCommentSnackbar } = payload;
     const products = [ ...state.products ];
     const result = products.find(item => item.id === feedback.id);
 
@@ -32,6 +32,7 @@ const addNewComment = (state, payload) => {
 
         setComment('');
         generateNextUser()
+        setOpenOpenCommentSnackbar(true);
     }
     return { ...state, products };
 };
