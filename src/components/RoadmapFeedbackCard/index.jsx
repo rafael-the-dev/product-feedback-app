@@ -43,7 +43,7 @@ const FeedbackCard = ({ comments, category, description, status, title, upvotes 
     }), [ classes ]);
 
     return (
-        <article component="article" item xs={12} sm={6} md={12}>
+        <article component="article" xs={12} sm={6} md={12}>
             <Paper elevation={0} className={classNames(classes.paper, display.mb1, display.pb1, display.pt1,
                 globalStyles.px, display.justifyBetween, display.alignStart, display.relative, display.borderBox)}>
                 <span className={classNames(classes.roadmapStateText, feedbackTextStatus[status], display.block)}>
