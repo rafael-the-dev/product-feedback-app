@@ -1,11 +1,12 @@
 import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
-import { Avatar, Button, Collapse, Grid, Hidden, Typography } from '@mui/material';
+import { Avatar, Button, Collapse, Grid, Hidden, IconButton, Typography } from '@mui/material';
 import { useCallback, useContext, useRef, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { replayComment } from '../../redux/actions'
 import { useDispatch } from 'react-redux'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, replyingTo, user,  feedbackID, setOpenOpenCommentSnackbar }) => {
     const classes = useStyles();
@@ -18,6 +19,7 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
 
     const { nextUser, generateNextUser } = useContext(AppContext)
 
+    const [ openCommetsCollapse, setOpenCommentsCollapse ] = useState(false);
     const [ openCollapse, setOpenCollapse ] = useState(false);
     const [ comment, setComment ] = useState('');
     const commentRef = useRef('');
@@ -121,13 +123,24 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
                             </Button>
                        </form>
                     </Collapse>
-                    { replies && <Grid container className={classNames(display.pl2, display.pt2)}>
-                        {
-                            replies.map((item, index) => (
-                                <CommentCard key={index} { ...item } commentID={commentID} feedbackID={feedbackID} setOpenOpenCommentSnackbar={setOpenOpenCommentSnackbar} />
-                            ))
-                        }
-                    </Grid>
+                    { replies && (
+                        <>
+                            <div className={classNames(display.flex, display.justifyEnd)}>
+                                <IconButton onClick={() => setOpenCommentsCollapse(o => !o)}>
+                                    { openCommetsCollapse ? <KeyboardArrowDownIcon classes={{ root: classes.arrowUp}} /> : <KeyboardArrowDownIcon />}
+                                </IconButton>
+                            </div>
+                            <Collapse  in={openCommetsCollapse} timeout="auto" unmountOnExit>
+                                <Grid container className={classNames(display.pl2, display.pt2)}>
+                                    {
+                                        replies.map((item, index) => (
+                                            <CommentCard key={index} { ...item } commentID={commentID} feedbackID={feedbackID} setOpenOpenCommentSnackbar={setOpenOpenCommentSnackbar} />
+                                        ))
+                                    }
+                                </Grid>
+                            </Collapse>
+                        </>
+                    )
                     }
                 </div>
             </div>

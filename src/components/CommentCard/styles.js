@@ -8,5 +8,8 @@ export const useStyles = makeStyles(theme => ({
         '&:last-child .grid-item-container': {
             borderBottom: 'none',
         }
+    },
+    arrowUp: {
+        transform: 'rotate(180deg)'
     }
  }));
