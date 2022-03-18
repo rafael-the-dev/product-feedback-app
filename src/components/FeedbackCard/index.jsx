@@ -3,12 +3,10 @@ import classNames from 'classnames'
 import { useBackground, useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { AppContext } from '../../context/AppContext';
 import { useDispatch } from 'react-redux'
 import { incrementUpvotes } from '../../redux/actions';
-import { selectFeedbackByID } from '../../redux/selectors';
 
 const FeedbackCard = ({ comments, category, description, id, title, upvotes, isClickable }) => {
     const bg = useBackground();
@@ -18,25 +16,12 @@ const FeedbackCard = ({ comments, category, description, id, title, upvotes, isC
     const responsive = useResponsive();
     const text = useTypography();
 
-    const { setFeedbackList } = useContext(AppContext);
     const dispatch = useDispatch();
     
     const editClickHandler = useCallback(() => {
         dispatch(incrementUpvotes({
             id
         }));
-
-        /*setFeedbackList(list => {
-            const innerList = [ ...list ];
-            const result = innerList.find(item => item.id === id);
-
-            if(result) {
-                result.upvotes += 1;
-            }
-
-            return innerList;
-
-        })*/
     }, [ dispatch, id ]);
 
     const toggleButton = useMemo(() => (

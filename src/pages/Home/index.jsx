@@ -8,9 +8,8 @@ import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FeedbackCard from '../../components/FeedbackCard';
 import data from '../../data.json'
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
-import { AppContext } from '../../context/AppContext'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectAllProducts } from '../../redux/selectors'
@@ -21,9 +20,7 @@ const Home = () => {
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
     const text = useTypography();
-    const reduxProducts = useSelector(selectAllProducts);
-
-    const { feedbacksList } = useContext(AppContext)
+    const feedbacksList = useSelector(selectAllProducts);
 
     const totalSuggestions = useMemo(() => {
         let total = 0;
@@ -35,7 +32,6 @@ const Home = () => {
             });
         return total;
     }, []);
-
     
     const filterOptions = useMemo(() => ({
         mostUpvotes: 'most-upvotes',
@@ -43,10 +39,11 @@ const Home = () => {
         mostComments: 'most-comments',
         leastComments: 'least-comments'
     }), []);
+
     const [ filter, setFilter ] = useState(filterOptions.mostUpvotes);
 
     const filterList = useMemo(() => {
-        let list = reduxProducts.filter(item => item.status === 'suggestion');
+        let list = feedbacksList.filter(item => item.status === 'suggestion');
 
         if(filter === filterOptions.mostUpvotes) {
             //list = list.filter(item => item.upvotes >= 61);
@@ -82,7 +79,7 @@ const Home = () => {
         }
 
         return list;
-    }, [ reduxProducts, filter, filterOptions ])
+    }, [ feedbacksList, filter, filterOptions ])
 
     const feedbackList = useMemo(() => (
         filterList

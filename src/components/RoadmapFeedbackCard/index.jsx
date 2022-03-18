@@ -10,7 +10,6 @@ const FeedbackCard = ({ comments, category, description, status, title, upvotes 
     const classes = useStyles();
     const display = useDisplay();
     const globalStyles = useGlobalStyles();
-    //const responsive = useResponsive();
     const text = useTypography();
 
     const toggleButton = useMemo(() => (

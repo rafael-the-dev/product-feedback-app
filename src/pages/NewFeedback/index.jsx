@@ -7,8 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useCallback, useContext, useEffect } from 'react'
-import { AppContext } from '../../context/AppContext';
+import { useCallback, useEffect } from 'react'
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux'
 import { addProduct, editFeedback, removeFeedback } from '../../redux/actions'
@@ -29,7 +28,6 @@ const NewFeedback = () => {
     const dispatch = useDispatch();
     const feedbacksList = useSelector(selectAllProducts);
     
-    const { setFeedbackList } = useContext(AppContext);
     const { register, handleSubmit, getValues , reset, setFocus, setValue, formState: { errors } } = useForm();
     const [ feedback, setFeedback ] = useState({})
     const [ openDeleteDialog, setOpenDeleteDialog ] = useState(false);
@@ -88,10 +86,6 @@ const NewFeedback = () => {
 
     const deleteClickHandler = useCallback(() => {
         dispatch(removeFeedback(feedback))
-        /*setFeedbackList(list => {
-            const filteredList = list.filter(item => item.id !== feedback.id);
-            return filteredList;
-        });*/
         navigate('/')
     }, [ dispatch, feedback, navigate, ]);
 
@@ -108,41 +102,9 @@ const NewFeedback = () => {
         reset();
         setCategory('feature')
         setStatus('suggestion')
-
-        /*setFeedbackList(list => {
-            const innerList = [ ...list ];
-            const result = innerList.find(item => item.id === feedback.id);
-
-            if(result) {
-                result.title = getValues('feadback-title');
-                result.description = getValues('feadback-detail');
-                result.status = getValues('feadback-status');
-                result.category = getValues('feadback-category');
-                canIFillIn.current = false;
-                reset();
-                setCategory('feature')
-                setStatus('suggestion')
-            }
-
-            return innerList;
-
-        })*/
     }, [ dispatch, feedback, getValues, reset ]);
 
     const onSubmit = data => {
-        /*console.log(data)
-        setFeedbackList(list  => {
-            const newFeedback = {
-                "id": list.length + 1,
-                "title": data['feadback-title'],
-                "category": data['feadback-category'],
-                "upvotes": 0,
-                "status": "suggestion",
-                "description": data['feadback-detail'],
-                "comments": []
-            }
-            return [ ...list, newFeedback ];
-        });*/
         dispatch(addProduct(data))
         reset();
     }

@@ -2,9 +2,7 @@ import classNames from 'classnames';
 import { useCallback, useMemo, useState } from 'react';
 import { useBackground, useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
-//import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import RoadmapFeedbackCard from '../../components/RoadmapFeedbackCard';
-import data from '../../data.json'
 import { Button, Hidden, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';

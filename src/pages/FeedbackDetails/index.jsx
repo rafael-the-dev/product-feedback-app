@@ -9,20 +9,19 @@ import { Link, useParams } from 'react-router-dom'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { AppContext } from '../../context/AppContext'
 import { useDispatch, useSelector } from 'react-redux'
-import { addComent, incrementUpvotes } from '../../redux/actions';
-import { selectAllProducts, selectFeedbackByID } from '../../redux/selectors';
+import { addComent } from '../../redux/actions';
+import { selectAllProducts } from '../../redux/selectors';
 
 const FeedbackDetails = () => {
     const classes = useStyles();
     const display = useDisplay();
     const globalStyles = useGlobalStyles();
-   // const responsive = useResponsive();
     const text = useTypography();
 
     const dispatch = useDispatch();
     const feedbacksList = useSelector(selectAllProducts);
 
-    const { generateNextUser, nextUser, setFeedbackList } = useContext(AppContext)
+    const { generateNextUser, nextUser } = useContext(AppContext)
     const [ feedback, setFeedback ] = useState({ comments: [] });
 
     const commentsTotal = useMemo(() => {
@@ -69,25 +68,6 @@ const FeedbackDetails = () => {
         dispatch(addComent({
             commentRef, feedback, generateNextUser, nextUser, setComment
         }));
-
-        /*setFeedbackList(list => {
-            const immutableList = [ ...list ];
-            const result = immutableList.find(item => item.id === feedback.id);
-            if(result) {
-                const commentsList =  result.comments ?  result.comments : [];
-                const commentID = commentsList.length + 1;
-                result.comments = [ ...commentsList, 
-                    {
-                      "id": commentID,
-                      "content": commentRef.current,
-                      "user": nextUser.current
-                    }
-                ];
-                setComment('');
-                generateNextUser()
-            }
-            return immutableList;
-        })*/
     }, [ dispatch, feedback, generateNextUser, nextUser ]);
     
 
