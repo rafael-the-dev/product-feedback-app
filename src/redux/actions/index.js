@@ -27,3 +27,8 @@ export const removeFeedback = (product) => ({
     payload: product,
     type: 'REMOVE_PRODUCT'
 });
+
+export const replayComment = (feedback) => ({
+    payload: feedback,
+    type: 'REPLAY_COMMENT'
+});

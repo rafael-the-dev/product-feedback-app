@@ -4,19 +4,26 @@ import { useStyles } from './styles'
 import { Avatar, Button, Collapse, Grid, Hidden, Typography } from '@mui/material';
 import { useCallback, useContext, useRef, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
+import { replayComment } from '../../redux/actions'
+import { useDispatch } from 'react-redux'
 
-const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, replyingTo, user,  feedbackID }) => {
+const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, replyingTo, user,  feedbackID, setOpenOpenCommentSnackbar }) => {
     const classes = useStyles();
     const display = useDisplay();
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
     const text = useTypography(); 
 
-    const { nextUser, generateNextUser, setFeedbackList } = useContext(AppContext)
+    const dispatch = useDispatch();
+
+    const { nextUser, generateNextUser } = useContext(AppContext)
 
     const [ openCollapse, setOpenCollapse ] = useState(false);
     const [ comment, setComment ] = useState('');
     const commentRef = useRef('');
+    const isSuccefulReply = useRef(false);
+
+    const setIsSuccefulReply = useCallback(prop => isSuccefulReply.current = prop, []);
 
     const totalCommetLenght = useRef(225);
     const changeHandler = useCallback(event => {
@@ -29,30 +36,25 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
 
     const submitHandler = useCallback(event => {
         event.preventDefault();
-        setFeedbackList(list => {
-            const immutableList = [ ...list ];
-            const result = immutableList.find(item => item.id === feedbackID);
-            if(result) {
-                const userComment = result.comments.find(item => item.id === commentID);
 
-                if(userComment) {
-                    const repliesList =  userComment.replies ?  userComment.replies : [];
-                    userComment.replies = [ ...repliesList, 
-                        {
-                            "content": commentRef.current,
-                            "replyingTo": user.username,
-                            "user": nextUser.current
-                            }
-                    ];
-                    setOpenCollapse(false)
-                    setComment('');
-                    generateNextUser();
+        dispatch(replayComment({
+            commentID,
+            content: commentRef.current,
+            feedbackID,
+            setIsSuccefulReply,
+            nextuser: nextUser.current,
+            username: user.username
+        }));
 
-                }
-            }
-            return immutableList;
-        })
-    }, [ commentID, feedbackID, generateNextUser, nextUser, setFeedbackList, user ]);
+        if(isSuccefulReply.current) {
+            setOpenCollapse(false)
+            setComment('');
+            generateNextUser();
+            setOpenOpenCommentSnackbar(true);
+        }
+
+        setIsSuccefulReply(false);
+    }, [ commentID, dispatch, feedbackID, generateNextUser, nextUser, setIsSuccefulReply, setOpenOpenCommentSnackbar, user ]);
 
     return (
         <Grid item xs={12} component="article" className={classNames({ [classes.gridItem]: isMainCommentCard })}>
@@ -122,7 +124,7 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
                     { replies && <Grid container className={classNames(display.pl2, display.pt2)}>
                         {
                             replies.map((item, index) => (
-                                <CommentCard key={index} { ...item } commentID={commentID} feedbackID={feedbackID} />
+                                <CommentCard key={index} { ...item } commentID={commentID} feedbackID={feedbackID} setOpenOpenCommentSnackbar={setOpenOpenCommentSnackbar} />
                             ))
                         }
                     </Grid>

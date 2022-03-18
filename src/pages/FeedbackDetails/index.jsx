@@ -109,6 +109,7 @@ const FeedbackDetails = () => {
                                 { ...item } 
                                 isMainCommentCard={true} feedbackID={feedback.id} 
                                 commentID={item.id}
+                                setOpenOpenCommentSnackbar={setOpenOpenCommentSnackbar}
                             />
                         ))
                     }

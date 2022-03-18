@@ -1,5 +1,5 @@
 import { initialState } from '../state'
-import { addComent, addProduct, addProducts, editFeedback, incrementUpvotes, removeFeedback } from '../actions';
+import { addComent, addProduct, addProducts, editFeedback, incrementUpvotes, removeFeedback, replayComment } from '../actions';
 
 const addNewFeedback = (state, data) => {
     const newFeedback = {
@@ -67,6 +67,30 @@ const editFeedbackFunc = (state, feedback) => {
     return { ...state, products };
 };
 
+const replayCommentFunc = (state, payload) => {
+    const { commentID, content, feedbackID, setIsSuccefulReply, username, nextuser } = payload;
+    const products = [ ...state.products ];
+    const result = products.find(item => item.id === feedbackID);
+
+    if(result) {
+        const userComment = result.comments.find(item => item.id === commentID);
+
+        if(userComment) {
+            const repliesList =  userComment.replies ?  userComment.replies : [];
+            userComment.replies = [ ...repliesList, 
+                {
+                    "content": content,
+                    "replyingTo": username,
+                    "user": nextuser
+                    }
+            ];
+        }
+
+        setIsSuccefulReply(true);
+    }
+    return { ...state, products };
+};
+
 export const productsReducer = (state=initialState, action) => {
     switch(action.type) {
         case addComent().type: {
@@ -83,6 +107,9 @@ export const productsReducer = (state=initialState, action) => {
         }
         case incrementUpvotes().type: {
             return incrementUpvotesNumber(state, action.payload);
+        }
+        case replayComment().type: {
+            return replayCommentFunc(state, action.payload);
         }
         case removeFeedback().type: {
             return deleteFeedback(state, action.payload);
