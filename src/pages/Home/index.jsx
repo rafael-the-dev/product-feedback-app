@@ -7,7 +7,6 @@ import { Button, Grid, Hidden, List, ListItem, ListItemButton, ListItemText, Lis
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FeedbackCard from '../../components/FeedbackCard';
-import data from '../../data.json'
 import { useCallback, useMemo, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import { Link } from 'react-router-dom'
@@ -24,14 +23,14 @@ const Home = () => {
 
     const totalSuggestions = useMemo(() => {
         let total = 0;
-        data.productRequests
+        feedbacksList
             .forEach(item => {
                 if(item.status === 'suggestion') {
                     total += 1;
                 } 
             });
         return total;
-    }, []);
+    }, [ feedbacksList ]);
     
     const filterOptions = useMemo(() => ({
         mostUpvotes: 'most-upvotes',
