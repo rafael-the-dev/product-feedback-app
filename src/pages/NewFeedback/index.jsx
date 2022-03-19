@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
-import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, MenuItem, Paper, Typography, TextField } from '@mui/material';
+import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, MenuItem, Paper, 
+    Snackbar, Typography, TextField } from '@mui/material';
 import { useMemo, useRef, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
@@ -12,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux'
 import { addProduct, editFeedback, removeFeedback } from '../../redux/actions'
 import { selectAllProducts } from '../../redux/selectors';
+import CloseIcon from '@mui/icons-material/Close';
 
 const NewFeedback = () => {
     const classes = useStyles();
@@ -31,8 +33,10 @@ const NewFeedback = () => {
     const { register, handleSubmit, getValues , reset, setFocus, setValue, formState: { errors } } = useForm();
     const [ feedback, setFeedback ] = useState({})
     const [ openDeleteDialog, setOpenDeleteDialog ] = useState(false);
+    const [ openSnackbar, setOpenSnackbar ] = useState(false);
+    const [ snackbarMessage, setSnackbarMessage ] = useState("");
     const canIFillIn = useRef(true);
-    
+
     const closeDeleteDialog = () => setOpenDeleteDialog(false);
     const categories = useMemo(() => [
       {
@@ -102,10 +106,14 @@ const NewFeedback = () => {
         reset();
         setCategory('feature')
         setStatus('suggestion')
+        setSnackbarMessage('Changes saved.');
+        setOpenSnackbar(true);
     }, [ dispatch, feedback, getValues, reset ]);
 
     const onSubmit = data => {
         dispatch(addProduct(data))
+        setSnackbarMessage('New feedback saved.');
+        setOpenSnackbar(true);
         reset();
     }
 
@@ -357,6 +365,22 @@ const NewFeedback = () => {
                         </Button>     
                     </DialogActions>
                 </Dialog>
+                <Snackbar
+                    open={openSnackbar}
+                    autoHideDuration={6000}
+                    onClose={() => setOpenSnackbar(false)}
+                    message={snackbarMessage}
+                    action={
+                        <IconButton
+                            size="small"
+                            aria-label="close"
+                            color="inherit"
+                            onClick={() => setOpenSnackbar(false)}
+                        >
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    }
+                />
         </main>
     );
 };
