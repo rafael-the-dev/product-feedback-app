@@ -128,8 +128,8 @@ const Home = () => {
                         </Button>
                    </div>
                    <Link to="/new-feedback">
-                    <Button
-                            className={classNames(classes.addFeedbackButton, text.capitalize)}
+                        <Button
+                            className={classNames(classes.addFeedbackButton, text.capitalize, globalStyles.addFeedbackButton)}
                             endIcon={<AddIcon />}
                             variant="contained">
                             Add feedback
