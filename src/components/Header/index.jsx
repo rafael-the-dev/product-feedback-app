@@ -2,15 +2,15 @@ import { Chip, Drawer, Hidden, IconButton, Paper, Typography } from '@mui/materi
 import classNames from 'classnames'
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from 'src/styles'
 import MenuIcon from '@mui/icons-material/Menu';
-import { useStyles } from './styles'
+import classes from './header.module.css'
 import { useCallback, useMemo, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import Link from 'next/link';
 import { useSelector } from 'react-redux'
-import { selectAllProducts } from '../../redux/selectors'
+import { selectAllProducts } from 'src/redux/selectors'
 
 const Header = () => {
-    const classes = useStyles();
+    //const classes = useStyles();
     const display = useDisplay();
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
@@ -107,7 +107,7 @@ const Header = () => {
     ), [ classes, chipCategories, display, globalStyles, plansTotal, responsive, text ]);
 
     return (
-        <header className={classNames(responsive.smFlex, responsive.smPt3, responsive.smPb2, classes.header,
+        <header className={classNames("sm:px-5 md:px-0",responsive.smFlex, responsive.smPt3, responsive.smPb2, classes.header,
             responsive.smJustifyBetween, responsive.mdColumn, responsive.smAlignStretch, responsive.mdPt0)}>
             <div
                 className={classNames(text.textLight, classes.headerHighlight, display.pt1, display.pb1,

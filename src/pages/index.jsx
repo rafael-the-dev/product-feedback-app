@@ -1,7 +1,7 @@
 import Header from 'src/components/Header'
 import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from 'src/styles'
-import { useStyles } from './styles'
+import classes from 'src/styles/home.module.css'
 import { Button, Grid, Hidden, List, ListItem, ListItemButton, ListItemText, ListItemIcon,
     Popover, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux'
 import { selectAllProducts } from 'src/redux/selectors'
 
 const Home = () => {
-    const classes = useStyles();
+    //const classes = useStyles();
     const display = useDisplay();
     const globalStyles = useGlobalStyles();
     const responsive = useResponsive();
@@ -108,21 +108,23 @@ const Home = () => {
     return (
         <>
             <Header />
-            <main className={classNames(display.flexGrow1, responsive.mdMl2)}>
-                <div className={classNames(display.flex, display.alignCenter, display.justifyBetween,
-                    globalStyles.px, classes.toolsContainer)}>
-                   <div className={classNames(display.flex, display.alignCenter,)}>
+            <main className={classNames("grow md:ml-8")}>
+                <div className={classNames("flex items-center justify-between px-5", classes.toolsContainer)}>
+                   <div className={classNames("flex items-center")}>
                        <Hidden smDown>
-                            <Typography component="h2" variant="h6" className={classNames(text.textLight, text.font7, classes.totalSuggestions)}>
+                            <Typography 
+                                component="h2" 
+                                variant="h6" 
+                                className={classNames("font-bold text-white", classes.totalSuggestions)}>
                                 { totalSuggestions } Suggestions
                             </Typography>
                        </Hidden>
                         <Button
-                            className={classNames(text.textLight, text.capitalize, responsive.smMl2)}
+                            className={classNames("capitalize text-white sm:ml-8")}
                             endIcon={<KeyboardArrowDownIcon />}
                             onClick={handleClick}>
                             Sort by:
-                            <span className={classNames(text.font7, classes.sortHighlightText)}> 
+                            <span className={classNames("font-bold", classes.sortHighlightText)}> 
                                 { filter.replace('-', ' ')}
                             </span>
                         </Button>
@@ -130,7 +132,7 @@ const Home = () => {
                    <Link href="/new-feedback">
                         <a>
                             <Button
-                                className={classNames(classes.addFeedbackButton, text.capitalize, globalStyles.addFeedbackButton)}
+                                className={classNames("capitalize", classes.addFeedbackButton, globalStyles.addFeedbackButton)}
                                 endIcon={<AddIcon />}
                                 variant="contained">
                                 Add feedback
@@ -158,7 +160,10 @@ const Home = () => {
                                     }
                                 </ListItemButton>
                             </ListItem>
-                            <ListItem disablePadding onClick={listItemClickHandler(filterOptions.leastUpvotes)} className={classNames(classes.filterListItem)}>
+                            <ListItem 
+                                disablePadding 
+                                onClick={listItemClickHandler(filterOptions.leastUpvotes)} 
+                                className={classNames(classes.filterListItem)}>
                                 <ListItemButton>
                                     <ListItemText classes={{ root: classes.filterListItemText}} primary="Least Upvotes" />
                                     { filter === filterOptions.leastUpvotes && <ListItemIcon classes={{ root: classes.filterListIcon }}>
@@ -188,8 +193,7 @@ const Home = () => {
                         </List>
                     </Popover>
                 </div>
-                <Grid container className={classNames(globalStyles.px, display.mt2, responsive.mdPl0, 
-                    responsive.mdPr0)}>
+                <Grid container className={classNames("mt-8 px-5 md:px-0")}>
                     { feedbackList }
                 </Grid>
             </main>

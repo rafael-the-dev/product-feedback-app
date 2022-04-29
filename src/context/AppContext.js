@@ -1,8 +1,8 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import data from '../data.json';
+import data from 'src/data.json';
 import { useDispatch, useSelector } from 'react-redux'
-import { addProducts } from '../redux/actions'
-import { selectAllProducts } from '../redux/selectors'
+import { addProducts } from 'src/redux/actions'
+import { selectAllProducts } from 'src/redux/selectors'
 
 export const AppContext = createContext();
 AppContext.displayName = 'AppContext';

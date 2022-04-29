@@ -1,62 +1,63 @@
-.hero {
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, .7), rgba(0, 0, 0, .3)), url('../../public/images/home/mobile/image-header.jpg');
-    background-position: center bottom 50px;
-    height: 90vh;
+.toolsContainer {
+    background-color: '#373F68';
+    padding-bottom: 10;
+    padding-top: 10;
 }
 
-.hero__title::before {
-    content: "New product" !important;
-    letter-spacing: 5px;
+.totalSuggestions::before{
+    background-image: url(/images/icons/icon-suggestions.svg);
+    background-repeat: 'no-repeat';
+    background-size: 'contain';
+    content: '""';
+    display: 'inline-block';
+    height: 22;
+    margin-right: 10;
+    width: 22
 }
 
-.speaker {
-    background-image: url(/images/home/desktop/pattern-circles.svg);
+.sortHighlightText {
+    margin-left: 5px;
 }
 
-.speaker__Button {
-    background-color: #000 !important;
+.addFeedbackButton {
+    background-color: '#AD1FEA !important';
+    border-radius: '11px !important';
+    padding: '9px 16px !important';
 }
 
-.zx7Speaker {
-    background-image: url(/images/home/mobile/image-speaker-zx7.jpg);
-    height: 300px;
+.popoverRoot {
+    top: '111px !important'
 }
 
-.zx7Speaker__Button {
-    background-color: transparent !important;
-    border: 1px solid #000 !important;
-    color: #000 !important;
+.filterList {
+    width: 244px;
 }
 
-@media screen and (min-width: 600px){
-    .hero {
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, .7), rgba(0, 0, 0, .3)), url('../../public/images/home/tablet/image-header.jpg');
-        background-position: center bottom 0px;
-        height: 89vh;
-    }
-
-    .zx7Speaker {
-        background-image: url(/images/home/tablet/image-speaker-zx7.jpg);
-        height: 350px;
-    }
+.filterListItem {
+    border-bottom: '1px solid #979797d6';
 }
 
-@media screen and (min-width: 900px){
-    .hero {
-        background-image: linear-gradient(to right, rgba(0, 0, 0, .7), rgba(0, 0, 0, .3)), url('../../public/images/home/desktop/image-hero.jpg');
-        height: 80vh;
-    }
+.filterListItem:last-child {
+    border-bottom: 'none'
+}
 
-    .speaker {
-        background-position: left center !important;
-        background-size: 700px;
-    }
+.filterListItem:hover {
+    color: '#AD1FEA !important';
+}
 
-    .speaker__imageContainer {
-        transform: translateY(59px);
-    }
+.filterListItemText {
+    color: '#647196'
+}
 
-    .zx7Speaker {
-        background-image: url(/images/home/desktop/image-speaker-zx7.jpg);
+.filterListIcon {
+    color: '#AD1FEA !important';
+    min-width: '23px !important'
+}
+
+@media screen and (min-width: 600px) {
+    .toolsContainer {
+        border-radius: 12;
+        padding-left: '1.5rem';
+        padding-right: '1.2rem';
     }
 }
