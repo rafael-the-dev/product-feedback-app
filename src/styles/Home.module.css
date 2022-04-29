@@ -1,0 +1,62 @@
+.hero {
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, .7), rgba(0, 0, 0, .3)), url('../../public/images/home/mobile/image-header.jpg');
+    background-position: center bottom 50px;
+    height: 90vh;
+}
+
+.hero__title::before {
+    content: "New product" !important;
+    letter-spacing: 5px;
+}
+
+.speaker {
+    background-image: url(/images/home/desktop/pattern-circles.svg);
+}
+
+.speaker__Button {
+    background-color: #000 !important;
+}
+
+.zx7Speaker {
+    background-image: url(/images/home/mobile/image-speaker-zx7.jpg);
+    height: 300px;
+}
+
+.zx7Speaker__Button {
+    background-color: transparent !important;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+}
+
+@media screen and (min-width: 600px){
+    .hero {
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, .7), rgba(0, 0, 0, .3)), url('../../public/images/home/tablet/image-header.jpg');
+        background-position: center bottom 0px;
+        height: 89vh;
+    }
+
+    .zx7Speaker {
+        background-image: url(/images/home/tablet/image-speaker-zx7.jpg);
+        height: 350px;
+    }
+}
+
+@media screen and (min-width: 900px){
+    .hero {
+        background-image: linear-gradient(to right, rgba(0, 0, 0, .7), rgba(0, 0, 0, .3)), url('../../public/images/home/desktop/image-hero.jpg');
+        height: 80vh;
+    }
+
+    .speaker {
+        background-position: left center !important;
+        background-size: 700px;
+    }
+
+    .speaker__imageContainer {
+        transform: translateY(59px);
+    }
+
+    .zx7Speaker {
+        background-image: url(/images/home/desktop/image-speaker-zx7.jpg);
+    }
+}

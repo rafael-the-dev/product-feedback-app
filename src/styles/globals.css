@@ -1,0 +1,14 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.new-product::before {
+  content: "New product" !important;
+  display: block;
+  font-size: 1rem;
+  font-weight: normal;
+  letter-spacing: 6px;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
