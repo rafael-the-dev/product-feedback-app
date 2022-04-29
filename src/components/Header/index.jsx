@@ -1,6 +1,6 @@
 import { Chip, Drawer, Hidden, IconButton, Paper, Typography } from '@mui/material';
 import classNames from 'classnames'
-import { useDisplay, useGlobalStyles, useResponsive, useTypography } from 'src/styles'
+//import { useDisplay, useGlobalStyles, useResponsive, useTypography } from 'src/styles'
 import MenuIcon from '@mui/icons-material/Menu';
 import classes from './header.module.css'
 import { useCallback, useMemo, useState } from 'react';
@@ -11,10 +11,10 @@ import { selectAllProducts } from 'src/redux/selectors'
 
 const Header = () => {
     //const classes = useStyles();
-    const display = useDisplay();
-    const globalStyles = useGlobalStyles();
-    const responsive = useResponsive();
-    const text = useTypography();
+    //const display = useDisplay();
+    //const globalStyles = useGlobalStyles();
+    //const responsive = useResponsive();
+   // const text = useTypography();
 
     const feedbacksList = useSelector(selectAllProducts);
 
@@ -41,9 +41,9 @@ const Header = () => {
         <Chip
             label={ label }
             onClick={() => {}}
-            className={classNames(display.mr1, display.mb1, classes.chip)} 
+            className={classNames("mr-4 mb-4", classes.chip)} 
         />
-    ), [ classes, display ]);
+    ), [ ]);
 
     const chipCategories = useMemo(() => (
         feedbacksList.map(item => item.category)
@@ -52,8 +52,8 @@ const Header = () => {
     const drawerContent = useMemo(() => (
         <>
             <Paper 
-                className={classNames(display.pt1, display.pb2, globalStyles.px, display.flex, display.alignCenter,
-                display.wrap, classes.paper, display.borderBox, classes.smPx, responsive.mdMt1)}
+                className={classNames("flex flex-wrap items-center pt-4 pb-8 px-5 md:mt-4",
+                classes.paper, classes.smPx)}
                 elevation={0}>
                     {
                         [ ...new Set(chipCategories) ].map((item, index) => (
@@ -62,65 +62,59 @@ const Header = () => {
                     }
             </Paper>
             <Paper 
-                className={classNames(display.pt1, display.pb2, globalStyles.px, display.flex, display.alignCenter,
-                display.wrap, classes.paper, display.borderBox, 
-                classes.smPx, responsive.mdMt1)}
+                className={classNames("flex flex-wrap items-center pt-4 pb-8 px-5 md:mt-4",
+                classes.paper, classes.smPx)}
                 elevation={0}>
-                    <header className={classNames(display.flex, display.justifyBetween, display.w100, 
-                        display.alignCenter)}>
+                    <header className={classNames("flex items-center justify-between w-full")}>
                         <Typography component="h2" className={classNames(classes.roadmapTitle)}>Roadmap</Typography>
                         <Link 
                             href="/roadmap" 
-                            className={classNames(text.noUnderline, 'text-sky-600 hover:underline')}>
+                            className={classNames('text-sky-600 underline-none hover:underline')}>
                             <a>View</a>
                         </Link>
                     </header>
-                    <div className={classNames(display.w100, display.mt1)}>
+                    <div className={classNames("mt-4 w-full")}>
                         <Typography 
-                            className={classNames(display.flex, display.justifyBetween, display.alignCenter,
-                            classes.roadmapState)}
+                            className={classNames("flex items-center justify-between", classes.roadmapState)}
                             gutterBottom>
                             <span className={classNames(classes.roadmapStateText, classes.roadmapStateTextPlanned)}>
                                 Planned
                             </span>
-                            <span className={classNames(text.font7)}>{ plansTotal.planned }</span>
+                            <span className={classNames("font-bold")}>{ plansTotal.planned }</span>
                         </Typography>
                         <Typography 
-                            className={classNames(display.flex, display.justifyBetween, display.alignCenter,
-                            classes.roadmapState)}
+                            className={classNames("flex items-center justify-between", classes.roadmapState)}
                             gutterBottom>
                             <span className={classNames(classes.roadmapStateText, classes.roadmapStateTextInProgress)}>
                                 In-Progress
                             </span>
-                            <span className={classNames(text.font7)}>{ plansTotal.inProgress }</span>
+                            <span className={classNames("font-bold")}>{ plansTotal.inProgress }</span>
                         </Typography>
-                        <Typography className={classNames(display.flex, display.justifyBetween, display.alignCenter,
-                            classes.roadmapState)}>
+                        <Typography className={classNames("flex items-center justify-between", classes.roadmapState)}>
                             <span className={classNames(classes.roadmapStateText, classes.roadmapStateTextLive)}>
                                 Live
                             </span>
-                            <span className={classNames(text.font7)}>{ plansTotal.live }</span>
+                            <span className={classNames("font-bold")}>{ plansTotal.live }</span>
                         </Typography>
                     </div>
             </Paper>
         </>
-    ), [ classes, chipCategories, display, globalStyles, plansTotal, responsive, text ]);
+    ), [ chipCategories, plansTotal ]);
 
     return (
-        <header className={classNames("sm:px-5 md:px-0",responsive.smFlex, responsive.smPt3, responsive.smPb2, classes.header,
-            responsive.smJustifyBetween, responsive.mdColumn, responsive.smAlignStretch, responsive.mdPt0)}>
+        <header className={classNames("sm:px-5 sm:flex sm:justify-between sm:pt-12 sm:pb-8 md:px-0 md:flex-col md:pt-0", 
+            classes.header, "sm:items-stretch")}>
             <div
-                className={classNames(text.textLight, classes.headerHighlight, display.pt1, display.pb1,
-                display.flex, display.justifyBetween, display.alignCenter, globalStyles.px, classes.smPx, 
-                display.borderBox, responsive.mdPt3, responsive.mdPb2)} >
+                className={classNames("flex items-center justify-between py-4 px-5 text-white md:pt-12 md:pb-8", 
+                classes.headerHighlight, classes.smPx)} >
                 <div>
                     <Typography component="h1" variant="h6">Frontend Mentor</Typography>
-                    <Typography className={classNames(text.rem9, display.opacity9)}>Feedback Board</Typography>
+                    <Typography className={classNames("opacity-90 text-sm")}>Feedback Board</Typography>
                 </div>
                 <Hidden smUp>
                     <IconButton
                         onClick={toggleMenu}>
-                        { open ? <CloseIcon className={classNames(text.textLight)} /> : <MenuIcon className={classNames(text.textLight)} /> }
+                        { open ? <CloseIcon className={classNames("text-white")} /> : <MenuIcon className={classNames("text-white")} /> }
                     </IconButton>
                 </Hidden>
             </div>
@@ -134,7 +128,7 @@ const Header = () => {
                     onClose={closeMenu}
                     classes={{ paper: classes.drawerPaper, root: classes.drawerRoot }}
                     >
-                    <div className={classNames(globalStyles.px, classes.drawerContent, display.pt2, display.pb2)}>
+                    <div className={classNames("px-5 py-8", classes.drawerContent)}>
                         { drawerContent }
                     </div>
                 </Drawer>

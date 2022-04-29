@@ -1,7 +1,7 @@
 import Header from 'src/components/Header'
 import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from 'src/styles'
-import classes from 'src/styles/home.module.css'
+import classes from 'src/styles/Home.module.css'
 import { Button, Grid, Hidden, List, ListItem, ListItemButton, ListItemText, ListItemIcon,
     Popover, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
