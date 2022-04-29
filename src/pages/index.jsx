@@ -9,7 +9,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FeedbackCard from 'src/components/FeedbackCard';
 import { useCallback, useMemo, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { selectAllProducts } from 'src/redux/selectors'
 
@@ -127,13 +127,15 @@ const Home = () => {
                             </span>
                         </Button>
                    </div>
-                   <Link to="/new-feedback">
-                        <Button
-                            className={classNames(classes.addFeedbackButton, text.capitalize, globalStyles.addFeedbackButton)}
-                            endIcon={<AddIcon />}
-                            variant="contained">
-                            Add feedback
-                        </Button>
+                   <Link href="/new-feedback">
+                        <a>
+                            <Button
+                                className={classNames(classes.addFeedbackButton, text.capitalize, globalStyles.addFeedbackButton)}
+                                endIcon={<AddIcon />}
+                                variant="contained">
+                                Add feedback
+                            </Button>
+                        </a>
                    </Link>
                     <Popover
                         id={id}

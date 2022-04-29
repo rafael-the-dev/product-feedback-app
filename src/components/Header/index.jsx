@@ -1,11 +1,11 @@
 import { Chip, Drawer, Hidden, IconButton, Paper, Typography } from '@mui/material';
 import classNames from 'classnames'
-import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
+import { useDisplay, useGlobalStyles, useResponsive, useTypography } from 'src/styles'
 import MenuIcon from '@mui/icons-material/Menu';
 import { useStyles } from './styles'
 import { useCallback, useMemo, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useSelector } from 'react-redux'
 import { selectAllProducts } from '../../redux/selectors'
 
@@ -70,9 +70,9 @@ const Header = () => {
                         display.alignCenter)}>
                         <Typography component="h2" className={classNames(classes.roadmapTitle)}>Roadmap</Typography>
                         <Link 
-                            to="/roadmap" 
+                            href="/roadmap" 
                             className={classNames(text.noUnderline, 'text-sky-600 hover:underline')}>
-                            View
+                            <a>View</a>
                         </Link>
                     </header>
                     <div className={classNames(display.w100, display.mt1)}>

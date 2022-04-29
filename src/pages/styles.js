@@ -1,5 +1,5 @@
 import { makeStyles } from '@mui/styles';
-import suggestionIcon from '../../assets/images/icons/icon-suggestions.svg'
+//import suggestionIcon from '..//images/icons/icon-suggestions.svg'
 
 export const useStyles = makeStyles(theme => ({ 
     toolsContainer: {
@@ -14,7 +14,7 @@ export const useStyles = makeStyles(theme => ({
     },
     totalSuggestions: {
         '&::before': {
-            backgroundImage: `url(${suggestionIcon})`,
+            backgroundImage: `url(/images/icons/icon-suggestions.svg)`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'contain',
             content: '""',

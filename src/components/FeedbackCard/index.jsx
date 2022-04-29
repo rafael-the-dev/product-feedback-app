@@ -1,12 +1,14 @@
 import { Chip, Grid, Hidden, Paper, Typography } from '@mui/material'
 import classNames from 'classnames'
-import { useBackground, useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
+import { useBackground, useDisplay, useGlobalStyles, useResponsive, useTypography } from 'src/styles'
 import { useStyles } from './styles'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom'
+//import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { incrementUpvotes } from '../../redux/actions';
+import { incrementUpvotes } from 'src/redux/actions';
+
+import { useRouter } from 'next/router'
 
 const FeedbackCard = ({ comments, category, description, id, title, upvotes, isClickable }) => {
     const bg = useBackground();
@@ -16,6 +18,7 @@ const FeedbackCard = ({ comments, category, description, id, title, upvotes, isC
     const responsive = useResponsive();
     const text = useTypography();
 
+    const router = useRouter();
     const dispatch = useDispatch();
     
     const editClickHandler = useCallback(() => {
@@ -44,14 +47,14 @@ const FeedbackCard = ({ comments, category, description, id, title, upvotes, isC
         </button>
     ), [ bg, comments, classes, display, text ]);
     
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const clickHandler = useCallback(event => {
         if(!['increase-upvotes', 'increase-upvotes-icon', 'increase-upvotes-text'].includes(event.target.id)) {
             if(clickHandler) {
-                navigate(`/feedbacks/${id}`)
+                router.push(`/feedbacks/${id}`)
             }
         }
-    }, [ id, navigate ]);
+    }, [ id, router ]);
 
     return (
         <Grid component="article" item xs={12}>
