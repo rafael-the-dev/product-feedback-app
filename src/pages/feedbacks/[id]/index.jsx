@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useDisplay, useGlobalStyles, useTypography } from 'src/styles'
+import globalStyles from 'src/styles/global-styles.module.css'
 import classes from './styles.module.css'
 import { Button, Grid, IconButton, Paper, Snackbar, Typography } from '@mui/material';
 import FeedbackCard from 'src/components/FeedbackCard'
@@ -20,9 +20,9 @@ const FeedbackDetails = () => {
     const { id } = router.query;
 
     //const classes = useStyles();
-    const display = useDisplay();
-    const globalStyles = useGlobalStyles();
-    const text = useTypography();
+    //const display = useDisplay();
+    //const globalStyles = useGlobalStyles();
+    //const text = useTypography();
 
     const dispatch = useDispatch();
     const feedbacksList = useSelector(selectAllProducts);

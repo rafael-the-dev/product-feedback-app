@@ -12,6 +12,28 @@ a {
   background-color: #F2F4FF;
 }
 
+.categories {
+  padding: .2rem .3rem !important;
+}
+
+.categories .MuiOutlinedInput-root {
+  background-color: #F7F8FD;
+  border-radius: 12px !important;
+}
+      
+.categories .MuiSelect-select {
+  color: #647196;
+  padding: .8rem 1rem !important;
+}
+
+.categories .MuiSelect-select .listIcon {
+  display: none !important;
+}
+  
+.categories .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+
 @media screen  and (min-width: 900px){
   #root {
       align-items: flex-start;

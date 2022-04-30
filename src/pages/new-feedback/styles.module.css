@@ -5,35 +5,17 @@
 }
     
 .labelDescription {
+    font-size: .96rem;
     font-weight: 500;
-    line-height: '1.4rem';
-    margin-top: 8;
+    line-height: 1.4rem;
+    margin-top: 8px;
 }
 
 .input {
     background-color: #F7F8FD;
     border-radius: 12px;
-    padding: .8rem 1rem;
-}
-    
-.categories .MuiOutlinedInput-root {
-    background-color: #F7F8FD;
-    border-radius: 12px !important;
-}
-        
-.categories .MuiSelect-select {
-    color: #647196;
-    padding: .8rem 1rem !important;
-}
-
-.categories .MuiSelect-select .listIcon {
-    display: 'none !important'
-}
-    
-.categories .MuiOutlinedInput-notchedOutline {
-    border: none !important;
-}
-    
+    padding: 1rem;
+}  
 
 .listItem {
     border-bottom: 1px solid #97979757 !important;

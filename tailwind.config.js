@@ -1,9 +1,13 @@
 module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}"
+    "./src/pages/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
+      fontSize: {
+        "sm": "0.93rem"
+      },
       spacing: {
         "5": "5%"
       }

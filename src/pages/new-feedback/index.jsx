@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useGlobalStyles } from 'src/styles'
+import globalStyles from 'src/styles/global-styles.module.css'
 import classes from './styles.module.css'
 import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, MenuItem, Paper, 
     Snackbar, Typography, TextField } from '@mui/material';
@@ -23,7 +23,7 @@ const NewFeedback = () => {
 
     //const classes = useStyles();
     //const display = useDisplay();
-    const globalStyles = useGlobalStyles();
+    //const globalStyles = useGlobalStyles();
     //const responsive = useResponsive();
     //const text = useTypography();
     
@@ -134,6 +134,7 @@ const NewFeedback = () => {
     }, [ feedbacksList, id, setValue ]);
 
     return (
+        <>
         <main className={classNames("px-5 py-12 md:px-0 md:mx-auto", classes.main)}>
             <div className={classNames("mb-12")}>
                 <Link href={ feedback.id ? `/feedbacks/${id}` : '/' }>
@@ -151,7 +152,7 @@ const NewFeedback = () => {
                     <Avatar className={classNames(classes.avatar, 'absolute top-0 left-0')}><AddIcon /></Avatar>
                 <fieldset className={classNames("pt-4")}>
                     <Typography component="fieldset" variant="h6" className={classNames("capitalize font-bold",
-                        globalStyles.darkBlueColor, )}>
+                        globalStyles.darkBlueColor)}>
                         Create New Feedback
                     </Typography>
                     <div className={classNames("mt-4")}>
@@ -166,7 +167,7 @@ const NewFeedback = () => {
                         </label>
                         <input 
                             className={classNames(classes.input, 
-                            'box-border mt-4 outline-none w-full', globalStyles.darkBlueColor, 
+                            'box-border mt-4 outline-none w-full text-sm', globalStyles.darkBlueColor, 
                             { 'border border-red-600': Boolean(errors['feadback-title']), 'border-0':  !Boolean(errors['feadback-title'])})}
                             placeholder="enter feedback title"
                             {...register("feadback-title", { required: true })}
@@ -195,7 +196,7 @@ const NewFeedback = () => {
                             select
                             fullWidth
                             value={category}
-                            className={classNames("mt-4", classes.input, classes.categories)}
+                            className={classNames("mt-4 categories", classes.input, classes.categories)}
                             classes={{ root: globalStyles.borderRadius }}
                             {...register("feadback-category", { required: true })}
                             onChange={handleChange(setCategory)}
@@ -215,7 +216,7 @@ const NewFeedback = () => {
                     </div>
                     {
                         feedback.id && (
-                            <div>
+                            <div className="mt-8">
                                 <label 
                                     htmlFor='feadback-status' 
                                     className={classNames(globalStyles.darkBlueColor, classes.label, 'capitalize font-bold')}
@@ -230,7 +231,7 @@ const NewFeedback = () => {
                                     select
                                     fullWidth
                                     value={status}
-                                    className={classNames("mt-4", classes.input, classes.categories)}
+                                    className={classNames("mt-4 categories", classes.input, classes.categories)}
                                     classes={{ root: globalStyles.borderRadius }}
                                     {...register("feadback-status", { required: true })}
                                     onChange={handleChange(setStatus)}
@@ -263,7 +264,7 @@ const NewFeedback = () => {
                         </label>
                         <textarea 
                             className={classNames(classes.input,
-                            'box-border mt-4 outline-none w-full', globalStyles.darkBlueColor,
+                            'box-border mt-4 outline-none w-full text-sm', globalStyles.darkBlueColor,
                             { 'border border-red-600': Boolean(errors['feadback-detail']), 'border-0':  !Boolean(errors['feadback-detail'])})} 
                             placeholder='enter feedback detail'
                             rows={5}
@@ -382,6 +383,7 @@ const NewFeedback = () => {
                     }
                 />
         </main>
+        </>
     );
 };
 
