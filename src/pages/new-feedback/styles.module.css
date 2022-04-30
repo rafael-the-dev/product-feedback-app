@@ -1,0 +1,40 @@
+  
+.avatar {
+    background-image: linear-gradient(205deg, #E84D70, #A337F6, #28A7ED);
+    transform: translate(3%, -50%);
+}
+    
+.labelDescription {
+    font-weight: 500;
+    line-height: '1.4rem';
+    margin-top: 8;
+}
+
+.input {
+    background-color: #F7F8FD;
+    border-radius: 12px;
+    padding: .8rem 1rem;
+}
+    
+.categories .MuiOutlinedInput-root {
+    background-color: #F7F8FD;
+    border-radius: 12px !important;
+}
+        
+.categories .MuiSelect-select {
+    color: #647196;
+    padding: .8rem 1rem !important;
+}
+
+.categories .MuiSelect-select .listIcon {
+    display: 'none !important'
+}
+    
+.categories .MuiOutlinedInput-notchedOutline {
+    border: none !important;
+}
+    
+
+.listItem {
+    border-bottom: 1px solid #97979757 !important;
+}

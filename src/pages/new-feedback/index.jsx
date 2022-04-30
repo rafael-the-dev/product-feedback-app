@@ -1,31 +1,36 @@
 import classNames from 'classnames';
-import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
-import { useStyles } from './styles'
+import { useGlobalStyles } from 'src/styles'
+import classes from './styles.module.css'
 import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, MenuItem, Paper, 
     Snackbar, Typography, TextField } from '@mui/material';
 import { useMemo, useRef, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+//import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useCallback, useEffect } from 'react'
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux'
-import { addProduct, editFeedback, removeFeedback } from '../../redux/actions'
-import { selectAllProducts } from '../../redux/selectors';
+import { addProduct, editFeedback, removeFeedback } from 'src/redux/actions'
+import { selectAllProducts } from 'src/redux/selectors';
 import CloseIcon from '@mui/icons-material/Close';
 
 const NewFeedback = () => {
-    const classes = useStyles();
-    const display = useDisplay();
+    const router = useRouter();
+    const { id } = router.query;
+
+    //const classes = useStyles();
+    //const display = useDisplay();
     const globalStyles = useGlobalStyles();
-    const responsive = useResponsive();
-    const text = useTypography();
+    //const responsive = useResponsive();
+    //const text = useTypography();
     
-    const { search } = useLocation();
-    const navigate = useNavigate()
-    const query = new URLSearchParams(search);
-    const id = query.get('id');
+    //const { search } = useLocation();
+    //const navigate = useNavigate()
+    //const query = new URLSearchParams(search);
+    //const id = query.get('id');
 
     const dispatch = useDispatch();
     const feedbacksList = useSelector(selectAllProducts);
@@ -90,8 +95,8 @@ const NewFeedback = () => {
 
     const deleteClickHandler = useCallback(() => {
         dispatch(removeFeedback(feedback))
-        navigate('/')
-    }, [ dispatch, feedback, navigate, ]);
+        router.push('/')
+    }, [ dispatch, feedback, router, ]);
 
     const editClickHandler = useCallback(() => {
         dispatch(editFeedback({
@@ -129,41 +134,39 @@ const NewFeedback = () => {
     }, [ feedbacksList, id, setValue ]);
 
     return (
-        <main className={classNames(globalStyles.px, display.pt3, display.pb3, classes.main,
-            responsive.mdPl0, responsive.mdPr0)}>
-            <div className={classNames(display.mb3)}>
-                <Link to={ feedback.id ? `/feedbacks/${id}` : '/' }>
-                    <Button 
-                        startIcon={<ArrowBackIosNewIcon />}
-                        className={classNames(globalStyles.darkBlueColor, text.capitalize, text.font7)}>
-                        Go back
-                    </Button>
+        <main className={classNames("px-5 py-12 md:px-0 md:mx-auto", classes.main)}>
+            <div className={classNames("mb-12")}>
+                <Link href={ feedback.id ? `/feedbacks/${id}` : '/' }>
+                    <a>
+                        <Button 
+                            startIcon={<ArrowBackIosNewIcon />}
+                            className={classNames("capitalize font-bold", globalStyles.darkBlueColor)}>
+                            Go back
+                        </Button>
+                    </a>
                 </Link>
             </div>
-            <Paper elevation={0} component="form" className={classNames(globalStyles.px, display.pb2,
-                globalStyles.borderRadius, 'relative')}
+            <Paper elevation={0} component="form" className={classNames(globalStyles.borderRadius, 'px-5 pb-8 relative')}
                 onSubmit={handleSubmit(onSubmit)} >
-                    <Avatar className={classNames(display.absolute, classes.avatar, 'top-0', 'left-0')}><AddIcon /></Avatar>
-                <fieldset className={classNames(display.pt1)}>
-                    <Typography component="fieldset" variant="h6" className={classNames(text.font7, text.capitalize,
+                    <Avatar className={classNames(classes.avatar, 'absolute top-0 left-0')}><AddIcon /></Avatar>
+                <fieldset className={classNames("pt-4")}>
+                    <Typography component="fieldset" variant="h6" className={classNames("capitalize font-bold",
                         globalStyles.darkBlueColor, )}>
                         Create New Feedback
                     </Typography>
-                    <div className={classNames(display.mt1)}>
+                    <div className={classNames("mt-4")}>
                         <label 
-                            htmlFor='feadback-title' className={classNames(globalStyles.darkBlueColor, classes.label,
-                            text.font7)}
+                            htmlFor='feadback-title' className={classNames("font-bold", globalStyles.darkBlueColor, classes.label)}
                             onClick={() => setFocus("feadback-title")}>
                             Feedback Title
                             <br/>
-                            <span className={classNames(classes.labelDescription, globalStyles.lightBlueColor,
-                                display.block)}>
+                            <span className={classNames("block", classes.labelDescription, globalStyles.lightBlueColor)}>
                                 Add a short, descriptive headline
                             </span>
                         </label>
                         <input 
-                            className={classNames(display.outlineNone, classes.input, display.w100,
-                            'box-border', display.mt1, globalStyles.darkBlueColor, 
+                            className={classNames(classes.input, 
+                            'box-border mt-4 outline-none w-full', globalStyles.darkBlueColor, 
                             { 'border border-red-600': Boolean(errors['feadback-title']), 'border-0':  !Boolean(errors['feadback-title'])})}
                             placeholder="enter feedback title"
                             {...register("feadback-title", { required: true })}
@@ -177,16 +180,14 @@ const NewFeedback = () => {
                             </label>
                         )}
                     </div>
-                    <div className={classNames(display.mt2)}>
+                    <div className={classNames("mt-8")}>
                         <label 
                             htmlFor='feadback-category' 
-                            className={classNames(globalStyles.darkBlueColor, classes.label,
-                            text.font7)}
+                            className={classNames(globalStyles.darkBlueColor, classes.label, "font-bold")}
                             onClick={() => setFocus("feadback-category")}>
                             Category
                             <br/>
-                            <span className={classNames(classes.labelDescription, globalStyles.lightBlueColor,
-                                display.block)}>
+                            <span className={classNames("block", classes.labelDescription, globalStyles.lightBlueColor)}>
                                 Choose a category for your feedback
                             </span>
                         </label>
@@ -194,7 +195,7 @@ const NewFeedback = () => {
                             select
                             fullWidth
                             value={category}
-                            className={classNames(classes.input, display.mt1, classes.categories)}
+                            className={classNames("mt-4", classes.input, classes.categories)}
                             classes={{ root: globalStyles.borderRadius }}
                             {...register("feadback-category", { required: true })}
                             onChange={handleChange(setCategory)}
@@ -203,8 +204,7 @@ const NewFeedback = () => {
                                 <MenuItem 
                                     key={option.value} 
                                     value={option.value} 
-                                    className={classNames(globalStyles.listItem, classes.listItem, display.flex, 
-                                    display.alignCenter, display.justifyBetween)}>
+                                    className={classNames("flex items-center justify-between", globalStyles.listItem, classes.listItem)}>
                                     {option.label}
                                     { category === option.value && (
                                         <CheckIcon classes={{ root: classNames(globalStyles.listIcon, 'listIcon') }} />
@@ -218,13 +218,11 @@ const NewFeedback = () => {
                             <div>
                                 <label 
                                     htmlFor='feadback-status' 
-                                    className={classNames(globalStyles.darkBlueColor, classes.label,
-                                    text.font7, 'capitalize')}
+                                    className={classNames(globalStyles.darkBlueColor, classes.label, 'capitalize font-bold')}
                                     onClick={() => setFocus("feadback-status")}>
                                     Update status
                                     <br/>
-                                    <span className={classNames(classes.labelDescription, globalStyles.lightBlueColor,
-                                        display.block)}>
+                                    <span className={classNames("block", classes.labelDescription, globalStyles.lightBlueColor)}>
                                         Change feature state
                                     </span>
                                 </label>
@@ -232,7 +230,7 @@ const NewFeedback = () => {
                                     select
                                     fullWidth
                                     value={status}
-                                    className={classNames(classes.input, display.mt1, classes.categories)}
+                                    className={classNames("mt-4", classes.input, classes.categories)}
                                     classes={{ root: globalStyles.borderRadius }}
                                     {...register("feadback-status", { required: true })}
                                     onChange={handleChange(setStatus)}
@@ -241,8 +239,7 @@ const NewFeedback = () => {
                                         <MenuItem 
                                             key={option.value} 
                                             value={option.value} 
-                                            className={classNames(globalStyles.listItem, classes.listItem, display.flex, 
-                                            display.alignCenter, display.justifyBetween, 'capitalize')}>
+                                            className={classNames(globalStyles.listItem, classes.listItem, 'capitalize flex items-center justify-between')}>
                                             {option.label}
                                             { status === option.value && (
                                                 <CheckIcon classes={{ root: classNames(globalStyles.listIcon, 'listIcon') }} />
@@ -253,21 +250,20 @@ const NewFeedback = () => {
                             </div>
                         )
                     }
-                    <div className={classNames(display.mt2)}>
+                    <div className={classNames("mt-8")}>
                         <label 
                             htmlFor='feadback-detail' className={classNames(globalStyles.darkBlueColor, classes.label,
-                            text.font7)}
+                            "font-bold")}
                             onClick={() => setFocus("feadback-detail")}>
                             Feedback Detail
                             <br/>
-                            <span className={classNames(classes.labelDescription, globalStyles.lightBlueColor,
-                                display.block)}>
+                            <span className={classNames("block", classes.labelDescription, globalStyles.lightBlueColor)}>
                                 Include any specific comments on what should be improved, added, etc.
                             </span>
                         </label>
                         <textarea 
-                            className={classNames(display.outlineNone, classes.input, display.w100,
-                            'box-border', display.mt1, globalStyles.darkBlueColor,
+                            className={classNames(classes.input,
+                            'box-border mt-4 outline-none w-full', globalStyles.darkBlueColor,
                             { 'border border-red-600': Boolean(errors['feadback-detail']), 'border-0':  !Boolean(errors['feadback-detail'])})} 
                             placeholder='enter feedback detail'
                             rows={5}
@@ -283,54 +279,58 @@ const NewFeedback = () => {
                         )}
                     </div>
                     { feedback.id ? (
-                        <div className={classNames('flex flex-col justify-between items-stretch sm:flex-row-reverse', 
-                            'sm:items-center', display.w100, display.mt2, classes.buttonsContainer,)}>
+                        <div className={classNames(`flex flex-col justify-between items-stretch sm:flex-row-reverse 
+                            sm:items-center mt-8 w-full`, classes.buttonsContainer,)}>
                             <div className={classNames('flex flex-col items-stretch sm:flex-row-reverse')}>
                                 <Button 
                                     variant="contained"
                                     type="button"
-                                    className={classNames(globalStyles.button, text.capitalize, 
-                                    display.mb1, globalStyles.addFeedbackButton, responsive.smMt0, responsive.smMb0)}
+                                    className={classNames(`capitalize mb-4 sm:my-0`, globalStyles.button, 
+                                    globalStyles.addFeedbackButton)}
                                     onClick={editClickHandler}>
                                     Save changes
                                 </Button>
-                                <Link to={`/`}>
-                                    <Button 
-                                        variant="contained"
-                                        type="button"
-                                        className={classNames(globalStyles.cancelFeedbackButton, text.capitalize, 
-                                            globalStyles.button, responsive.smMr1)}>
-                                        cancel
-                                    </Button>
+                                <Link href={`/`}>
+                                    <a>
+                                        <Button 
+                                            variant="contained"
+                                            type="button"
+                                            className={classNames("capitalize sm:mr-4", globalStyles.cancelFeedbackButton, 
+                                                globalStyles.button)}>
+                                            cancel
+                                        </Button>
+                                    </a>
                                 </Link>
                             </div>
                             <Button 
                                 variant="contained"
                                 type="button"
-                                className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
-                                globalStyles.button, display.mt1, responsive.smMt0, 'hover:opacity-80')}
+                                className={classNames(globalStyles.deleteFeedbackButton, 
+                                globalStyles.button, 'capitalize mt-4 sm:mt-0 hover:opacity-80')}
                                 onClick={() => setOpenDeleteDialog(true)}>
                                 Delete
                             </Button>
                         </div>
                     ) : (
                         <div className={classNames('flex flex-col items-stretch sm:items-center md:flex-row-reverse', 
-                            display.w100, display.mt2, classes.buttonsContainer)}>
+                            "mt-8 w-full", classes.buttonsContainer)}>
                             <Button 
                                 variant="contained"
                                 type="submit"
-                                className={classNames(globalStyles.addFeedbackButton, text.capitalize, 
+                                className={classNames("capitalize", globalStyles.addFeedbackButton, 
                                     globalStyles.button)}>
                                 Add Feedback
                             </Button>
-                            <Link to="/">
-                                <Button 
-                                    variant="contained"
-                                    type="button"
-                                    className={classNames(globalStyles.button, text.capitalize, 
-                                    display.mt1, globalStyles.cancelFeedbackButton, responsive.smMt0, responsive.smMr1)}>
-                                    Cancel
-                                </Button>
+                            <Link href="/">
+                                <a>
+                                    <Button 
+                                        variant="contained"
+                                        type="button"
+                                        className={classNames(`capitalize mt-4 sm:mt-0 sm:mr-4`, globalStyles.button, 
+                                        globalStyles.cancelFeedbackButton)}>
+                                        Cancel
+                                    </Button>
+                                </a>
                             </Link>
                         </div>
                     )}
@@ -350,16 +350,16 @@ const NewFeedback = () => {
                         <Button 
                             variant="contained"
                             type="button"
-                            className={classNames(globalStyles.cancelFeedbackButton, text.capitalize, 
-                            globalStyles.button, responsive.smMr1)}
+                            className={classNames("capitalize sm:mr-4", globalStyles.cancelFeedbackButton, 
+                            globalStyles.button)}
                             onClick={closeDeleteDialog}>
                             cancel
                         </Button>
                         <Button 
                             variant="contained"
                             type="button"
-                            className={classNames(globalStyles.deleteFeedbackButton, text.capitalize, 
-                            globalStyles.button, 'hover:opacity-80')}
+                            className={classNames(globalStyles.deleteFeedbackButton, 
+                            globalStyles.button, 'capitalize hover:opacity-80')}
                             onClick={deleteClickHandler}>
                             Delete
                         </Button>     
