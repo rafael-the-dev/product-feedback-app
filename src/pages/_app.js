@@ -13,6 +13,7 @@ import Layout from 'src/components/Layout';
 import 'src/styles/reset.css'
 import 'src/styles/globals.css'
 import 'src/styles/tailwind.css'
+import { AppContextProvider } from 'src/context/AppContext';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -26,15 +27,17 @@ function MyApp(props) {
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
             <Provider store={store}>
-                <CacheProvider value={emotionCache}>
-                    <ThemeProvider theme={theme}>
-                        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                        <CssBaseline />
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
-                    </ThemeProvider>
-                </CacheProvider>
+                <AppContextProvider>
+                    <CacheProvider value={emotionCache}>
+                        <ThemeProvider theme={theme}>
+                            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                            <CssBaseline />
+                            <Layout>
+                                <Component {...pageProps} />
+                            </Layout>
+                        </ThemeProvider>
+                    </CacheProvider>
+                </AppContextProvider>
             </Provider>
         </>
     );
