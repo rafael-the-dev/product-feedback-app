@@ -1,22 +1,18 @@
 import classNames from 'classnames';
 import { useCallback, useMemo, useState } from 'react';
-import { useBackground, useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
-import { useStyles } from './styles'
-import RoadmapFeedbackCard from '../../components/RoadmapFeedbackCard';
+import globalStyles from 'src/styles/global-styles.module.css'
+import classes from './styles.module.css'
+import RoadmapFeedbackCard from 'src/components/RoadmapFeedbackCard';
 import { Button, Hidden, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { useSelector } from 'react-redux'
-import { selectAllProducts} from '../../redux/selectors'
+import { selectAllProducts} from 'src/redux/selectors'
 
 const Roadmap = () => {
-    const bg = useBackground();
-    const classes = useStyles();
-    const display = useDisplay();
-    const globalStyles = useGlobalStyles();
-    const responsive = useResponsive();
-    const text = useTypography();
+    //const classes = useStyles();
 
     const feedbacksList = useSelector(selectAllProducts);
 
@@ -62,115 +58,113 @@ const Roadmap = () => {
     }, [ feedbacksList ]);
 
     const inProgressFeedbacksSection = useMemo(() => (
-        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.mdPt0, responsive.mdPl0,
-            responsive.mdPr0)}>
+        <section className={classNames("px-5 pb-12 pt-8 md:px-0 md:pt-0")}>
             <div>
-                <Typography gutterBottom component="h2" variant="h6" className={classNames(text.font7, classes.darkBlueColor)}>
+                <Typography gutterBottom component="h2" variant="h6" className={classNames("font-bold", classes.darkBlueColor)}>
                 In-Progress ({ plansTotal.inProgress })
                 </Typography>
-                <Typography gutterBottom className={classNames(text.rem9, classes.description)}>
+                <Typography gutterBottom className={classNames("text-sm", classes.description)}>
                     Currently being developed
                 </Typography>
             </div>
-            <div className={classNames(display.mt2, classes.cardsGrid)}>
+            <div className={classNames("mt-8", classes.cardsGrid)}>
                 { inProgressFeedbacks }
             </div>
         </section>
-    ), [ classes, display, globalStyles, inProgressFeedbacks, plansTotal, responsive, text ]);
+    ), [ inProgressFeedbacks, plansTotal ]);
 
     const liveFeedbacksSection = useMemo(() => (
-        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.mdPt0, responsive.mdPl0,
-            responsive.mdPr0)}>
+        <section className={classNames("px-5 pb-12 pt-8 md:px-0 md:pt-0")}>
             <div>
-                <Typography gutterBottom component="h2" variant="h6" className={classNames(text.font7, classes.darkBlueColor)}>
+                <Typography gutterBottom component="h2" variant="h6" className={classNames("font-bold", classes.darkBlueColor)}>
                     Live ({ plansTotal.live })
                 </Typography>
-                <Typography gutterBottom className={classNames(text.rem9, classes.description)}>
+                <Typography gutterBottom className={classNames("text-sm", classes.description)}>
                     Released features
                 </Typography>
             </div>
-            <div className={classNames(display.mt2, classes.cardsGrid)}>
+            <div className={classNames("mt-8", classes.cardsGrid)}>
                 { liveFeedbacks }
             </div>
         </section>
-    ), [ classes, display, globalStyles, liveFeedbacks, plansTotal, responsive, text ]);
+    ), [ liveFeedbacks, plansTotal ]);
 
     const plannedFeedbacksSection = useMemo(() => (
-        <section className={classNames(globalStyles.px, display.pb3, display.pt2, responsive.mdPt0, responsive.mdPl0,
-        responsive.mdPr0)}>
+        <section className={classNames("px-5 pb-12 pt-8 md:px-0 md:pt-0")}>
             <div>
-                <Typography gutterBottom component="h2" variant="h6" className={classNames(text.font7, classes.darkBlueColor)}>
+                <Typography gutterBottom component="h2" variant="h6" className={classNames("font-bold", classes.darkBlueColor)}>
                     Planned ({ plansTotal.planned })
                 </Typography>
-                <Typography gutterBottom className={classNames(text.rem9, classes.description)}>
+                <Typography gutterBottom className={classNames("text-sm", classes.description)}>
                     Ideas prioritized for research
                 </Typography>
             </div>
-            <div className={classNames(display.mt2, classes.cardsGrid)}>
+            <div className={classNames("mt-8", classes.cardsGrid)}>
                 { plannedFeedbacks }
             </div>
         </section>
-    ), [ classes, display, globalStyles, plannedFeedbacks, plansTotal, responsive, text ]);
+    ), [ plannedFeedbacks, plansTotal ]);
 
     
     const statusClasses = useMemo(() => ({
         'in-progress': classes.inProgressStatus,
         live: classes.liveStatus,
         planned: classes.plannedStatus
-    }), [ classes ]);
+    }), [ ]);
 
     const tabClickHandler = useCallback(prop => () => setStatus(prop), [])
 
     const TabButton = useCallback(({ label, statusType, status }) => (
         <button 
             onClick={tabClickHandler(statusType)}
-            className={classNames(display.outlineNone, bg.transparent,
-            classes.tabButton, text.font7, display.pt1, display.pb1, { [statusClasses[status]]: status === statusType })}>
+            className={classNames(`bg-transparent font-bold outline-none py-4`, 
+            classes.tabButton, { [statusClasses[status]]: status === statusType })}>
             { label }
         </button>
-    ), [ bg, classes, display, statusClasses, tabClickHandler, text ]);
+    ), [ statusClasses, tabClickHandler ]);
 
     const tabs = useMemo(() => (
-        <div className={classNames(classes.tab, display.flex)}>
+        <div className={classNames(classes.tab, "flex")}>
             <TabButton status={status} statusType="planned" label={`Planned (${plansTotal.planned})`}/>
             <TabButton status={status} statusType="in-progress" label={`In-Progress (${plansTotal.inProgress})`}/>
             <TabButton status={status} statusType="live" label={`Live (${plansTotal.live})`}/>
         </div>
-    ), [ classes, display, plansTotal, status ]);
+    ), [ plansTotal, status ]);
 
     const headerBar = useMemo(() => (
-        <div className={classNames(display.flex, display.alignCenter, display.justifyBetween,
-            globalStyles.px, classes.toolsContainer)}>
-            <div className={classNames(display.flex, display.flexColumn)}>
-                <Link to="/" className={classNames('hover:underline')}>
-                    <Button 
-                        startIcon={<ArrowBackIosNewIcon />} 
-                        className={classNames(text.textLight, text.capitalize, display.pl0, display.pr0)}>
-                        Go back
-                    </Button>
+        <div className={classNames("flex items-center justify-between px-5",classes.toolsContainer)}>
+            <div className={classNames("flex flex-col")}>
+                <Link href="/" className={classNames('hover:underline')}>
+                    <a>
+                        <Button 
+                            startIcon={<ArrowBackIosNewIcon />} 
+                            className={classNames("capitalize px-0 text-white")}>
+                            Go back
+                        </Button>
+                    </a>
                 </Link>
-                <Typography component="h2" variant="h6" className={classNames(text.textLight, text.font7)}>
+                <Typography component="h2" variant="h6" className={classNames("font-bold text-white")}>
                     Roadmap
                 </Typography>
             </div>
             <Button
-                className={classNames(globalStyles.button, globalStyles.addFeedbackButton, text.capitalize)}
+                className={classNames("capitalize", globalStyles.button, globalStyles.addFeedbackButton)}
                 endIcon={<AddIcon />}
                 variant="contained">
                 Add feedback
             </Button>
         </div>
-    ), [ classes, display, globalStyles, text ]);
+    ), [ ]);
 
     const cardsGrid = useMemo(() => (
         <Hidden mdDown>
-            <div className={classNames(classes.grid, display.mt3, display.justifyBetween)}>
+            <div className={classNames("mt-12 justify-between", classes.grid)}>
                 { plannedFeedbacksSection }
                 { inProgressFeedbacksSection }
                 { liveFeedbacksSection }
             </div>
         </Hidden>
-    ), [ classes, display, inProgressFeedbacksSection, plannedFeedbacksSection, liveFeedbacksSection ])
+    ), [ inProgressFeedbacksSection, plannedFeedbacksSection, liveFeedbacksSection ])
 
     return (
         <>
