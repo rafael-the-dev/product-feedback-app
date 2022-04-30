@@ -29,23 +29,22 @@ const FeedbackCard = ({ comments, category, description, id, title, upvotes, isC
 
     const toggleButton = useMemo(() => (
         <button 
-            className={classNames(display.borderNone, display.outlineNone, classes.button,
-            display.flex, display.alignCenter, responsive.smColumn)}
+            className={classNames("border-0 flex items-center outline-none sm:flex-col", classes.button)}
             id="increase-upvotes"
             onClick={editClickHandler}>
             <KeyboardArrowDownIcon id="increase-upvotes-icon" className={classNames('rotate-180', classes.buttonArrow)} />
-            <span id="increase-upvotes-text" className={classNames(classes.darkBlueColor, text.font7, classes.buttonText)}>
+            <span id="increase-upvotes-text" className={classNames("font-bold", classes.darkBlueColor, classes.buttonText)}>
                 { upvotes }
             </span>
         </button>
-    ), [ classes, display, editClickHandler, responsive, text, upvotes ]);
+    ), [ classes, editClickHandler, upvotes ]);
 
     const commentButton = useMemo(() => (
-        <button className={classNames(display.borderNone, display.outlineNone, classes.commentButton,
-            bg.transparent, classes.darkBlueColor, text.font7, display.flex, display.alignCenter)}>
+        <button className={classNames("border-0 bg-transparent flex font-bold items-center outline-none", classes.commentButton,
+            classes.darkBlueColor)}>
             { comments ? comments.length : 0 }
         </button>
-    ), [ bg, comments, classes, display, text ]);
+    ), [ comments, classes ]);
     
     //const navigate = useNavigate();
     const clickHandler = useCallback(event => {
@@ -61,25 +60,22 @@ const FeedbackCard = ({ comments, category, description, id, title, upvotes, isC
             <Paper 
                 elevation={0} 
                 onClick={clickHandler}
-                className={classNames(classes.paper, display.mb1, display.pb1, display.pt1,
-                globalStyles.px, responsive.smFlex, display.justifyBetween, display.alignStart,
+                className={classNames("justify-between items-start mb-4 px-5 py-4 sm:flex", classes.paper,
                 { [classes.clickablePaper]: isClickable })}>
                 <Hidden smDown>
                     { toggleButton }
                 </Hidden>
-                <div className={classNames(display.flexGrow1, classes.content, responsive.smMl1,
-                    responsive.smMr1, responsive.mdMl2)}>
+                <div className={classNames("grow sm:mx-4 md:ml-8", classes.content)}>
                     <Typography gutterBottom component="h2" variant="h6" className={classNames(classes.darkBlueColor)}>
                         { title }
                     </Typography>
-                    <Typography gutterBottom className={classNames(text.rem9, classes.description)}>
+                    <Typography gutterBottom className={classNames("text-sm", classes.description)}>
                         { description }
                     </Typography>
                     <Chip label={ category } className={classNames(classes.chip)} />
                 </div>
                 <Hidden smUp>
-                    <div className={classNames(display.flex, display.alignCenter, display.justifyBetween,
-                        display.mt1)}>
+                    <div className={classNames("flex items-center justify-between mt-4")}>
                         { toggleButton }
                         { commentButton }
                     </div>

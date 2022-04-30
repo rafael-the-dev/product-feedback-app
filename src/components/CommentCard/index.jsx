@@ -60,8 +60,8 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
 
     return (
         <Grid item xs={12} component="article" className={classNames({ [classes.gridItem]: isMainCommentCard })}>
-            <div className={classNames(display.pb1, display.mb1, classes.container, { 'grid-item-container': isMainCommentCard},
-                'items-start', responsive.smFlex, responsive.smMb2)}>
+            <div className={classNames("pb-4 mb-4", classes.container, { 'grid-item-container': isMainCommentCard},
+                'items-start sm:flex md:mb-8')}>
                 <Hidden smDown>
                     <Avatar 
                         src={process.env.PUBLIC_URL + '/images/user-images/' + user.image}
@@ -77,33 +77,33 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
                                     alt={user.name}
                                 />
                             </Hidden>
-                            <div className={classNames(display.ml1, responsive.smMl0)}>
+                            <div className={classNames("ml-4 sm:ml-0")}>
                                 <Typography 
                                     component="h3" 
-                                    className={classNames(globalStyles.darkBlueColor, text.font7)}>
+                                    className={classNames("font-bold", globalStyles.darkBlueColor)}>
                                         { user.name }
                                 </Typography>
                                 <Typography 
                                     component="p" 
-                                    className={classNames(text.rem9, globalStyles.lightBlueColor)}>
+                                    className={classNames("text-sm", globalStyles.lightBlueColor)}>
                                         @{ user.username }
                                 </Typography>
                             </div>
                         </div>
                         <Button 
-                            className={classNames(text.capitalize, globalStyles.blueColor, text.font7)}
+                            className={classNames("capitalize font-bold", globalStyles.blueColor)}
                             onClick={() => setOpenCollapse(b => !b)}>
                             { openCollapse ? 'cancel' : 'Reply' }
                         </Button>
                    </div>
                    <Typography 
                         component="p" 
-                        className={classNames(text.rem9, globalStyles.lightBlueColor, display.mt1)}>
-                        { replyingTo ? <span className={classNames(globalStyles.purpleColor, text.font7)}>@{ replyingTo }</span> : ''} { content }
+                        className={classNames("mt-4 text-sm", globalStyles.lightBlueColor)}>
+                        { replyingTo ? <span className={classNames("font-bold", globalStyles.purpleColor)}>@{ replyingTo }</span> : ''} { content }
                     </Typography>
                     <Collapse in={openCollapse} timeout="auto" unmountOnExit>
                        <form 
-                            className={classNames('flex items-start', display.mt1)}
+                            className={classNames('flex items-start mt-4')}
                             onSubmit={submitHandler}>
                             <textarea 
                                 className={classNames('border-none outline-none grow', globalStyles.input,
@@ -117,21 +117,21 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
                                 disabled={Boolean(!comment.trim())}
                                 variant="contained"
                                 type="submit"
-                                className={classNames(globalStyles.addFeedbackButton, text.capitalize, 
-                                    globalStyles.button, display.ml1)}>
+                                className={classNames("capitalize ml-4", globalStyles.addFeedbackButton, 
+                                    globalStyles.button)}>
                                 Post reply
                             </Button>
                        </form>
                     </Collapse>
                     { replies && (
                         <>
-                            <div className={classNames(display.flex, display.justifyEnd)}>
+                            <div className={classNames("flex justify-end")}>
                                 <IconButton onClick={() => setOpenCommentsCollapse(o => !o)}>
                                     { openCommetsCollapse ? <KeyboardArrowDownIcon classes={{ root: classes.arrowUp}} /> : <KeyboardArrowDownIcon />}
                                 </IconButton>
                             </div>
                             <Collapse  in={openCommetsCollapse} timeout="auto" unmountOnExit>
-                                <Grid container className={classNames(display.pl2, display.pt2)}>
+                                <Grid container className={classNames("pl-8 pt-8")}>
                                     {
                                         replies.map((item, index) => (
                                             <CommentCard key={index} { ...item } commentID={commentID} feedbackID={feedbackID} setOpenOpenCommentSnackbar={setOpenOpenCommentSnackbar} />
