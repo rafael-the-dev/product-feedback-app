@@ -5,24 +5,29 @@ const url = "mongodb+srv://rafael-the-dev:iH.-qJftk8g9cgc@cluster0.z64j5.mongodb
 const dbName = "myFirstDatabase";//config.get("mongoDBConfig.db");
 const collectionName = "productFeedback";//config.get("mongoDBConfig.collection");
 
+const dbConfig = { 
+    db: null,
+    isConnected: false 
+};
+
 const mongoDBConnection = new MongoClient(url);
 
 let clusterCollection = null;
 
-const createMongoDBConnection = async ({ dbConfigObj }) => {
+const createMongoDBConnection = async () => {
     let clusterDB;
     try {
 
         mongoDBConnection.on("connectionCreated", () => {
-            dbConfigObj.isConnected = true;
+            dbConfig.isConnected = true;
             clusterDB = mongoDBConnection.db(dbName);
             clusterCollection = clusterDB.collection(collectionName);
-            dbConfigObj.db = clusterCollection;
+            dbConfig.db = clusterCollection;
         });
 
         mongoDBConnection.on("close", () => {
-            dbConfigObj.db = null;
-            dbConfigObj.isConnected = false
+            dbConfig.db = null;
+            dbConfig.isConnected = false
         });
 
         await mongoDBConnection.connect();
@@ -34,4 +39,4 @@ const createMongoDBConnection = async ({ dbConfigObj }) => {
     return clusterDB;
 };
 
-module.exports = { createMongoDBConnection };    
+module.exports = { createMongoDBConnection, dbConfig };    

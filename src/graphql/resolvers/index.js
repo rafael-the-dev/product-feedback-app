@@ -1,19 +1,15 @@
 //import { apiHandler } from 'src/helpers/api-handler'
-const { createMongoDBConnection } = require("src/connections");
+const { dbConfig } = require("src/connections");
 
-let dbConfig = { 
-    db: null,
-    isConnected: false 
-};
-
-if(!dbConfig.isConnected) {
-    createMongoDBConnection({ dbConfigObj: dbConfig });
-}
 
 export const resolvers = {
     Query: {
-        feedbacks() {
-            return [];
+        async feedbacks() {
+            const { db }  = dbConfig;
+            if(db === null) throw new Error("DB not set");
+
+            const feedbacks = await db.find({ }).toArray();
+            return feedbacks;
         }
     }
 };
