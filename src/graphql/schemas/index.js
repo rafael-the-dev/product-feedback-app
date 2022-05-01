@@ -32,5 +32,6 @@ export const typeDefs = gql`
 
     type Query {
         feedbacks: [Feedback!]!
+        feedback(id: String): Feedback!
     }
 `;
