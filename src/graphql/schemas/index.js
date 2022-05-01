@@ -27,6 +27,10 @@ export const typeDefs = gql`
         description: String!
         status: String!
         title: String!
-        upVotes: Number!
+        upVotes: Int!
+    }
+
+    type Query {
+        feedbacks: [Feedback!]!
     }
 `;
