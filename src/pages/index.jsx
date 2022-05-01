@@ -2,7 +2,7 @@ import Header from 'src/components/Header'
 import classNames from 'classnames';
 import globalStyles from 'src/styles/global-styles.module.css'
 import classes from 'src/styles/Home.module.css'
-import { Button, Grid, Hidden, List, ListItem, ListItemButton, ListItemText, ListItemIcon,
+import { Button, Grid, Hidden, IconButton, List, ListItem, ListItemButton, ListItemText, ListItemIcon,
     Popover, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -128,12 +128,19 @@ const Home = () => {
                    </div>
                    <Link href="/new-feedback">
                         <a>
-                            <Button
-                                className={classNames("capitalize", classes.addFeedbackButton, globalStyles.addFeedbackButton)}
-                                endIcon={<AddIcon />}
-                                variant="contained">
-                                Add feedback
-                            </Button>
+                            <Hidden smDown>
+                                <Button
+                                    className={classNames("capitalize", classes.addFeedbackButton, globalStyles.addFeedbackButton)}
+                                    endIcon={<AddIcon />}
+                                    variant="contained">
+                                    Add feedback
+                                </Button>
+                            </Hidden>
+                            <Hidden smUp>
+                                <IconButton className={classNames("text-white", globalStyles.addFeedbackButton)}>
+                                    <AddIcon />
+                                </IconButton>
+                            </Hidden>
                         </a>
                    </Link>
                     <Popover
