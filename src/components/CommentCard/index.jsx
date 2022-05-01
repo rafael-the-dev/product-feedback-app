@@ -1,19 +1,15 @@
 import classNames from 'classnames';
-import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
-import { useStyles } from './styles'
+import globalStyles from 'src/styles/global-styles.module.css';
+import classes from './styles.module.css'
 import { Avatar, Button, Collapse, Grid, Hidden, IconButton, Typography } from '@mui/material';
 import { useCallback, useContext, useRef, useState } from 'react';
-import { AppContext } from '../../context/AppContext';
-import { replayComment } from '../../redux/actions'
+import { AppContext } from 'src/context/AppContext';
+import { replayComment } from 'src/redux/actions'
 import { useDispatch } from 'react-redux'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, replyingTo, user,  feedbackID, setOpenOpenCommentSnackbar }) => {
-    const classes = useStyles();
-    const display = useDisplay();
-    const globalStyles = useGlobalStyles();
-    const responsive = useResponsive();
-    const text = useTypography(); 
+    //const globalStyles = useGlobalStyles();
 
     const dispatch = useDispatch();
 
@@ -64,16 +60,16 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
                 'items-start sm:flex md:mb-8')}>
                 <Hidden smDown>
                     <Avatar 
-                        src={process.env.PUBLIC_URL + '/images/user-images/' + user.image}
+                        src={'/images/user-images/' + user.image}
                         alt={user.name}
                     />
                 </Hidden>
-                <div className={classNames(responsive.smMl2, 'grow')}>
+                <div className={classNames('grow sm:ml-8')}>
                    <div className={classNames('flex', 'justify-between', 'items-center')}>
                         <div className={classNames('flex', 'justify-between', 'items-center')}>
                             <Hidden smUp>
                                 <Avatar 
-                                    src={process.env.PUBLIC_URL + '/images/user-images/' + user.image}
+                                    src={'/images/user-images/' + user.image}
                                     alt={user.name}
                                 />
                             </Hidden>

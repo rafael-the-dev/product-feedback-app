@@ -1,6 +1,6 @@
 import Header from 'src/components/Header'
 import classNames from 'classnames';
-import { useDisplay, useGlobalStyles, useResponsive, useTypography } from 'src/styles'
+import globalStyles from 'src/styles/global-styles.module.css'
 import classes from 'src/styles/Home.module.css'
 import { Button, Grid, Hidden, List, ListItem, ListItemButton, ListItemText, ListItemIcon,
     Popover, Typography } from '@mui/material';
@@ -15,10 +15,7 @@ import { selectAllProducts } from 'src/redux/selectors'
 
 const Home = () => {
     //const classes = useStyles();
-    const display = useDisplay();
-    const globalStyles = useGlobalStyles();
-    const responsive = useResponsive();
-    const text = useTypography();
+    //const globalStyles = useGlobalStyles();
     const feedbacksList = useSelector(selectAllProducts);
 
     const totalSuggestions = useMemo(() => {

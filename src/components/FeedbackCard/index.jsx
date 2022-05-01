@@ -1,7 +1,6 @@
 import { Chip, Grid, Hidden, Paper, Typography } from '@mui/material'
 import classNames from 'classnames'
-import { useBackground, useDisplay, useGlobalStyles, useResponsive, useTypography } from 'src/styles'
-import { useStyles } from './styles'
+import classes from './styles.module.css'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useCallback, useMemo } from 'react';
 //import { useNavigate } from 'react-router-dom'
@@ -11,12 +10,7 @@ import { incrementUpvotes } from 'src/redux/actions';
 import { useRouter } from 'next/router'
 
 const FeedbackCard = ({ comments, category, description, id, title, upvotes, isClickable }) => {
-    const bg = useBackground();
-    const classes = useStyles();
-    const display = useDisplay();
-    const globalStyles = useGlobalStyles();
-    const responsive = useResponsive();
-    const text = useTypography();
+   // const classes = useStyles();
 
     const router = useRouter();
     const dispatch = useDispatch();
@@ -37,14 +31,14 @@ const FeedbackCard = ({ comments, category, description, id, title, upvotes, isC
                 { upvotes }
             </span>
         </button>
-    ), [ classes, editClickHandler, upvotes ]);
+    ), [ editClickHandler, upvotes ]);
 
     const commentButton = useMemo(() => (
         <button className={classNames("border-0 bg-transparent flex font-bold items-center outline-none", classes.commentButton,
             classes.darkBlueColor)}>
             { comments ? comments.length : 0 }
         </button>
-    ), [ comments, classes ]);
+    ), [ comments ]);
     
     //const navigate = useNavigate();
     const clickHandler = useCallback(event => {
