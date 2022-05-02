@@ -24,6 +24,23 @@ export const resolvers = {
         }
     },
     Mutation: {
+        async addComment(_, { comment }) {
+            const { db }  = dbConfig;
+            if(db === null) throw new Error("DB not set");
+
+            const { feedbackID } = comment;
+            const feedback = await db.findOne({ ID: feedbackID });
+
+            if(feedback === null) throw new Error("Feedback not found");
+
+            const ID = v4();
+            const comments = [ feedback.comments, { ID, ...comment }];
+            await db.updateOne({ ID: feedbackID }, { $set: { comments } });
+
+            const result = await db.findOne({ comments: { ID } });
+            console.log(result);
+            return result;
+        },
         async addFeedback(_, { feedback }) {
             const { db }  = dbConfig;
             if(db === null) throw new Error("DB not set");
