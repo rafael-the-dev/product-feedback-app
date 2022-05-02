@@ -3,6 +3,8 @@ import data from 'src/data.json';
 import { useDispatch, useSelector } from 'react-redux'
 import { addProducts } from 'src/redux/actions'
 import { selectAllProducts } from 'src/redux/selectors'
+import { useQuery } from "@apollo/client"
+import { GET_FEEDBACKS } from 'src/graphql/queries';
 
 export const AppContext = createContext();
 AppContext.displayName = 'AppContext';
@@ -14,6 +16,10 @@ export const AppContextProvider = ({ children }) => {
     const localStoraFeedbacksName = useRef('feedback-app__feedbacks');
 
     const [ feedbacksList, setFeedbackList ] = useState([]);
+
+    const { loading, error, data } = useQuery(GET_FEEDBACKS);
+
+    console.log(data)
 
     const usersList = useMemo(() => [
         {
