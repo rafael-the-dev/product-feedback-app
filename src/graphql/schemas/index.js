@@ -44,6 +44,8 @@ export const typeDefs = gql`
 
     input CommentReplyInput {
         content: String! 
+        commentID: String!
+        feedbackID: String!
         replyingTo: String!
         user: UserInput!
     }
@@ -65,6 +67,7 @@ export const typeDefs = gql`
 
     type Mutation {
         addComment(comment: CommentInput!): Comment
+        addCommentReply(reply: CommentReplyInput!): CommentReply
         addFeedback(feedback: FeedbackInput!): Feedback
     }
 `;
