@@ -1,5 +1,6 @@
 //import { apiHandler } from 'src/helpers/api-handler'
 const { dbConfig } = require("src/connections");
+const  { v4 } = require("uuid")
 
 
 export const resolvers = {
@@ -20,6 +21,22 @@ export const resolvers = {
             if(feedback === null) throw new Error("Feedback not found");
 
             return feedback;
+        }
+    },
+    Mutation: {
+        async addFeedback(_, { feedback }) {
+            const { db }  = dbConfig;
+            if(db === null) throw new Error("DB not set");
+
+            const ID = v4();
+            await db.insertOne({
+                ID,
+                ...feedback,
+                comments: []
+            });
+
+            const result = await db.findOne({ ID })
+            return result;
         }
     }
 };
