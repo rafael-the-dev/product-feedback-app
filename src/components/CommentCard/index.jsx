@@ -119,7 +119,7 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
                             </Button>
                        </form>
                     </Collapse>
-                    { replies && (
+                    { replies.length > 0 && (
                         <>
                             <div className={classNames("flex justify-end")}>
                                 <IconButton onClick={() => setOpenCommentsCollapse(o => !o)}>

@@ -19,3 +19,34 @@ export const GET_FEEDBACKS = gql`
         }
     }
 `;
+
+export const GET_FEEDBACK = gql`
+    query getFeedback($id: String!) {
+        feedback(id: $id) {
+            ID
+            category
+            comments {
+                ID
+                content
+                replies {
+                    content 
+                    replyingTo
+                    user {
+                        image
+                        name
+                        username
+                    }
+                }
+                user {
+                    image
+                    name
+                    username
+                }
+            }
+            description
+            status
+            title
+            upVotes
+        }
+    }
+`;

@@ -9,7 +9,7 @@ import { incrementUpvotes } from 'src/redux/actions';
 
 import { useRouter } from 'next/router'
 
-const FeedbackCard = ({ comments, category, description, id, title, upvotes, isClickable }) => {
+const FeedbackCard = ({ comments, category, description, id, title, upVotes, isClickable }) => {
    // const classes = useStyles();
 
     const router = useRouter();
@@ -28,10 +28,10 @@ const FeedbackCard = ({ comments, category, description, id, title, upvotes, isC
             onClick={editClickHandler}>
             <KeyboardArrowDownIcon id="increase-upvotes-icon" className={classNames('rotate-180', classes.buttonArrow)} />
             <span id="increase-upvotes-text" className={classNames("font-bold", classes.darkBlueColor, classes.buttonText)}>
-                { upvotes }
+                { upVotes }
             </span>
         </button>
-    ), [ editClickHandler, upvotes ]);
+    ), [ editClickHandler, upVotes ]);
 
     const commentButton = useMemo(() => (
         <button className={classNames("border-0 bg-transparent flex font-bold items-center outline-none", classes.commentButton,

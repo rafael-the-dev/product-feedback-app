@@ -14,11 +14,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addComent } from 'src/redux/actions';
 import { selectAllProducts } from 'src/redux/selectors';
 import CloseIcon from '@mui/icons-material/Close';
+import { useQuery } from "@apollo/client"
+import { GET_FEEDBACK } from 'src/graphql/queries';
 
 const FeedbackDetails = () => {
     const router = useRouter();
     const { id } = router.query;
-
+    const { data } = useQuery(GET_FEEDBACK, {
+        variables: {
+            id: "e97f69bc-b86b-42bb-8913-e98c7319da59"
+        }
+    });
     //const classes = useStyles();
     //const display = useDisplay();
     //const globalStyles = useGlobalStyles();
@@ -65,7 +71,7 @@ const FeedbackDetails = () => {
         if(id) {
             const result = feedbacksList.find(item => item.id === parseInt(id));
             if(result) {
-                setFeedback(result)
+               // setFeedback(result)
             }
         }
     }, [ feedbacksList, id ]);
@@ -76,6 +82,14 @@ const FeedbackDetails = () => {
             commentRef, feedback, generateNextUser, nextUser, setComment, setOpenOpenCommentSnackbar
         }));
     }, [ dispatch, feedback, generateNextUser, nextUser ]);
+
+    useEffect(() => {
+        console.log(data)
+        if(data) {
+            const result = data.feedback;
+            setFeedback(result)
+        }
+    }, [ data ])
     
 
     return (
