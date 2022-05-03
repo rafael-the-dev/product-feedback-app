@@ -14,8 +14,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addComent } from 'src/redux/actions';
 import { selectAllProducts } from 'src/redux/selectors';
 import CloseIcon from '@mui/icons-material/Close';
-import { useQuery } from "@apollo/client"
+import { useMutation, useQuery } from "@apollo/client"
 import { GET_FEEDBACK } from 'src/graphql/queries';
+import { ADD_COMMENT } from 'src/graphql/mutations';
 
 const FeedbackDetails = () => {
     const router = useRouter();
@@ -24,6 +25,9 @@ const FeedbackDetails = () => {
         variables: {
             id
         }
+    });
+    const [ addComment, mutationOptions ] = useMutation(ADD_COMMENT, {
+        refetchQueries: [ GET_FEEDBACK ]
     });
     //const classes = useStyles();
     //const display = useDisplay();
@@ -78,10 +82,24 @@ const FeedbackDetails = () => {
 
     const submitHandler = useCallback(event => {
         event.preventDefault();
-        dispatch(addComent({
+        //const { data } = mutationOptions;
+
+        addComment({ variables: {
+            comment: {
+                content: commentRef.current,
+                feedbackID: id,
+                replies: [],
+                user: nextUser.current
+            }
+        }});
+        generateNextUser();
+        setComment('');
+        setOpenOpenCommentSnackbar(true);
+
+        /*dispatch(addComent({
             commentRef, feedback, generateNextUser, nextUser, setComment, setOpenOpenCommentSnackbar
-        }));
-    }, [ dispatch, feedback, generateNextUser, nextUser ]);
+        }));*/
+    }, [ addComment, generateNextUser, id, nextUser ]);
 
     useEffect(() => {
         console.log(data)
