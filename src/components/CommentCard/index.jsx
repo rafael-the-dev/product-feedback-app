@@ -2,14 +2,20 @@ import classNames from 'classnames';
 import globalStyles from 'src/styles/global-styles.module.css';
 import classes from './styles.module.css'
 import { Avatar, Button, Collapse, Grid, Hidden, IconButton, Typography } from '@mui/material';
-import { useCallback, useContext, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { AppContext } from 'src/context/AppContext';
 import { replayComment } from 'src/redux/actions'
 import { useDispatch } from 'react-redux'
+import { useMutation } from "@apollo/client"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { ADD_REPLY } from "src/graphql/mutations";
+import { GET_FEEDBACK, GET_FEEDBACKS } from "src/graphql/queries";
 
 const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, replyingTo, user,  feedbackID, setOpenOpenCommentSnackbar }) => {
     //const globalStyles = useGlobalStyles();
+    const [ addCommentReply, mutationOptions ] = useMutation(ADD_REPLY, {
+        refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
+    });
 
     const dispatch = useDispatch();
 
@@ -22,6 +28,12 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
     const isSuccefulReply = useRef(false);
 
     const setIsSuccefulReply = useCallback(prop => isSuccefulReply.current = prop, []);
+    const hasReplies = useMemo(() => {
+        if(replies) {
+            return replies.length > 0;
+        }
+        return false;
+    }, [ replies ]);
 
     const totalCommetLenght = useRef(225);
     const changeHandler = useCallback(event => {
@@ -31,28 +43,47 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
             setComment(value)
         }
     }, []);
+    useEffect(() =>
+    console.log({
+        content: commentRef.current,
+        commentID,
+        feedbackID,
+        replyingTo: user.username,
+        user: nextUser
+    }), [ commentID, feedbackID, nextUser, user ]);
 
     const submitHandler = useCallback(event => {
         event.preventDefault();
-
-        dispatch(replayComment({
+        addCommentReply({
+            variables: {
+                reply: {
+                    content: commentRef.current,
+                    commentID,
+                    feedbackID,
+                    replyingTo: user.username,
+                    user: nextUser.current
+                }
+            }
+        });
+        
+        /*dispatch(replayComment({
             commentID,
             content: commentRef.current,
             feedbackID,
             setIsSuccefulReply,
             nextuser: nextUser.current,
             username: user.username
-        }));
+        }));*/
 
-        if(isSuccefulReply.current) {
+        //if(isSuccefulReply.current) {
             setOpenCollapse(false)
             setComment('');
             generateNextUser();
             setOpenOpenCommentSnackbar(true);
-        }
+        //}
 
         setIsSuccefulReply(false);
-    }, [ commentID, dispatch, feedbackID, generateNextUser, nextUser, setIsSuccefulReply, setOpenOpenCommentSnackbar, user ]);
+    }, [ addCommentReply, commentID, feedbackID, generateNextUser, nextUser, setIsSuccefulReply, setOpenOpenCommentSnackbar, user ]);
 
     return (
         <Grid item xs={12} component="article" className={classNames({ [classes.gridItem]: isMainCommentCard })}>
@@ -119,7 +150,7 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
                             </Button>
                        </form>
                     </Collapse>
-                    { replies.length > 0 && (
+                    { hasReplies && (
                         <>
                             <div className={classNames("flex justify-end")}>
                                 <IconButton onClick={() => setOpenCommentsCollapse(o => !o)}>

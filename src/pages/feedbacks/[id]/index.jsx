@@ -15,7 +15,7 @@ import { addComent } from 'src/redux/actions';
 import { selectAllProducts } from 'src/redux/selectors';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMutation, useQuery } from "@apollo/client"
-import { GET_FEEDBACK } from 'src/graphql/queries';
+import { GET_FEEDBACK, GET_FEEDBACKS } from 'src/graphql/queries';
 import { ADD_COMMENT } from 'src/graphql/mutations';
 
 const FeedbackDetails = () => {
@@ -27,7 +27,7 @@ const FeedbackDetails = () => {
         }
     });
     const [ addComment, mutationOptions ] = useMutation(ADD_COMMENT, {
-        refetchQueries: [ GET_FEEDBACK ]
+        refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
     });
     //const classes = useStyles();
     //const display = useDisplay();
@@ -148,8 +148,8 @@ const FeedbackDetails = () => {
                             <CommentCard 
                                 key={index} 
                                 { ...item } 
-                                isMainCommentCard={true} feedbackID={feedback.id} 
-                                commentID={item.id}
+                                isMainCommentCard={true} feedbackID={feedback.ID} 
+                                commentID={item.ID}
                                 setOpenOpenCommentSnackbar={setOpenOpenCommentSnackbar}
                             />
                         ))

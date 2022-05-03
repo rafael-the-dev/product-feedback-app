@@ -7,3 +7,11 @@ export const ADD_COMMENT = gql`
         }
     }
 `;
+
+export const ADD_REPLY = gql`
+    mutation createReply($reply: CommentReplyInput!) {
+        addCommentReply(reply: $reply) {
+            content
+        }
+    }
+`;
