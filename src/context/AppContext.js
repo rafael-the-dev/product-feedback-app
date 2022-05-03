@@ -88,7 +88,7 @@ export const AppContextProvider = ({ children }) => {
 
     useEffect(() => generateNextUser(), [ generateNextUser ], [])
 
-    useEffect(() => {
+    /*useEffect(() => {
         if(!Boolean(localStorage.getItem(localStoraFeedbacksName.current))) {
             setFeedbackList([ ...data.productRequests, ])
             dispatch(addProducts([ ...data.productRequests, ]))
@@ -97,12 +97,18 @@ export const AppContextProvider = ({ children }) => {
             setFeedbackList(list)
             dispatch(addProducts(list))
         }
-    }, [ dispatch ]);
+    }, [ dispatch ]);*/
 
     useEffect(() => {
+        if(data) {
+            dispatch(addProducts([ ...data.feedbacks, ]))
+        }
+    }, [ data, dispatch ]);
+
+    /*useEffect(() => {
         if(allFeedbacks.length > 0)
             localStorage.setItem(localStoraFeedbacksName.current, JSON.stringify(allFeedbacks));
-    }, [ allFeedbacks ]);
+    }, [ allFeedbacks ]);*/
 
     return (
         <AppContext.Provider value={{ feedbacksList, generateNextUser, nextUser, setFeedbackList }}>{ children }</AppContext.Provider>

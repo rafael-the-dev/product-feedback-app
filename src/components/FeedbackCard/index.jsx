@@ -9,7 +9,7 @@ import { incrementUpvotes } from 'src/redux/actions';
 
 import { useRouter } from 'next/router'
 
-const FeedbackCard = ({ comments, category, description, id, title, upVotes, isClickable }) => {
+const FeedbackCard = ({ comments, category, description, ID, title, upVotes, isClickable }) => {
    // const classes = useStyles();
 
     const router = useRouter();
@@ -17,9 +17,9 @@ const FeedbackCard = ({ comments, category, description, id, title, upVotes, isC
     
     const editClickHandler = useCallback(() => {
         dispatch(incrementUpvotes({
-            id
+            ID
         }));
-    }, [ dispatch, id ]);
+    }, [ dispatch, ID ]);
 
     const toggleButton = useMemo(() => (
         <button 
@@ -44,10 +44,10 @@ const FeedbackCard = ({ comments, category, description, id, title, upVotes, isC
     const clickHandler = useCallback(event => {
         if(!['increase-upvotes', 'increase-upvotes-icon', 'increase-upvotes-text'].includes(event.target.id)) {
             if(clickHandler) {
-                router.push(`/feedbacks/${id}`)
+                router.push(`/feedbacks/${ID}`)
             }
         }
-    }, [ id, router ]);
+    }, [ ID, router ]);
 
     return (
         <Grid component="article" item xs={12}>

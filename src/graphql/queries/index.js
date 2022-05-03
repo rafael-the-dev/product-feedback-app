@@ -4,18 +4,18 @@ export const GET_FEEDBACKS = gql`
     query getFeedbacks {
         feedbacks {
             ID
-            title
+            category
             comments {
                 ID
                 content
                 replies {
-                    content
                     replyingTo
-                    user {
-                    name
-                    }
                 }
             }
+            description
+            status
+            title
+            upVotes
         }
     }
 `;

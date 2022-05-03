@@ -22,7 +22,7 @@ const FeedbackDetails = () => {
     const { id } = router.query;
     const { data } = useQuery(GET_FEEDBACK, {
         variables: {
-            id: "e97f69bc-b86b-42bb-8913-e98c7319da59"
+            id
         }
     });
     //const classes = useStyles();
