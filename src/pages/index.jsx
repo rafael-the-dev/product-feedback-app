@@ -17,6 +17,7 @@ const Home = () => {
     //const classes = useStyles();
     //const globalStyles = useGlobalStyles();
     const feedbacksList = useSelector(selectAllProducts);
+    console.log(feedbacksList)
 
     const totalSuggestions = useMemo(() => {
         let total = 0;

@@ -4,7 +4,18 @@ export const GET_FEEDBACKS__SUBSCRIPTION = gql`
     subscription PostCreated {
         feedbackCreated {
             ID
+            category
+            comments {
+                ID
+                content
+                replies {
+                    replyingTo
+                }
+            }
+            description
+            status
             title
+            upVotes
         }
     }
 `;

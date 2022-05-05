@@ -1,8 +1,8 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import data from 'src/data.json';
-import { useDispatch, useSelector } from 'react-redux'
+//import data from 'src/data.json';
+import { useDispatch } from 'react-redux'
 import { addProducts } from 'src/redux/actions'
-import { selectAllProducts } from 'src/redux/selectors'
+//import { selectAllProducts } from 'src/redux/selectors'
 import { useQuery, useSubscription } from "@apollo/client"
 import { GET_FEEDBACKS } from 'src/graphql/queries';
 import { GET_FEEDBACKS__SUBSCRIPTION } from 'src/graphql/subscriptions';
@@ -13,16 +13,16 @@ AppContext.displayName = 'AppContext';
 
 export const AppContextProvider = ({ children }) => {
     const dispatch = useDispatch();
-    const allFeedbacks = useSelector(selectAllProducts);
+    //const allFeedbacks = useSelector(selectAllProducts);
 
-    const localStoraFeedbacksName = useRef('feedback-app__feedbacks');
+    //const localStoraFeedbacksName = useRef('feedback-app__feedbacks');
 
     const [ feedbacksList, setFeedbackList ] = useState([]);
 
     const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
-    const { loading, error, data } = useQuery(GET_FEEDBACKS);
+    const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
 
-    console.log(data)
+    //console.log(data)
 
     const usersList = useMemo(() => [
         {
@@ -103,22 +103,30 @@ export const AppContextProvider = ({ children }) => {
     }, [ dispatch ]);*/
 
     useEffect(() => {
+       subscribeToMore({
+            document: GET_FEEDBACKS__SUBSCRIPTION,
+            updateQuery: (prev, { subscriptionData }) => {
+                if (!subscriptionData.data) return prev;
+                const newFeedItem = subscriptionData.data.feedbackCreated;
+
+                return Object.assign({}, prev, {
+                feedbacks: [...prev.feedbacks, newFeedItem ]
+                });
+            }
+        })
+    }, [ subscribeToMore ])
+
+    useEffect(() => {
+        const data = result.data;
         if(data) {
             dispatch(addProducts([ ...data.feedbacks, ]))
         }
-    }, [ data, dispatch ]);
-
-    useEffect(() => {
-        const result = subscription.data;
-        console.log("subs data", result)
-    }, [ subscription ])
-
-    /*useEffect(() => {
-        if(allFeedbacks.length > 0)
-            localStorage.setItem(localStoraFeedbacksName.current, JSON.stringify(allFeedbacks));
-    }, [ allFeedbacks ]);*/
+    }, [ dispatch, result ]);
 
     return (
-        <AppContext.Provider value={{ feedbacksList, generateNextUser, nextUser, setFeedbackList }}>{ children }</AppContext.Provider>
+        <AppContext.Provider 
+            value={{ feedbacksList, generateNextUser, nextUser, setFeedbackList }}>
+            { children }
+        </AppContext.Provider>
     );
 };
