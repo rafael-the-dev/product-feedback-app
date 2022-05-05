@@ -4,8 +4,8 @@ import classes from './styles.module.css'
 import { Avatar, Button, Collapse, Grid, Hidden, IconButton, Typography } from '@mui/material';
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { AppContext } from 'src/context/AppContext';
-import { replayComment } from 'src/redux/actions'
-import { useDispatch } from 'react-redux'
+//import { replayComment } from 'src/redux/actions'
+//import { useDispatch } from 'react-redux'
 import { useMutation } from "@apollo/client"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ADD_REPLY } from "src/graphql/mutations";
@@ -17,7 +17,7 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
         refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
     });
 
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
     const { nextUser, generateNextUser } = useContext(AppContext)
 

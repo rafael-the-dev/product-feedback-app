@@ -3,8 +3,10 @@ import data from 'src/data.json';
 import { useDispatch, useSelector } from 'react-redux'
 import { addProducts } from 'src/redux/actions'
 import { selectAllProducts } from 'src/redux/selectors'
-import { useQuery } from "@apollo/client"
+import { useQuery, useSubscription } from "@apollo/client"
 import { GET_FEEDBACKS } from 'src/graphql/queries';
+import { GET_FEEDBACKS__SUBSCRIPTION } from 'src/graphql/subscriptions';
+//import WebSocket from "ws"
 
 export const AppContext = createContext();
 AppContext.displayName = 'AppContext';
@@ -17,6 +19,7 @@ export const AppContextProvider = ({ children }) => {
 
     const [ feedbacksList, setFeedbackList ] = useState([]);
 
+    const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
     const { loading, error, data } = useQuery(GET_FEEDBACKS);
 
     console.log(data)
@@ -104,6 +107,11 @@ export const AppContextProvider = ({ children }) => {
             dispatch(addProducts([ ...data.feedbacks, ]))
         }
     }, [ data, dispatch ]);
+
+    useEffect(() => {
+        const result = subscription.data;
+        console.log("subs data", result)
+    }, [ subscription ])
 
     /*useEffect(() => {
         if(allFeedbacks.length > 0)

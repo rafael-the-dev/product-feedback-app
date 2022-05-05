@@ -102,7 +102,7 @@ const FeedbackDetails = () => {
     }, [ addComment, generateNextUser, id, nextUser ]);
 
     useEffect(() => {
-        console.log(data)
+        //console.log(data)
         if(data) {
             const result = data.feedback;
             setFeedback(result)
