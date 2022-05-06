@@ -15,3 +15,11 @@ export const ADD_REPLY = gql`
         }
     }
 `;
+
+export const UPVOTE_FEEDBACK = gql`
+    mutation UpVoteFeedback($id: String!) {
+        upVoteFeedback(id: $id) {
+            ID
+        }
+    }
+`;

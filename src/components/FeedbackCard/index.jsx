@@ -8,18 +8,21 @@ import { useDispatch } from 'react-redux'
 import { incrementUpvotes } from 'src/redux/actions';
 
 import { useRouter } from 'next/router'
+import { useMutation } from '@apollo/client';
+import { UPVOTE_FEEDBACK } from 'src/graphql/mutations';
+import { GET_FEEDBACK } from 'src/graphql/queries';
 
 const FeedbackCard = ({ comments, category, description, ID, title, upVotes, isClickable }) => {
    // const classes = useStyles();
 
     const router = useRouter();
+    const mutation = useMutation(UPVOTE_FEEDBACK, { refetchQueries: [ GET_FEEDBACK ] })
     const dispatch = useDispatch();
     
     const editClickHandler = useCallback(() => {
-        dispatch(incrementUpvotes({
-            ID
-        }));
-    }, [ dispatch, ID ]);
+        const addUpVote = mutation[0];
+        addUpVote({ variables: { id: ID } });
+    }, [ mutation, ID ]);
 
     const toggleButton = useMemo(() => (
         <button 
