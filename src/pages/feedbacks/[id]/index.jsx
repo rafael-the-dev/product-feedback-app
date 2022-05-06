@@ -25,7 +25,7 @@ const FeedbackDetails = () => {
 
     const subscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
         variables: { 
-            id: "6c50e460-67c3-48a9-820a-faee98a024e7"
+            id
         } 
     });
     
@@ -116,12 +116,12 @@ const FeedbackDetails = () => {
                 variables: { id },
                 updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data) return prev;
-                    console.log(subscriptionData); return prev;
+
                     const newComment = subscriptionData.data.feedbackUpdated;
-                    const updatedFeedback =  Object.assign({}, prev, {
-                        comments: [ ...prev.comments, newComment ]
+                    const updatedFeedback =  Object.assign({}, prev.feedback, {
+                        comments: [ ...prev.feedback.comments, newComment ]
                     });
-                    console.log(updatedFeedback); return prev;
+                    return { feedback: updatedFeedback };
                 }
             });
         }
