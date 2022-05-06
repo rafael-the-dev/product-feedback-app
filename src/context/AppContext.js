@@ -19,8 +19,8 @@ export const AppContextProvider = ({ children }) => {
 
     const [ feedbacksList, setFeedbackList ] = useState([]);
 
-    const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
-    const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
+    //const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
+    //const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
 
     //console.log(data)
 
@@ -102,7 +102,7 @@ export const AppContextProvider = ({ children }) => {
         }
     }, [ dispatch ]);*/
 
-    useEffect(() => {
+    /*useEffect(() => {
        subscribeToMore({
             document: GET_FEEDBACKS__SUBSCRIPTION,
             updateQuery: (prev, { subscriptionData }) => {
@@ -121,7 +121,7 @@ export const AppContextProvider = ({ children }) => {
         if(data) {
             dispatch(addProducts([ ...data.feedbacks, ]))
         }
-    }, [ dispatch, result ]);
+    }, [ dispatch, result ]);*/
 
     return (
         <AppContext.Provider 

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import globalStyles from 'src/styles/global-styles.module.css'
 import classes from './styles.module.css'
 import RoadmapFeedbackCard from 'src/components/RoadmapFeedbackCard';
@@ -8,13 +8,15 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 //import { Link } from 'react-router-dom'
 import Link from 'next/link'
-import { useSelector } from 'react-redux'
-import { selectAllProducts} from 'src/redux/selectors'
+//import { useSelector } from 'react-redux'
+//import { selectAllProducts} from 'src/redux/selectors'
+
+import { FeedbacksContext, FeedbacksContextProvider } from "src/context/FeedbacksContext"
 
 const Roadmap = () => {
     //const classes = useStyles();
-
-    const feedbacksList = useSelector(selectAllProducts);
+    const { feedbacksList } = useContext(FeedbacksContext);
+    //const feedbacksList = useSelector(selectAllProducts);
 
     const [ status, setStatus ] = useState('in-progress');
 
@@ -182,4 +184,6 @@ const Roadmap = () => {
     );
 };
 
-export default Roadmap;
+const Container = () => <FeedbacksContextProvider><Roadmap /></FeedbacksContextProvider>;
+
+export default Container;

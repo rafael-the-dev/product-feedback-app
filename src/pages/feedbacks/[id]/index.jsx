@@ -36,7 +36,7 @@ const FeedbackDetails = () => {
     });
 
     const [ addComment, mutationOptions ] = useMutation(ADD_COMMENT, {
-        refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
+        refetchQueries: [ GET_FEEDBACK ]
     });
     //const classes = useStyles();
     //const display = useDisplay();
@@ -116,12 +116,11 @@ const FeedbackDetails = () => {
                 variables: { id },
                 updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data) return prev;
-
-                    const newComment = subscriptionData.data.feedbackUpdated;
+                    /*const newComment = subscriptionData.data.feedbackUpdated;
                     const updatedFeedback =  Object.assign({}, prev.feedback, {
                         comments: [ ...prev.feedback.comments, newComment ]
-                    });
-                    return { feedback: updatedFeedback };
+                    });*/
+                    return { feedback: subscriptionData.data.feedbackUpdated };
                 }
             });
         }

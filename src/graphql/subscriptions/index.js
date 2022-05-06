@@ -24,21 +24,29 @@ export const GET_FEEDBACK__SUBSCRIPTION = gql`
     subscription($id: String!) {
         feedbackUpdated(id: $id) {
             ID
-            content
-            replies {
-                content 
-                replyingTo
+            category
+            comments {
+                ID
+                content
+                replies {
+                    content 
+                    replyingTo
+                    user {
+                        image
+                        name
+                        username
+                    }
+                }
                 user {
                     image
                     name
                     username
                 }
             }
-            user {
-                image
-                name
-                username
-            }
+            description
+            status
+            title
+            upVotes
         }
     }
 `;

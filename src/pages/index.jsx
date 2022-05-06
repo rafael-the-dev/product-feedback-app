@@ -7,17 +7,18 @@ import { Button, Grid, Hidden, IconButton, List, ListItem, ListItemButton, ListI
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FeedbackCard from 'src/components/FeedbackCard';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { selectAllProducts } from 'src/redux/selectors'
 
+import { feedbacksComponentHelper, FeedbacksContext, FeedbacksContextProvider } from "src/context/FeedbacksContext"
+
 const Home = () => {
     //const classes = useStyles();
     //const globalStyles = useGlobalStyles();
-    const feedbacksList = useSelector(selectAllProducts);
-    console.log(feedbacksList);
+    const { feedbacksList } = useContext(FeedbacksContext);
 
     const totalSuggestions = useMemo(() => {
         let total = 0;
@@ -206,4 +207,6 @@ const Home = () => {
     )
 };
 
-export default Home;
+const Container = () => <FeedbacksContextProvider><Home /></FeedbacksContextProvider>;
+
+export default Container;
