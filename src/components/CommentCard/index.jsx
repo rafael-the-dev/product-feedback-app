@@ -43,14 +43,6 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
             setComment(value)
         }
     }, []);
-    useEffect(() =>
-    console.log({
-        content: commentRef.current,
-        commentID,
-        feedbackID,
-        replyingTo: user.username,
-        user: nextUser
-    }), [ commentID, feedbackID, nextUser, user ]);
 
     const submitHandler = useCallback(event => {
         event.preventDefault();

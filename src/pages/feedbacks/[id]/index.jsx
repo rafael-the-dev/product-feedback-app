@@ -14,18 +14,27 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addComent } from 'src/redux/actions';
 import { selectAllProducts } from 'src/redux/selectors';
 import CloseIcon from '@mui/icons-material/Close';
-import { useMutation, useQuery } from "@apollo/client"
+import { useMutation, useQuery, useSubscription } from "@apollo/client"
 import { GET_FEEDBACK, GET_FEEDBACKS } from 'src/graphql/queries';
 import { ADD_COMMENT } from 'src/graphql/mutations';
+import { GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
 
 const FeedbackDetails = () => {
     const router = useRouter();
     const { id } = router.query;
-    const { data } = useQuery(GET_FEEDBACK, {
+
+    const subscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
+        variables: { 
+            id: "6c50e460-67c3-48a9-820a-faee98a024e7"
+        } 
+    });
+    
+    const { subscribeToMore, ...result } = useQuery(GET_FEEDBACK, {
         variables: {
             id
         }
     });
+
     const [ addComment, mutationOptions ] = useMutation(ADD_COMMENT, {
         refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
     });
@@ -69,16 +78,6 @@ const FeedbackDetails = () => {
     }, []);
 
     const leftLength = useMemo(() => totalCommetLenght.current - comment.length, [ comment ]);
-    
-    //const { id } = useParams();
-    useEffect(() => {
-        if(id) {
-            const result = feedbacksList.find(item => item.id === parseInt(id));
-            if(result) {
-               // setFeedback(result)
-            }
-        }
-    }, [ feedbacksList, id ]);
 
     const submitHandler = useCallback(event => {
         event.preventDefault();
@@ -103,11 +102,30 @@ const FeedbackDetails = () => {
 
     useEffect(() => {
         //console.log(data)
+        const data = result.data;
         if(data) {
             const result = data.feedback;
             setFeedback(result)
         }
-    }, [ data ])
+    }, [ result ]);
+
+    useEffect(() => {
+        if(id) {
+            subscribeToMore({
+                document: GET_FEEDBACK__SUBSCRIPTION,
+                variables: { id },
+                updateQuery: (prev, { subscriptionData }) => {
+                    if (!subscriptionData.data) return prev;
+                    console.log(subscriptionData); return prev;
+                    const newComment = subscriptionData.data.feedbackUpdated;
+                    const updatedFeedback =  Object.assign({}, prev, {
+                        comments: [ ...prev.comments, newComment ]
+                    });
+                    console.log(updatedFeedback); return prev;
+                }
+            });
+        }
+    }, [ id, subscribeToMore ]);
     
 
     return (
