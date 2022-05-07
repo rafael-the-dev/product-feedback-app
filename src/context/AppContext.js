@@ -5,7 +5,7 @@ import { addProducts } from 'src/redux/actions'
 //import { selectAllProducts } from 'src/redux/selectors'
 import { useQuery, useSubscription } from "@apollo/client"
 import { GET_FEEDBACKS } from 'src/graphql/queries';
-import { GET_FEEDBACKS__SUBSCRIPTION } from 'src/graphql/subscriptions';
+import { GET_FEEDBACKS__SUBSCRIPTION, GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
 //import WebSocket from "ws"
 
 export const AppContext = createContext();
@@ -18,6 +18,12 @@ export const AppContextProvider = ({ children }) => {
     //const localStoraFeedbacksName = useRef('feedback-app__feedbacks');
 
     const [ feedbacksList, setFeedbackList ] = useState([]);
+
+    const feedbackSubscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
+        variables: { 
+            id: "null"
+        } 
+    });
 
     //const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
     //const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
@@ -91,6 +97,61 @@ export const AppContextProvider = ({ children }) => {
 
     useEffect(() => generateNextUser(), [ generateNextUser ], [])
 
+    const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
+    const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
+
+    const updateAllFeedbacks = useCallback((newFeedback) => {
+        console.log("hello rt")
+        subscribeToMore({
+            document: GET_FEEDBACKS__SUBSCRIPTION,
+            updateQuery: (prev, { subscriptionData }) => {
+                console.log(prev)
+                if (!subscriptionData.data) return prev;
+                const newFeedItem = subscriptionData.data.feedbackCreated;
+                console.log(prev);
+
+                if(newFeedback) {
+                    const index = [].findIndex(element => element.ID === newFeedback.ID)
+                }
+                return Object.assign({}, prev, {
+                feedbacks: [...prev.feedbacks, newFeedItem ]
+                });
+            }
+        });
+    }, [ subscribeToMore ])
+
+    useEffect(() => {
+        subscribeToMore({
+            document: GET_FEEDBACK__SUBSCRIPTION,
+            variables: { id: "null" },
+            updateQuery: (prev, { subscriptionData }) => {
+                console.log(prev)
+                console.log(subscriptionData.data)
+                if (!subscriptionData.data) return prev;
+
+                const feedbacks = [ ...prev.feedbacks ];
+                const feedback = subscriptionData.data.feedbackUpdated;
+                const index = feedbacks.findIndex(element => element.ID === feedback.ID);
+                feedbacks[index] = feedback;
+
+                return Object.assign({}, prev, {
+                    feedbacks
+                });
+            }
+        });
+    }, [ feedbackSubscription, subscribeToMore ])
+
+    useEffect(() => {
+        updateAllFeedbacks();
+    }, [ updateAllFeedbacks ]);
+ 
+    useEffect(() => {
+        const data = result.data;
+        if(data) {
+            setFeedbackList(data.feedbacks)
+        }
+    }, [ result ]);
+
     /*useEffect(() => {
         if(!Boolean(localStorage.getItem(localStoraFeedbacksName.current))) {
             setFeedbackList([ ...data.productRequests, ])
@@ -125,7 +186,7 @@ export const AppContextProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{ feedbacksList, generateNextUser, nextUser, setFeedbackList }}>
+            value={{ feedbacksList, generateNextUser, nextUser, setFeedbackList, updateAllFeedbacks }}>
             { children }
         </AppContext.Provider>
     );

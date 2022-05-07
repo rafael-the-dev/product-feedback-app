@@ -11,7 +11,7 @@ import Link from 'next/link'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { AppContext } from 'src/context/AppContext'
 import { useDispatch, useSelector } from 'react-redux'
-import { addComent } from 'src/redux/actions';
+//import { addComent } from 'src/redux/actions';
 import { selectAllProducts } from 'src/redux/selectors';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMutation, useQuery, useSubscription } from "@apollo/client"
@@ -36,8 +36,9 @@ const FeedbackDetails = () => {
     });
 
     const [ addComment, mutationOptions ] = useMutation(ADD_COMMENT, {
-        refetchQueries: [ GET_FEEDBACK ]
+        refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
     });
+
     //const classes = useStyles();
     //const display = useDisplay();
     //const globalStyles = useGlobalStyles();
@@ -125,7 +126,6 @@ const FeedbackDetails = () => {
             });
         }
     }, [ id, subscribeToMore ]);
-    
 
     return (
         <main className={classNames("px-5 pt-8 pb-12", classes.main)}>

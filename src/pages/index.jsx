@@ -10,15 +10,16 @@ import FeedbackCard from 'src/components/FeedbackCard';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import Link from 'next/link'
-import { useSelector } from 'react-redux'
-import { selectAllProducts } from 'src/redux/selectors'
+//import { useSelector } from 'react-redux'
+//import { selectAllProducts } from 'src/redux/selectors'
 
-import { feedbacksComponentHelper, FeedbacksContext, FeedbacksContextProvider } from "src/context/FeedbacksContext"
+import { AppContext } from "src/context/AppContext"
+//import { feedbacksComponentHelper, FeedbacksContext, FeedbacksContextProvider } from "src/context/FeedbacksContext"
 
 const Home = () => {
     //const classes = useStyles();
     //const globalStyles = useGlobalStyles();
-    const { feedbacksList } = useContext(FeedbacksContext);
+    const { feedbacksList } = useContext(AppContext);
 
     const totalSuggestions = useMemo(() => {
         let total = 0;
@@ -207,6 +208,6 @@ const Home = () => {
     )
 };
 
-const Container = () => <FeedbacksContextProvider><Home /></FeedbacksContextProvider>;
+//const Container = () => <FeedbacksContextProvider><Home /></FeedbacksContextProvider>;
 
-export default Container;
+export default Home;

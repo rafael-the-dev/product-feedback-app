@@ -10,13 +10,16 @@ import { incrementUpvotes } from 'src/redux/actions';
 import { useRouter } from 'next/router'
 import { useMutation } from '@apollo/client';
 import { UPVOTE_FEEDBACK } from 'src/graphql/mutations';
-import { GET_FEEDBACK } from 'src/graphql/queries';
+import { GET_FEEDBACK, GET_FEEDBACKS } from 'src/graphql/queries';
 
 const FeedbackCard = ({ comments, category, description, ID, title, upVotes, isClickable }) => {
    // const classes = useStyles();
 
     const router = useRouter();
-    const mutation = useMutation(UPVOTE_FEEDBACK, { refetchQueries: [ GET_FEEDBACK ] })
+    
+    const mutation = useMutation(UPVOTE_FEEDBACK, { 
+        refetchQueries: router.pathname === "/" ? [ GET_FEEDBACKS ] : [ GET_FEEDBACK] 
+    })
     const dispatch = useDispatch();
     
     const editClickHandler = useCallback(() => {

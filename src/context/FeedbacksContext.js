@@ -7,34 +7,10 @@ export const FeedbacksContext = createContext();
 FeedbacksContext.displayName = "FeedbacksContext";
 
 export const FeedbacksContextProvider = ({ children }) => {
-    const [ feedbacksList, setFeedbackList ] = useState([]);
-
-    const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
-    const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
-
-    useEffect(() => {
-        subscribeToMore({
-             document: GET_FEEDBACKS__SUBSCRIPTION,
-             updateQuery: (prev, { subscriptionData }) => {
-                 if (!subscriptionData.data) return prev;
-                 const newFeedItem = subscriptionData.data.feedbackCreated;
- 
-                 return Object.assign({}, prev, {
-                 feedbacks: [...prev.feedbacks, newFeedItem ]
-                 });
-             }
-         })
-     }, [ subscribeToMore ])
- 
-     useEffect(() => {
-         const data = result.data;
-         if(data) {
-            setFeedbackList(data.feedbacks)
-         }
-    }, [ result ]);
+   
 
     return (
-        <FeedbacksContext.Provider value={{ feedbacksList }}>
+        <FeedbacksContext.Provider value={{ }}>
             { children }
         </FeedbacksContext.Provider>
     );
