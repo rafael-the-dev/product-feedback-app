@@ -139,7 +139,7 @@ export const AppContextProvider = ({ children }) => {
                 });
             }
         });
-    }, [ feedbackSubscription, subscribeToMore ])
+    }, [ feedbackSubscription, subscribeToMore ]);
 
     useEffect(() => {
         updateAllFeedbacks();

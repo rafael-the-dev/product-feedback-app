@@ -11,11 +11,13 @@ import Link from 'next/link'
 //import { useSelector } from 'react-redux'
 //import { selectAllProducts} from 'src/redux/selectors'
 
-import { FeedbacksContext, FeedbacksContextProvider } from "src/context/FeedbacksContext"
+//import { FeedbacksContext, FeedbacksContextProvider } from "src/context/FeedbacksContext"
+import { AppContext } from 'src/context/AppContext';
 
 const Roadmap = () => {
     //const classes = useStyles();
-    const { feedbacksList } = useContext(FeedbacksContext);
+    const { feedbacksList } = useContext(AppContext);
+    console.log(feedbacksList)
     //const feedbacksList = useSelector(selectAllProducts);
 
     const [ status, setStatus ] = useState('in-progress');
@@ -184,6 +186,6 @@ const Roadmap = () => {
     );
 };
 
-const Container = () => <FeedbacksContextProvider><Roadmap /></FeedbacksContextProvider>;
+//const Container = () => <FeedbacksContextProvider><Roadmap /></FeedbacksContextProvider>;
 
-export default Container;
+export default Roadmap;
