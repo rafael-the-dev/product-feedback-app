@@ -50,7 +50,7 @@ const Container = () => {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center w-full">
+        <div className="min-h-screen flex items-center justify-center w-full px-5 md:px-0">
             <Paper 
                 className={classNames(classes.loginContainer, `px-5 py-8 md:px-6`)}
                 component="form"
@@ -100,19 +100,19 @@ const Container = () => {
                         />
                     </FormControl>
                     <div 
-                        className={classNames("flex items-center mt-4")}
-                        >
-                        <Button 
-                            variant="contained"
-                            type="submit"
-                        >Submit
-                        </Button>
+                        className={classNames("flex flex-col sm:flex-row-reverse sm:items-center mt-4")}>
                         <Typography component="p" className="ml-4 text-sm">
                             don't you have an account? 
                             <Link href="/signup">
                                 <a className={classNames(classes.signUpLink, "ml-2 underline hover:opacity-90")}>sign up.</a>
                             </Link>
                         </Typography>
+                        <Button 
+                            className="mt-4 py-2 sm:mt-0"
+                            variant="contained"
+                            type="submit"
+                        >Submit
+                        </Button>
                     </div>
                 </fieldset>
             </Paper>
