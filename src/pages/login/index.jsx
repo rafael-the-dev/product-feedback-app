@@ -7,6 +7,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 
 import classNames from 'classnames'
+import classes from "./styles.module.css"
 
 const Container = () => {
     const userNameRef = useRef(null);
@@ -32,6 +33,7 @@ const Container = () => {
 
     return (
         <Paper 
+            className={classes.loginContainer}
             component="form"
             elavation={0}>
             <fieldset>
@@ -58,12 +60,12 @@ const Container = () => {
                         value={values.password}
                         onChange={handleChange('password')}
                         endAdornment={
-                        <InputAdornment position="end">
+                        <InputAdornment position="start">
                             <IconButton
                                 aria-label="toggle password visibility"
                                 onClick={handleClickShowPassword}
                                 onMouseDown={handleMouseDownPassword}
-                                edge="end"
+                                edge="start"
                             >
                                 {values.showPassword ? <VisibilityOff /> : <Visibility />}
                             </IconButton>
@@ -82,7 +84,7 @@ const Container = () => {
                         </Button>
                         <p>
                             don't you have an account? 
-                            <Link href="/signup" className={classNames("ml-4")}>
+                            <Link href="/signup" className={classNames(classes.signUpLink, "ml-4 hover:no-underline")}>
                                 <a>sign up.</a>
                             </Link>
                         </p>
