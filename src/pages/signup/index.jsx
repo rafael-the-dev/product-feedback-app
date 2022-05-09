@@ -1,14 +1,18 @@
 import { Button, Paper, TextField, Typography } from '@mui/material';
 import { useCallback, useMemo, useRef, useState } from 'react'
+import { useMutation } from "@apollo/client";
 import Link from 'next/link'
 import classNames from 'classnames'
 import classes from './styles.module.css'
+
+import { CREATE_NEW_USER } from 'src/graphql/mutations'
 
 const Container = () => {
     const [ password, setPassword ] = useState("");
     const [ comfirmPassword, setComfirmPassword ] = useState("");
     const [ username, setUsername ] = useState("");
-    
+
+    const nameRef = useRef(null);
     const userNameRef = useRef(null);
     const passwordRef = useRef(null);
     const comfirmPasswordRef = useRef(null);
@@ -82,7 +86,23 @@ const Container = () => {
         return errorsPanel({ ...comfirmPasswordErrors, htmlFor: "confirm-password-textfield" })
     }, [ comfirmPasswordErrors, errorsPanel ])
 
-    const onSubmitHandler = useCallback(() => {}, []);
+    const mutation = useMutation(CREATE_NEW_USER);
+    const onSubmitHandler = useCallback((event) => {
+        event.preventDefault();
+        const registerUser = mutation[0];
+
+        if(!hasFormError) {
+            registerUser({
+                variables: {
+                    user: {
+                        name: nameRef.current.value,
+                        password: passwordRef.current.value,
+                        username: userNameRef.current.value,
+                    }
+                }
+            })
+        }
+    }, [ hasFormError, mutation ]);
 
     const legendMemo = useMemo(() => (
         <Typography component="legend" className="font-bold mb-8 text-center text-2xl uppercase">
@@ -96,7 +116,7 @@ const Container = () => {
             label="Name"
             fullWidth
             className={classNames("mt-4")}
-            inputRef={userNameRef}
+            inputRef={nameRef}
             required
             variant="outlined"
         />
@@ -106,6 +126,7 @@ const Container = () => {
         <TextField
             error={hasUsernameError}
             id="username-textfield"
+            inputRef={userNameRef}
             label="Username"
             fullWidth
             className={classNames("mt-4")}
@@ -122,7 +143,7 @@ const Container = () => {
             label="Password"
             fullWidth
             className={classNames("mt-4")}
-            ref={passwordRef}
+            inputRef={passwordRef}
             required
             type="password"
             variant="outlined"
@@ -137,7 +158,7 @@ const Container = () => {
             label="Confirm Password"
             fullWidth
             className={classNames("mt-4")}
-            ref={comfirmPasswordRef}
+            inputRef={comfirmPasswordRef}
             required
             type="password"
             variant="outlined"
