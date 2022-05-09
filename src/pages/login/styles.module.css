@@ -12,6 +12,10 @@
     .loginContainer {
         width: 400px !important;
     }
+
+    #root {
+        padding: 0 !important;
+    }
 }
 
 
