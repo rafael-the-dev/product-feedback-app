@@ -1,11 +1,45 @@
-import { Button, FormControl, InputAdornment, InputLabel, IconButton, OutlinedInput, Paper, TextField, Typography } from '@mui/material';
-import { useCallback, useMemo, useRef } from 'react'
+import { Button, Paper, TextField, Typography } from '@mui/material';
+import { useCallback, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import classNames from 'classnames'
 import classes from './styles.module.css'
 
 const Container = () => {
+    const [ password, setPassword ] = useState("");
+    const [ comfirmPassword, setComfirmPassword ] = useState("");
+    
     const userNameRef = useRef(null);
+    const passwordRef = useRef(null);
+    const comfirmPasswordRef = useRef(null);
+    //const [ errors, setErrors ] = useState({ passwordMatch: false,  });
+
+    const hasErrors = useCallback(({ checkWhiteSpace, checkPasswords, value, value2 }) => {
+        let errors = { passwordMatch: false, whiteSpace: false };
+        if(!Boolean(value)) return errors;
+
+        if(checkPasswords) {
+            if(value2 !== value) {
+                errors["passwordMatch"] = true;
+            }
+        }
+
+        if(checkWhiteSpace) {
+            if(value.includes(" ")) {
+                errors["whiteSpace"] = true;
+            }
+        }
+
+        return errors;
+    }, []);
+
+    const hasError = useCallback(({ passwordMatch, whiteSpace }) => {
+        return passwordMatch || whiteSpace;
+    }, []);
+
+    const inputChangeHandler = useCallback((func) => event => {
+        func(event.target.value);
+    }, []);
+
     const onSubmitHandler = useCallback(() => {}, []);
 
     const legendMemo = useMemo(() => (
@@ -16,7 +50,7 @@ const Container = () => {
 
     const nameMemo = useMemo(() => (
         <TextField
-            id="username-textfield"
+            id="name-textfield"
             label="Name"
             fullWidth
             className={classNames("mt-4")}
@@ -39,27 +73,33 @@ const Container = () => {
 
     const passwordMemo = useMemo(() => (
         <TextField
-            id="username-textfield"
+        error={hasError(hasErrors({ checkWhiteSpace: true, value: password }))}
+            id="password-textfield"
             label="Password"
             fullWidth
             className={classNames("mt-4")}
+            ref={passwordRef}
             required
             type="password"
             variant="outlined"
+            onChange={inputChangeHandler(setPassword)}
         />
-    ), []);
+    ), [ hasError, hasErrors, inputChangeHandler, password ]);
 
-    const comfirmPassword = useMemo(() => (
+    const comfirmPasswordMemo = useMemo(() => (
         <TextField
-            id="username-textfield"
+            error={hasError(hasErrors({ checkWhiteSpace: true, checkPasswords: true, value: comfirmPassword, value2: password }))}
+            id="confirm-password-textfield"
             label="Confirm Password"
             fullWidth
             className={classNames("mt-4")}
+            ref={comfirmPasswordRef}
             required
             type="password"
             variant="outlined"
+            onChange={inputChangeHandler(setComfirmPassword)}
         />
-    ), []);
+    ), [ comfirmPassword, hasError, hasErrors, inputChangeHandler, password ]);
 
     return (
         <div className="min-h-screen flex items-center justify-center w-full px-5 md:px-0">
@@ -73,7 +113,7 @@ const Container = () => {
                     { nameMemo }
                     { usernameMemo }
                     { passwordMemo }
-                    { comfirmPassword }
+                    { comfirmPasswordMemo }
                 </fieldset>
                 <div 
                     className={classNames("flex flex-col sm:flex-row-reverse sm:items-center mt-4 sm:justify-end")}>
