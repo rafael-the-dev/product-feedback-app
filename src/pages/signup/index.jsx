@@ -7,6 +7,7 @@ import classes from './styles.module.css'
 const Container = () => {
     const [ password, setPassword ] = useState("");
     const [ comfirmPassword, setComfirmPassword ] = useState("");
+    const [ username, setUsername ] = useState("");
     
     const userNameRef = useRef(null);
     const passwordRef = useRef(null);
@@ -36,9 +37,50 @@ const Container = () => {
         return passwordMatch || whiteSpace;
     }, []);
 
+    const usernameErrors = useMemo(() => hasErrors({ checkWhiteSpace: true, value: username }), [  hasErrors, username ])
+    const passwordErrors = useMemo(() => hasErrors({ checkWhiteSpace: true, value: password }), [ hasErrors, password ])
+    const comfirmPasswordErrors = useMemo(() => hasErrors({ checkWhiteSpace: true, checkPasswords: true, value: comfirmPassword, value2: password }), [ comfirmPassword, hasErrors, password ])
+    
+    const hasUsernameError = useMemo(() => hasError(usernameErrors), [ hasError, usernameErrors ]);
+    const hasPasswordError = useMemo(() => hasError(passwordErrors), [ hasError, passwordErrors ]);
+    const hasComfirmPasswordError = useMemo(() => hasError(comfirmPasswordErrors), [ comfirmPasswordErrors, hasError ]);
+
+    const hasFormError = useMemo(() => hasUsernameError || hasPasswordError || hasComfirmPasswordError, [ hasUsernameError, hasPasswordError, hasComfirmPasswordError ])
+    
     const inputChangeHandler = useCallback((func) => event => {
         func(event.target.value);
     }, []);
+
+    const errorsPanel = useCallback(({ htmlFor, passwordMatch, whiteSpace }) => {
+        let text = "";
+        if(passwordMatch) {
+            text += "* Passwords don't match<br/>"
+        }
+
+        if(whiteSpace) {
+            text += "* Value must not contain whitespace"
+        }
+        return (
+            <Typography 
+                className="pl-4 pt-3 block text-red-600"
+                component="label"
+                dangerouslySetInnerHTML={{ __html: text }} 
+                htmlFor={htmlFor}>
+            </Typography>
+        )
+    }, []);
+
+    const usernameErrorsPanel = useMemo(() => {
+        return errorsPanel({ ...usernameErrors, htmlFor: "username-textfield" })
+    }, [ usernameErrors, errorsPanel ])
+
+    const passwordErrorsPanel = useMemo(() => {
+        return errorsPanel({ ...passwordErrors, htmlFor: "password-textfield" })
+    }, [ passwordErrors, errorsPanel ])
+
+    const comfirmPasswordErrorsPanel = useMemo(() => {
+        return errorsPanel({ ...comfirmPasswordErrors, htmlFor: "confirm-password-textfield" })
+    }, [ comfirmPasswordErrors, errorsPanel ])
 
     const onSubmitHandler = useCallback(() => {}, []);
 
@@ -62,18 +104,20 @@ const Container = () => {
 
     const usernameMemo = useMemo(() => (
         <TextField
+            error={hasUsernameError}
             id="username-textfield"
             label="Username"
             fullWidth
             className={classNames("mt-4")}
             required
             variant="outlined"
+            onChange={inputChangeHandler(setUsername)}
         />
-    ), []);
+    ), [  hasUsernameError, inputChangeHandler, setUsername ]);
 
     const passwordMemo = useMemo(() => (
         <TextField
-        error={hasError(hasErrors({ checkWhiteSpace: true, value: password }))}
+            error={hasPasswordError}
             id="password-textfield"
             label="Password"
             fullWidth
@@ -84,11 +128,11 @@ const Container = () => {
             variant="outlined"
             onChange={inputChangeHandler(setPassword)}
         />
-    ), [ hasError, hasErrors, inputChangeHandler, password ]);
+    ), [ hasPasswordError, inputChangeHandler ]);
 
     const comfirmPasswordMemo = useMemo(() => (
         <TextField
-            error={hasError(hasErrors({ checkWhiteSpace: true, checkPasswords: true, value: comfirmPassword, value2: password }))}
+            error={hasComfirmPasswordError}
             id="confirm-password-textfield"
             label="Confirm Password"
             fullWidth
@@ -99,7 +143,7 @@ const Container = () => {
             variant="outlined"
             onChange={inputChangeHandler(setComfirmPassword)}
         />
-    ), [ comfirmPassword, hasError, hasErrors, inputChangeHandler, password ]);
+    ), [ hasComfirmPasswordError, inputChangeHandler ]);
 
     return (
         <div className="min-h-screen flex items-center justify-center w-full px-5 md:px-0">
@@ -112,8 +156,11 @@ const Container = () => {
                 <fieldset>
                     { nameMemo }
                     { usernameMemo }
+                    { usernameErrorsPanel }
                     { passwordMemo }
+                    { passwordErrorsPanel }
                     { comfirmPasswordMemo }
+                    { comfirmPasswordErrorsPanel }
                 </fieldset>
                 <div 
                     className={classNames("flex flex-col sm:flex-row-reverse sm:items-center mt-4 sm:justify-end")}>
@@ -127,6 +174,7 @@ const Container = () => {
                     </Typography>
                     <Button 
                         className="mt-4 py-2 sm:mt-0"
+                        disabled={hasFormError}
                         variant="contained"
                         type="submit"
                     >Submit
