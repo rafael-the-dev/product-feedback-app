@@ -17,13 +17,16 @@ import { addProduct, editFeedback, removeFeedback } from 'src/redux/actions'
 import { selectAllProducts } from 'src/redux/selectors';
 import CloseIcon from '@mui/icons-material/Close';
 
+import { useQuery } from '@apollo/client';
 import { useMutation } from "@apollo/client"
 import { DELETE_FEEDBACK } from "src/graphql/mutations"
+import { GET_FEEDBACK } from "src/graphql/queries"
 
 const NewFeedback = () => {
     const router = useRouter();
     const { id } = router.query;
 
+    const feedbackStatus = useQuery(GET_FEEDBACK, { variables: { id: id ? id : "" }, });
     const deleteMutation = useMutation(DELETE_FEEDBACK);
     //const classes = useStyles();
     //const display = useDisplay();
@@ -131,15 +134,17 @@ const NewFeedback = () => {
     }
 
     useEffect(() => {
-        const result = feedbacksList.find(item => item.id === parseInt(id));
-        if(Boolean(result) && canIFillIn.current) {
+        const { data } = feedbackStatus;
+
+        if(Boolean(data) && canIFillIn.current) {
+            const result = data.feedback;
             setValue('feadback-title', result.title)
             setCategory(result.category)
             setStatus(result.status)
             setValue('feadback-detail', result.description)
             setFeedback(result);
         }
-    }, [ feedbacksList, id, setValue ]);
+    }, [ feedbackStatus, setValue ]);
 
     return (
         <>
