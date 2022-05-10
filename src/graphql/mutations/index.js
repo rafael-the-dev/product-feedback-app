@@ -31,6 +31,16 @@ export const DELETE_FEEDBACK = gql`
     }
 `;
 
+export const EDIT_FEEDBACK = gql`
+    mutation EditFeedback($id: String!, $feedback: FeedbackInput!) {
+        editFeedback(id: $id, feedback: $feedback) {
+            ID
+            description
+            title
+        }
+    }
+`;
+
 export const UPVOTE_FEEDBACK = gql`
     mutation UpVoteFeedback($id: String!) {
         upVoteFeedback(id: $id) {

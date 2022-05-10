@@ -19,7 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { useQuery } from '@apollo/client';
 import { useMutation } from "@apollo/client"
-import { DELETE_FEEDBACK } from "src/graphql/mutations"
+import { DELETE_FEEDBACK, EDIT_FEEDBACK } from "src/graphql/mutations"
 import { GET_FEEDBACK } from "src/graphql/queries"
 
 const NewFeedback = () => {
@@ -28,6 +28,7 @@ const NewFeedback = () => {
 
     const feedbackStatus = useQuery(GET_FEEDBACK, { variables: { id: id ? id : "" }, });
     const deleteMutation = useMutation(DELETE_FEEDBACK);
+    const [ editMutation, editMutationStatus ] = useMutation(EDIT_FEEDBACK)
     //const classes = useStyles();
     //const display = useDisplay();
     //const globalStyles = useGlobalStyles();
@@ -110,13 +111,21 @@ const NewFeedback = () => {
     }, [ deleteMutation, id, router ]);
 
     const editClickHandler = useCallback(() => {
-        dispatch(editFeedback({
+        editMutation({
+            variables: {
+                id: feedback.ID,
+                feedback: {
+                    category: getValues('feadback-category'),
+                    description: getValues('feadback-detail'),
+                    status: feedback['status'],
+                    title: getValues('feadback-title'),
+                    upVotes: feedback.upVotes
+                }
+            }
+        })
+        /*dispatch(editFeedback({
             id: feedback.id,
-            description: getValues('feadback-detail'),
-            category: getValues('feadback-category'),
-            status: getValues('feadback-status'),
-            title: getValues('feadback-title')
-        }));
+        }));*/
         
         canIFillIn.current = false;
         reset();
@@ -124,7 +133,7 @@ const NewFeedback = () => {
         setStatus('suggestion')
         setSnackbarMessage('Changes saved.');
         setOpenSnackbar(true);
-    }, [ dispatch, feedback, getValues, reset ]);
+    }, [ editMutation, feedback, getValues, reset ]);
 
     const onSubmit = data => {
         dispatch(addProduct(data))
@@ -292,7 +301,7 @@ const NewFeedback = () => {
                             </label>
                         )}
                     </div>
-                    { feedback.id ? (
+                    { feedback.ID ? (
                         <div className={classNames(`flex flex-col justify-between items-stretch sm:flex-row-reverse 
                             sm:items-center mt-8 w-full`, classes.buttonsContainer,)}>
                             <div className={classNames('flex flex-col items-stretch sm:flex-row-reverse')}>
