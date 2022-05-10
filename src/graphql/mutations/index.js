@@ -8,6 +8,14 @@ export const ADD_COMMENT = gql`
     }
 `;
 
+export const ADD_FEEDBACK = gql`
+    mutation createFeedback($feedback: FeedbackInput!) {
+        addFeedback(feedback: $feedback) {
+            ID
+        }
+    }
+`;
+
 export const CREATE_NEW_USER = gql`
     mutation createUser($user: UserInput) {
         registerUser(user: $user) {
@@ -26,7 +34,7 @@ export const ADD_REPLY = gql`
 `;
 
 export const DELETE_FEEDBACK = gql`
-    mutation DeleteFeedback($id: String) {
+    mutation DeleteFeedback($id: String!) {
         deleteFeedback(id: $id)
     }
 `;

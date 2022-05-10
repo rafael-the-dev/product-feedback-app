@@ -19,7 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { useQuery } from '@apollo/client';
 import { useMutation } from "@apollo/client"
-import { DELETE_FEEDBACK, EDIT_FEEDBACK } from "src/graphql/mutations"
+import { ADD_FEEDBACK, DELETE_FEEDBACK, EDIT_FEEDBACK } from "src/graphql/mutations"
 import { GET_FEEDBACK } from "src/graphql/queries"
 
 const NewFeedback = () => {
@@ -28,7 +28,8 @@ const NewFeedback = () => {
 
     const feedbackStatus = useQuery(GET_FEEDBACK, { variables: { id: id ? id : "" }, });
     const deleteMutation = useMutation(DELETE_FEEDBACK);
-    const [ editMutation, editMutationStatus ] = useMutation(EDIT_FEEDBACK)
+    const [ editMutation, editMutationStatus ] = useMutation(EDIT_FEEDBACK);
+    const [ addFeedbackMutation, addFeedbackStatus ] = useMutation(ADD_FEEDBACK);
     //const classes = useStyles();
     //const display = useDisplay();
     //const globalStyles = useGlobalStyles();
@@ -136,7 +137,17 @@ const NewFeedback = () => {
     }, [ editMutation, feedback, getValues, reset ]);
 
     const onSubmit = data => {
-        dispatch(addProduct(data))
+        addFeedbackMutation({
+            variables: {
+                feedback: {
+                    category: data['feadback-category'],
+                    description: data['feadback-detail'],
+                    status: "suggestion",
+                    title: data['feadback-title'],
+                    upVotes: 0
+                }
+            }
+        })
         setSnackbarMessage('New feedback saved.');
         setOpenSnackbar(true);
         reset();
