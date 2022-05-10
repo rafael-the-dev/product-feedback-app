@@ -17,10 +17,14 @@ import { addProduct, editFeedback, removeFeedback } from 'src/redux/actions'
 import { selectAllProducts } from 'src/redux/selectors';
 import CloseIcon from '@mui/icons-material/Close';
 
+import { useMutation } from "@apollo/client"
+import { DELETE_FEEDBACK } from "src/graphql/mutations"
+
 const NewFeedback = () => {
     const router = useRouter();
     const { id } = router.query;
 
+    const deleteMutation = useMutation(DELETE_FEEDBACK);
     //const classes = useStyles();
     //const display = useDisplay();
     //const globalStyles = useGlobalStyles();
@@ -94,9 +98,13 @@ const NewFeedback = () => {
     }, []);
 
     const deleteClickHandler = useCallback(() => {
-        dispatch(removeFeedback(feedback))
+        //dispatch(removeFeedback(feedback))
+        const deleteFeedback = deleteMutation[0];
+        deleteFeedback({
+            variables: { id }
+        })
         router.push('/')
-    }, [ dispatch, feedback, router, ]);
+    }, [ deleteMutation, id, router ]);
 
     const editClickHandler = useCallback(() => {
         dispatch(editFeedback({

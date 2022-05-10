@@ -6,6 +6,7 @@ import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { AppContext } from 'src/context/AppContext';
 //import { replayComment } from 'src/redux/actions'
 //import { useDispatch } from 'react-redux'
+import SendIcon from '@mui/icons-material/Send';
 import { useMutation } from "@apollo/client"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ADD_REPLY } from "src/graphql/mutations";
@@ -132,14 +133,25 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
                                 value={comment}
                                 rows={2}
                             ></textarea>
-                            <Button 
-                                disabled={Boolean(!comment.trim())}
-                                variant="contained"
-                                type="submit"
-                                className={classNames("capitalize ml-4", globalStyles.addFeedbackButton, 
-                                    globalStyles.button)}>
-                                Post reply
-                            </Button>
+                            <Hidden smUp>
+                                <IconButton 
+                                    className={classNames(`ml-4`, globalStyles.addFeedbackButton)}
+                                    type="submit">
+                                    <SendIcon 
+                                        className={classNames("text-white")}
+                                    />
+                                </IconButton>
+                            </Hidden>
+                            <Hidden smDown>
+                                <Button 
+                                    disabled={Boolean(!comment.trim())}
+                                    variant="contained"
+                                    type="submit"
+                                    className={classNames("capitalize ml-4", globalStyles.addFeedbackButton, 
+                                        globalStyles.button)}>
+                                    Post reply
+                                </Button>
+                            </Hidden>
                        </form>
                     </Collapse>
                     { hasReplies && (
