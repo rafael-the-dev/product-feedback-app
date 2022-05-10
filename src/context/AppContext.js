@@ -5,7 +5,7 @@ import { addProducts } from 'src/redux/actions'
 //import { selectAllProducts } from 'src/redux/selectors'
 import { useQuery, useSubscription } from "@apollo/client"
 import { GET_FEEDBACKS } from 'src/graphql/queries';
-import { GET_FEEDBACKS__SUBSCRIPTION, GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
+import { DELETE_FEEDBACK_SUBSCRIPTION, GET_FEEDBACKS__SUBSCRIPTION, GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
 //import WebSocket from "ws"
 
 export const AppContext = createContext();
@@ -24,6 +24,8 @@ export const AppContextProvider = ({ children }) => {
             id: "null"
         } 
     });
+
+    const deleteFeedbackSubscription = useSubscription(DELETE_FEEDBACK_SUBSCRIPTION);
 
     //const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
     //const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
@@ -101,7 +103,7 @@ export const AppContextProvider = ({ children }) => {
     const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
 
     const updateAllFeedbacks = useCallback((newFeedback) => {
-        console.log("hello rt")
+        //console.log("hello rt")
         subscribeToMore({
             document: GET_FEEDBACKS__SUBSCRIPTION,
             updateQuery: (prev, { subscriptionData }) => {
@@ -133,6 +135,26 @@ export const AppContextProvider = ({ children }) => {
                 const feedback = subscriptionData.data.feedbackUpdated;
                 const index = feedbacks.findIndex(element => element.ID === feedback.ID);
                 feedbacks[index] = feedback;
+
+                return Object.assign({}, prev, {
+                    feedbacks
+                });
+            }
+        });
+    }, [ feedbackSubscription, subscribeToMore ]);
+
+    useEffect(() => {
+        subscribeToMore({
+            document: DELETE_FEEDBACK_SUBSCRIPTION,
+            updateQuery: (prev, { subscriptionData }) => {
+                console.log(prev)
+                console.log(subscriptionData.data)
+                if (!subscriptionData.data) return prev;
+
+                const feedback = subscriptionData.data.feedbackDeleted;
+                const feedbacks = [ ...prev.feedbacks.filter(item => item.ID !== feedback.ID) ];
+                //const index = feedbacks.findIndex(element => element.ID === feedback.ID);
+                //feedbacks[index] = feedback;
 
                 return Object.assign({}, prev, {
                     feedbacks

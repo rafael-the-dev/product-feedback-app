@@ -35,7 +35,10 @@ export const ADD_REPLY = gql`
 
 export const DELETE_FEEDBACK = gql`
     mutation DeleteFeedback($id: String!) {
-        deleteFeedback(id: $id)
+        deleteFeedback(id: $id) {
+            ID
+            status
+        }
     }
 `;
 

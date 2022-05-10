@@ -51,6 +51,14 @@ export const GET_FEEDBACK__SUBSCRIPTION = gql`
     }
 `;
 
+export const DELETE_FEEDBACK_SUBSCRIPTION = gql`
+    subscription DeleteFeedback {
+        feedbackDeleted {
+            ID
+            status
+        }
+    }
+`;
 /**
  * ID
             category
