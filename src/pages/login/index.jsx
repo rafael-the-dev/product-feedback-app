@@ -1,6 +1,7 @@
 import { Button, FormControl, InputAdornment, InputLabel, IconButton, OutlinedInput, Paper, TextField, Typography } from '@mui/material';
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -8,8 +9,15 @@ import Visibility from '@mui/icons-material/Visibility';
 
 import classNames from 'classnames'
 import classes from "./styles.module.css"
+import { useMutation } from '@apollo/client';
+import { LOGIN } from 'src/graphql/mutations';
+import { LoginContext } from 'src/context/LoginContext';
 
 const Container = () => {
+    const { addUser } = useContext(LoginContext)
+    const [ loginMutation, loginStatus ] = useMutation(LOGIN)
+    const router = useRouter()
+
     const userNameRef = useRef(null);
     const [ values, setValues ] = useState({
         password: '',
@@ -31,23 +39,40 @@ const Container = () => {
         setValues(currentValues => ({ ...currentValues, [prop]: event.target.value }));
     }, []);
 
+    //const hasSubmitedData = useRef(false);
     const onSubmitHandler = event => {
         event.preventDefault();
 
-        let userName = userNameRef.current.value;
+        let username = userNameRef.current.value;
         let password = values.password;
-        /*if(userName.trim() !== '' && password.trim() !== '') {
-            logIn({ variables: {
-                userName,
-                password
-            }});
-            console.log(logInResponse)
-            if(logInResponse.data?.login?.id) {
-                setUser(logInResponse.data.login)
-                history.push('/')
-            }
-        } */
-    }
+        if(username.trim() !== '' && password.trim() !== '') {
+            loginMutation({ 
+                variables: {
+                    username,
+                    password
+                },
+                onCompleted(data) {
+                    addUser(data.login);
+                    router.push('/');
+                },
+                onError(err) {
+                    console.log(err)
+                }
+            });
+            //hasSubmitedData.current = true;
+        } 
+    };
+
+    /*useEffect(() => {
+        const { data } = loginStatus;
+        console.log(hasSubmitedData)
+        if(Boolean(data) && hasSubmitedData.current) {
+            console.log(data)
+            addUser(data.login);
+            router.push('/');
+        }
+        hasSubmitedData.current = false;
+    }, [ addUser, loginStatus, router ])*/
 
     return (
         <div className="min-h-screen flex items-center justify-center w-full px-5 md:px-0">

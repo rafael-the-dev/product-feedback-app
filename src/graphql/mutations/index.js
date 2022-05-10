@@ -52,6 +52,15 @@ export const EDIT_FEEDBACK = gql`
     }
 `;
 
+export const LOGIN = gql`
+    mutation Login($username: String!, $password: String!) {
+        login(username: $username, password: $password) {
+            name
+            username
+        }
+    }
+`;
+
 export const UPVOTE_FEEDBACK = gql`
     mutation UpVoteFeedback($id: String!) {
         upVoteFeedback(id: $id) {
