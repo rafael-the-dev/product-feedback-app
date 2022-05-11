@@ -151,12 +151,16 @@ const Roadmap = () => {
                     Roadmap
                 </Typography>
             </div>
-            <Button
-                className={classNames("capitalize", globalStyles.button, globalStyles.addFeedbackButton)}
-                endIcon={<AddIcon />}
-                variant="contained">
-                Add feedback
-            </Button>
+            <Link href="/new-feedback">
+                <a>
+                    <Button
+                        className={classNames("capitalize", globalStyles.button, globalStyles.addFeedbackButton)}
+                        endIcon={<AddIcon />}
+                        variant="contained">
+                        Add feedback
+                    </Button>
+                </a>
+            </Link>
         </div>
     ), [ ]);
 

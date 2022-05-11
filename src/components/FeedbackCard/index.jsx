@@ -2,30 +2,34 @@ import { Chip, Grid, Hidden, Paper, Typography } from '@mui/material'
 import classNames from 'classnames'
 import classes from './styles.module.css'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useCallback, useMemo } from 'react';
-//import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { incrementUpvotes } from 'src/redux/actions';
+import { useCallback, useContext, useMemo } from 'react';
 
 import { useRouter } from 'next/router'
 import { useMutation } from '@apollo/client';
 import { UPVOTE_FEEDBACK } from 'src/graphql/mutations';
 import { GET_FEEDBACK, GET_FEEDBACKS } from 'src/graphql/queries';
+import { AppContext } from 'src/context/AppContext';
 
 const FeedbackCard = ({ comments, category, description, ID, title, upVotes, isClickable }) => {
    // const classes = useStyles();
 
     const router = useRouter();
+    const { startLoading, stopLoading } = useContext(AppContext)
     
     const mutation = useMutation(UPVOTE_FEEDBACK, { 
         refetchQueries: router.pathname === "/" ? [ GET_FEEDBACKS ] : [ GET_FEEDBACK] 
     })
-    const dispatch = useDispatch();
     
     const editClickHandler = useCallback(() => {
         const addUpVote = mutation[0];
-        addUpVote({ variables: { id: ID } });
-    }, [ mutation, ID ]);
+        startLoading();
+
+        addUpVote({ 
+            variables: { id: ID } ,
+            onCompleted() { stopLoading() },
+            onError() { stopLoading() }
+        });
+    }, [ mutation, ID, startLoading, stopLoading ]);
 
     const toggleButton = useMemo(() => (
         <button 

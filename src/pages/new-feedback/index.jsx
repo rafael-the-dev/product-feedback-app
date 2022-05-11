@@ -112,7 +112,7 @@ const NewFeedback = () => {
                 feedback: {
                     category: getValues('feadback-category'),
                     description: getValues('feadback-detail'),
-                    status: feedback['status'],
+                    status: getValues("feadback-status"),
                     title: getValues('feadback-title'),
                     upVotes: feedback.upVotes
                 }
@@ -249,7 +249,7 @@ const NewFeedback = () => {
                         </TextField>
                     </div>
                     {
-                        feedback.id && (
+                        feedback.ID && (
                             <div className="mt-8">
                                 <label 
                                     htmlFor='feadback-status' 
