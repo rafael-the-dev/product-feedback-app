@@ -12,6 +12,10 @@ a {
   background-color: #F2F4FF;
 }
 
+.remove-root-padding {
+  padding: 0 !important;
+}
+
 .user-avatar {
   background-color: #4661E6 !important;
 }

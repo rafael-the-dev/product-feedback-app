@@ -1,5 +1,5 @@
 import { Button, FormControl, InputAdornment, InputLabel, IconButton, OutlinedInput, Paper, TextField, Typography } from '@mui/material';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -12,10 +12,13 @@ import classes from "./styles.module.css"
 import { useMutation } from '@apollo/client';
 import { LOGIN } from 'src/graphql/mutations';
 import { LoginContext } from 'src/context/LoginContext';
+import { AppContext } from 'src/context/AppContext';
 
 const Container = () => {
     const { addUser } = useContext(LoginContext)
-    const [ loginMutation, loginStatus ] = useMutation(LOGIN)
+    const { startLoading, stopLoading } = useContext(AppContext);
+
+    const loginMutation = useMutation(LOGIN)
     const router = useRouter()
 
     const userNameRef = useRef(null);
@@ -45,34 +48,28 @@ const Container = () => {
 
         let username = userNameRef.current.value;
         let password = values.password;
+        const signIn = loginMutation[0];
+
         if(username.trim() !== '' && password.trim() !== '') {
-            loginMutation({ 
+            startLoading();
+            signIn({ 
                 variables: {
                     username,
                     password
                 },
                 onCompleted(data) {
                     addUser(data.login);
+                    stopLoading();
                     router.push('/');
                 },
                 onError(err) {
+                    stopLoading();
                     console.log(err)
                 }
             });
             //hasSubmitedData.current = true;
         } 
     };
-
-    /*useEffect(() => {
-        const { data } = loginStatus;
-        console.log(hasSubmitedData)
-        if(Boolean(data) && hasSubmitedData.current) {
-            console.log(data)
-            addUser(data.login);
-            router.push('/');
-        }
-        hasSubmitedData.current = false;
-    }, [ addUser, loginStatus, router ])*/
 
     return (
         <div className="min-h-screen flex items-center justify-center w-full px-5 md:px-0">

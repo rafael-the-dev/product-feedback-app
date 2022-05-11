@@ -23,14 +23,16 @@ const Container = ({ children }) => {
 
         if([ '/login', '/signup' ].includes(pathname)) {
             if(rootRef.current !== null) {
-                rootRef.current.style.padding = 0;
+                rootRef.current.classList.add("remove-root-padding")
             }
+        } else {
+            rootRef.current.classList.remove("remove-root-padding")
         }
     }, [ router, user ]);
 
     return (
         <>
-            <LinearProgress className={classNames({ "hidden": !isLoading })} />
+            <LinearProgress className={classNames({ "hidden": !isLoading }, `fixed top-0 left-0 w-full z-10`)} />
             <div id="root" ref={rootRef}>
                 { children }
             </div>

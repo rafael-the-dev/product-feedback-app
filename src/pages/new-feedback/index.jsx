@@ -3,50 +3,33 @@ import globalStyles from 'src/styles/global-styles.module.css'
 import classes from './styles.module.css'
 import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, MenuItem, Paper, 
     Snackbar, Typography, TextField } from '@mui/material';
-import { useMemo, useRef, useState } from 'react'
-import AddIcon from '@mui/icons-material/Add';
-import CheckIcon from '@mui/icons-material/Check';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-//import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useContext, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect } from 'react'
 import { useForm } from "react-hook-form";
-//import { useDispatch, useSelector } from 'react-redux'
-//import { addProduct, editFeedback, removeFeedback } from 'src/redux/actions'
-//import { selectAllProducts } from 'src/redux/selectors';
+
 import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
+import CheckIcon from '@mui/icons-material/Check';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 import { useQuery } from '@apollo/client';
 import { useMutation } from "@apollo/client"
 import { ADD_FEEDBACK, DELETE_FEEDBACK, EDIT_FEEDBACK } from "src/graphql/mutations"
 import { GET_FEEDBACK } from "src/graphql/queries"
+import { AppContext } from 'src/context/AppContext';
 
 const NewFeedback = () => {
     const router = useRouter();
     const { id } = router.query;
 
+    const { startLoading, stopLoading } = useContext(AppContext);
+
     const feedbackStatus = useQuery(GET_FEEDBACK, { variables: { id: id ? id : "" }, });
-    const [ deleteMutation, deleteStatus ] = useMutation(DELETE_FEEDBACK);
-    const [ editMutation, editMutationStatus ] = useMutation(EDIT_FEEDBACK);
-    const [ addFeedbackMutation, addFeedbackStatus ] = useMutation(ADD_FEEDBACK);
-
-    const hasNewFeedback = useRef(false);
-    const isFeedbackEdited = useRef(false);
-    const isFeedbackDeleted = useRef(false);
-    //const classes = useStyles();
-    //const display = useDisplay();
-    //const globalStyles = useGlobalStyles();
-    //const responsive = useResponsive();
-    //const text = useTypography();
-    
-    //const { search } = useLocation();
-    //const navigate = useNavigate()
-    //const query = new URLSearchParams(search);
-    //const id = query.get('id');
-
-    //const dispatch = useDispatch();
-    //const feedbacksList = useSelector(selectAllProducts);
+    const deleteMutation = useMutation(DELETE_FEEDBACK);
+    const editMutation = useMutation(EDIT_FEEDBACK);
+    const addFeedbackMutation = useMutation(ADD_FEEDBACK);
     
     const { register, handleSubmit, getValues , reset, setFocus, setValue, formState: { errors } } = useForm();
     const [ feedback, setFeedback ] = useState({})
@@ -107,15 +90,23 @@ const NewFeedback = () => {
     }, []);
 
     const deleteClickHandler = useCallback(() => {
-        //dispatch(removeFeedback(feedback))
-        deleteMutation({
-            variables: { id }
+        startLoading();
+        const deleteFeedback = deleteMutation[0];
+
+        deleteFeedback({
+            variables: { id },
+            onCompleted() {
+                stopLoading();
+                router.push('/')
+            }
         })
-        isFeedbackDeleted.current = true;
-    }, [ deleteMutation, id ]);
+    }, [ deleteMutation, id, router, startLoading, stopLoading ]);
 
     const editClickHandler = useCallback(() => {
-        editMutation({
+        const editFeedback = editMutation[0];
+        startLoading();
+        
+        editFeedback({
             variables: {
                 id: feedback.ID,
                 feedback: {
@@ -125,17 +116,25 @@ const NewFeedback = () => {
                     title: getValues('feadback-title'),
                     upVotes: feedback.upVotes
                 }
+            },
+            onCompleted() {
+                canIFillIn.current = false;
+                reset();
+                setCategory('feature')
+                setStatus('suggestion')
+                setSnackbarMessage('Changes saved.');
+                setOpenSnackbar(true);
+                stopLoading();
             }
         });
-        isFeedbackEdited.current = true;
-        /*dispatch(editFeedback({
-            id: feedback.id,
-        }));*/
         
-    }, [ editMutation, feedback, getValues ]);
+    }, [ editMutation, feedback, getValues, reset, startLoading, stopLoading ]);
 
     const onSubmit = data => {
-        addFeedbackMutation({
+        const addFeedback = addFeedbackMutation[0];
+        startLoading();
+
+        addFeedback({
             variables: {
                 feedback: {
                     category: data['feadback-category'],
@@ -144,12 +143,18 @@ const NewFeedback = () => {
                     title: data['feadback-title'],
                     upVotes: 0
                 }
+            },
+            onCompleted() {
+                setSnackbarMessage('New feedback saved.');
+                setOpenSnackbar(true);
+                reset();
+                stopLoading();
             }
         })
-        hasNewFeedback.current = true;
     }
 
     useEffect(() => {
+        //startL
         const { data } = feedbackStatus;
 
         if(Boolean(data) && canIFillIn.current) {
@@ -161,37 +166,6 @@ const NewFeedback = () => {
             setFeedback(result);
         }
     }, [ feedbackStatus, setValue ]);
-
-    useEffect(() => {
-        const { data } = addFeedbackStatus;
-        if(data && hasNewFeedback.current) {
-            hasNewFeedback.current = false;
-            setSnackbarMessage('New feedback saved.');
-            setOpenSnackbar(true);
-            reset();
-        }
-    }, [ addFeedbackStatus, reset ]);
-
-    useEffect(() => {
-        const { data } = deleteStatus;
-        if(Boolean(data) && isFeedbackDeleted.current) {
-            isFeedbackDeleted.current = false;
-            router.push('/')
-        }
-    }, [ deleteStatus, router ])
-
-    useEffect(() => {
-        const { data } = editMutationStatus;
-        if(Boolean(data) && isFeedbackEdited.current) {
-            canIFillIn.current = false;
-            isFeedbackEdited.current = false;
-            reset();
-            setCategory('feature')
-            setStatus('suggestion')
-            setSnackbarMessage('Changes saved.');
-            setOpenSnackbar(true);
-        }
-    }, [ editMutationStatus, reset ])
 
     return (
         <>
