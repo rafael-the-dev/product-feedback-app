@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { AppContext } from 'src/context/AppContext'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 //import { addComent } from 'src/redux/actions';
 import { selectAllProducts } from 'src/redux/selectors';
 import CloseIcon from '@mui/icons-material/Close';
@@ -35,7 +35,7 @@ const FeedbackDetails = () => {
         }
     });
 
-    const [ addComment, mutationOptions ] = useMutation(ADD_COMMENT, {
+    const addCommentMutation = useMutation(ADD_COMMENT, {
         refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
     });
 
@@ -44,10 +44,10 @@ const FeedbackDetails = () => {
     //const globalStyles = useGlobalStyles();
     //const text = useTypography();
 
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const feedbacksList = useSelector(selectAllProducts);
 
-    const { generateNextUser, nextUser } = useContext(AppContext)
+    const { generateNextUser, nextUser, startLoading, stopLoading } = useContext(AppContext)
     const [ feedback, setFeedback ] = useState({ comments: [] });
     const [ openCommentSnackbar, setOpenOpenCommentSnackbar ] = useState(false);
 
@@ -82,6 +82,8 @@ const FeedbackDetails = () => {
 
     const submitHandler = useCallback(event => {
         event.preventDefault();
+        startLoading()
+        const addComment = addCommentMutation[0];
         //const { data } = mutationOptions;
 
         addComment({ variables: {
@@ -90,16 +92,19 @@ const FeedbackDetails = () => {
                 feedbackID: id,
                 replies: [],
                 user: nextUser.current
+            }},
+            onCompleted() {
+                generateNextUser();
+                setComment('');
+                setOpenOpenCommentSnackbar(true);
+                stopLoading();
+            },
+            onError(err) {
+                stopLoading();
+                console.log(err)
             }
-        }});
-        generateNextUser();
-        setComment('');
-        setOpenOpenCommentSnackbar(true);
-
-        /*dispatch(addComent({
-            commentRef, feedback, generateNextUser, nextUser, setComment, setOpenOpenCommentSnackbar
-        }));*/
-    }, [ addComment, generateNextUser, id, nextUser ]);
+        });
+    }, [ addCommentMutation, generateNextUser, id, nextUser, startLoading, stopLoading ]);
 
     useEffect(() => {
         //console.log(data)

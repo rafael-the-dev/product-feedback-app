@@ -34,11 +34,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/feedbacks/[id].js"
-    ],
-    "/new-feedback": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/new-feedback.js"
     ]
   },
   "ampFirstPages": []

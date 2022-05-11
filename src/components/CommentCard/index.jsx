@@ -14,13 +14,11 @@ import { GET_FEEDBACK, GET_FEEDBACKS } from "src/graphql/queries";
 
 const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, replyingTo, user,  feedbackID, setOpenOpenCommentSnackbar }) => {
     //const globalStyles = useGlobalStyles();
-    const [ addCommentReply, mutationOptions ] = useMutation(ADD_REPLY, {
+    const addCommentReply = useMutation(ADD_REPLY, {
         refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
     });
 
-    //const dispatch = useDispatch();
-
-    const { nextUser, generateNextUser } = useContext(AppContext)
+    const { generateNextUser, nextUser, startLoading, stopLoading } = useContext(AppContext)
 
     const [ openCommetsCollapse, setOpenCommentsCollapse ] = useState(false);
     const [ openCollapse, setOpenCollapse ] = useState(false);
@@ -47,7 +45,10 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
 
     const submitHandler = useCallback(event => {
         event.preventDefault();
-        addCommentReply({
+        startLoading();
+        const replyComment = addCommentReply[0];
+
+        replyComment({
             variables: {
                 reply: {
                     content: commentRef.current,
@@ -56,27 +57,23 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
                     replyingTo: user.username,
                     user: nextUser.current
                 }
+            },
+            onCompleted() {
+                setOpenCollapse(false)
+                setComment('');
+                generateNextUser();
+                setOpenOpenCommentSnackbar(true);
+                setIsSuccefulReply(false);
+                stopLoading();
+            },
+            onError(err) {
+                stopLoading();
+                console.log(err)
             }
         });
-        
-        /*dispatch(replayComment({
-            commentID,
-            content: commentRef.current,
-            feedbackID,
-            setIsSuccefulReply,
-            nextuser: nextUser.current,
-            username: user.username
-        }));*/
 
-        //if(isSuccefulReply.current) {
-            setOpenCollapse(false)
-            setComment('');
-            generateNextUser();
-            setOpenOpenCommentSnackbar(true);
-        //}
-
-        setIsSuccefulReply(false);
-    }, [ addCommentReply, commentID, feedbackID, generateNextUser, nextUser, setIsSuccefulReply, setOpenOpenCommentSnackbar, user ]);
+    }, [ addCommentReply, commentID, feedbackID, generateNextUser, nextUser, setIsSuccefulReply, 
+        setOpenOpenCommentSnackbar, user, startLoading, stopLoading ]);
 
     return (
         <Grid item xs={12} component="article" className={classNames({ [classes.gridItem]: isMainCommentCard })}>
