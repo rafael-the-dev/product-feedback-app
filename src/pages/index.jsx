@@ -21,8 +21,8 @@ import { LoginContext } from 'src/context/LoginContext';
 const Home = () => {
     //const classes = useStyles();
     //const globalStyles = useGlobalStyles();
-    const { feedbacksList } = useContext(AppContext);
-    const { logout } = useContext(LoginContext);
+    const { feedbacksList, getInitialsNameLetters } = useContext(AppContext);
+    const { logout, user } = useContext(LoginContext);
 
     const totalSuggestions = useMemo(() => {
         let total = 0;
@@ -154,10 +154,10 @@ const Home = () => {
                             </a>
                     </Link>
                     <Avatar 
-                        alt="RT"
-                        className={classNames(`ml-3 user-avatar`)}
+                        alt={user.name}
+                        className={classNames(`ml-3 uppercase user-avatar`)}
                         onClick={handleClick(setUserAnchorEl)}
-                    >RT</Avatar>
+                    >{ getInitialsNameLetters(user.name) }</Avatar>
                    </div>
                    <Popover
                         id={userPopoverId}

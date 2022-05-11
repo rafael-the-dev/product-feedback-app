@@ -1,9 +1,8 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 //import data from 'src/data.json';
 import { useDispatch } from 'react-redux'
-import { addProducts } from 'src/redux/actions'
-//import { selectAllProducts } from 'src/redux/selectors'
 import { useQuery, useSubscription } from "@apollo/client"
+
 import { GET_FEEDBACKS } from 'src/graphql/queries';
 import { DELETE_FEEDBACK_SUBSCRIPTION, GET_FEEDBACKS__SUBSCRIPTION, GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
 //import WebSocket from "ws"
@@ -12,10 +11,6 @@ export const AppContext = createContext();
 AppContext.displayName = 'AppContext';
 
 export const AppContextProvider = ({ children }) => {
-    const dispatch = useDispatch();
-    //const allFeedbacks = useSelector(selectAllProducts);
-
-    //const localStoraFeedbacksName = useRef('feedback-app__feedbacks');
     const [ isLoading, setIsLoading ] = useState(false);
     const [ feedbacksList, setFeedbackList ] = useState([]);
 
@@ -91,6 +86,25 @@ export const AppContextProvider = ({ children }) => {
         }, 
     ], []);
 
+    const getInitialsNameLetters = useCallback(name => {
+        let result = "";
+    
+        if (name && typeof name === "string") {
+          let splittedName = name.split(" ");
+    
+          if (splittedName.length === 0) {
+            splittedName = name.split("-");
+          }
+
+          if (splittedName.length > 2) {
+            result = splittedName[0].charAt(0) + splittedName[splittedName.length - 1].charAt(0);
+          } else {
+            splittedName.forEach((item) => (result += item.charAt(0)));
+          }
+        }
+        return result;
+    }, []);
+
     const nextUser = useRef({ name: 'unknown'});
     const generateNextUser = useCallback(() => {
         let user = usersList[Math.floor(Math.random() * usersList.length)];
@@ -115,9 +129,6 @@ export const AppContextProvider = ({ children }) => {
                 const newFeedItem = subscriptionData.data.feedbackCreated;
                 console.log(prev);
 
-                if(newFeedback) {
-                    const index = [].findIndex(element => element.ID === newFeedback.ID)
-                }
                 return Object.assign({}, prev, {
                 feedbacks: [...prev.feedbacks, newFeedItem ]
                 });
@@ -211,7 +222,7 @@ export const AppContextProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{ feedbacksList, generateNextUser, isLoading, nextUser, setFeedbackList, 
+            value={{ feedbacksList, getInitialsNameLetters, generateNextUser, isLoading, nextUser, setFeedbackList, 
             startLoading, stopLoading, updateAllFeedbacks }}>
             { children }
         </AppContext.Provider>
