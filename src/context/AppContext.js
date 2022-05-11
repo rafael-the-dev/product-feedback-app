@@ -16,8 +16,11 @@ export const AppContextProvider = ({ children }) => {
     //const allFeedbacks = useSelector(selectAllProducts);
 
     //const localStoraFeedbacksName = useRef('feedback-app__feedbacks');
-
+    const [ isLoading, setIsLoading ] = useState(false);
     const [ feedbacksList, setFeedbackList ] = useState([]);
+
+    const startLoading = useCallback(() => setIsLoading(true), [])
+    const stopLoading = useCallback(() => setIsLoading(false), [])
 
     const feedbackSubscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
         variables: { 
@@ -208,7 +211,8 @@ export const AppContextProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{ feedbacksList, generateNextUser, nextUser, setFeedbackList, updateAllFeedbacks }}>
+            value={{ feedbacksList, generateNextUser, isLoading, nextUser, setFeedbackList, 
+            startLoading, stopLoading, updateAllFeedbacks }}>
             { children }
         </AppContext.Provider>
     );
