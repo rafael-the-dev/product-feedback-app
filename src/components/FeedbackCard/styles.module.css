@@ -30,7 +30,8 @@
 .button:hover { background-color: #CFD7FF}
 
 .buttonArrow {
-    color: #4661E6 !important
+    color: #4661E6 !important;
+    transform: rotate(180deg);
 }
 
 .buttonText {

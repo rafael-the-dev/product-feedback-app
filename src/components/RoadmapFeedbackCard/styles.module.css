@@ -24,6 +24,7 @@
 
 .buttonArrow {
     color: #4661E6 !important;
+    transform: rotate(180deg);
 }
 
 .buttonText {

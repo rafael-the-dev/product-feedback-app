@@ -121,7 +121,7 @@ const Home = () => {
                             <Typography 
                                 component="h2" 
                                 variant="h6" 
-                                className={classNames("font-bold text-white", classes.totalSuggestions)}>
+                                className={classNames("flex font-bold items-center text-white", classes.totalSuggestions)}>
                                 { totalSuggestions } Suggestions
                             </Typography>
                        </Hidden>

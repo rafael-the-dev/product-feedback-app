@@ -5,7 +5,7 @@ import classes from './styles.module.css'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useMemo } from 'react';
 
-const FeedbackCard = ({ comments, category, description, status, title, upvotes }) => {
+const FeedbackCard = ({ comments, category, description, status, title, upVotes }) => {
     //const bg = useBackground();
     //const classes = useStyles();
     //const display = useDisplay();
@@ -13,13 +13,13 @@ const FeedbackCard = ({ comments, category, description, status, title, upvotes 
     //const text = useTypography();
 
     const toggleButton = useMemo(() => (
-        <button className={classNames("border-0 outline-none flex items-center", classes.button)}>
-            <KeyboardArrowDownIcon className={classNames(classes.buttonArrow)} />
+        <button className={classNames("border-0 outline-none flex items-center rounded-2xl", classes.button)}>
+            <KeyboardArrowDownIcon className={classNames("rotate-180", classes.buttonArrow)} />
             <span className={classNames("font-bold", classes.darkBlueColor, classes.buttonText)}>
-                { upvotes }
+                { upVotes }
             </span>
         </button>
-    ), [ upvotes ]);
+    ), [ upVotes ]);
 
     const commentButton = useMemo(() => (
         <button className={classNames("bg-transparent border-0 font-bold flex items-center outline-none", 
@@ -42,7 +42,7 @@ const FeedbackCard = ({ comments, category, description, status, title, upvotes 
 
     return (
         <article component="article" xs={12} sm={6} md={12}>
-            <Paper elevation={0} className={classNames(`box-border items-start justify-between mb-4 py-4 relative px `,
+            <Paper elevation={0} className={classNames(`box-border items-start justify-between mb-4 py-4 relative px-5`,
                 classes.paper)}>
                 <span className={classNames("block", classes.roadmapStateText, feedbackTextStatus[status])}>
                     { status.replace('-', ' ') }
