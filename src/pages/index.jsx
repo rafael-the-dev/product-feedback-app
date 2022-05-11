@@ -2,24 +2,27 @@ import Header from 'src/components/Header'
 import classNames from 'classnames';
 import globalStyles from 'src/styles/global-styles.module.css'
 import classes from 'src/styles/Home.module.css'
-import { Button, Grid, Hidden, IconButton, List, ListItem, ListItemButton, ListItemText, ListItemIcon,
+import { Avatar, Button, Grid, Hidden, IconButton, List, ListItem, ListItemButton, ListItemText, ListItemIcon,
     Popover, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FeedbackCard from 'src/components/FeedbackCard';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Link from 'next/link'
 //import { useSelector } from 'react-redux'
 //import { selectAllProducts } from 'src/redux/selectors'
 
 import { AppContext } from "src/context/AppContext"
+import { LoginContext } from 'src/context/LoginContext';
 //import { feedbacksComponentHelper, FeedbacksContext, FeedbacksContextProvider } from "src/context/FeedbacksContext"
 
 const Home = () => {
     //const classes = useStyles();
     //const globalStyles = useGlobalStyles();
     const { feedbacksList } = useContext(AppContext);
+    const { logout } = useContext(LoginContext);
 
     const totalSuggestions = useMemo(() => {
         let total = 0;
@@ -87,22 +90,25 @@ const Home = () => {
             ))
     ), [ filterList ]);
 
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [ anchorEl, setAnchorEl] = useState(null);
+    const [ userAnchorEl, setUserAnchorEl] = useState(null);
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
+    const handleClick = func => (event) => {
+        func(event.currentTarget);
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
+    const handleClose = func => () => {
+        func(null);
     };
 
     const openPopover = Boolean(anchorEl);
+    const openUserPopover = Boolean(userAnchorEl);
     const id = openPopover ? 'simple-popover' : undefined;
+    const userPopoverId = openUserPopover ? 'user-popover' : undefined;
 
     const listItemClickHandler = useCallback(prop => () => {
         setFilter(prop);
-        handleClose();
+        handleClose(setAnchorEl);
     }, []);
 
     return (
@@ -122,35 +128,70 @@ const Home = () => {
                         <Button
                             className={classNames("capitalize text-white sm:ml-8")}
                             endIcon={<KeyboardArrowDownIcon />}
-                            onClick={handleClick}>
+                            onClick={handleClick(setAnchorEl)}>
                             Sort by:
                             <span className={classNames("font-bold", classes.sortHighlightText)}> 
                                 { filter.replace('-', ' ')}
                             </span>
                         </Button>
                    </div>
-                   <Link href="/new-feedback">
-                        <a>
-                            <Hidden smDown>
-                                <Button
-                                    className={classNames("capitalize", classes.addFeedbackButton, globalStyles.addFeedbackButton)}
-                                    endIcon={<AddIcon />}
-                                    variant="contained">
-                                    Add feedback
-                                </Button>
-                            </Hidden>
-                            <Hidden smUp>
-                                <IconButton className={classNames("text-white", globalStyles.addFeedbackButton)}>
-                                    <AddIcon />
-                                </IconButton>
-                            </Hidden>
-                        </a>
-                   </Link>
+                   <div className="flex items-center">
+                    <Link href="/new-feedback">
+                            <a>
+                                <Hidden smDown>
+                                    <Button
+                                        className={classNames("capitalize", classes.addFeedbackButton, globalStyles.addFeedbackButton)}
+                                        endIcon={<AddIcon />}
+                                        variant="contained">
+                                        Add feedback
+                                    </Button>
+                                </Hidden>
+                                <Hidden smUp>
+                                    <IconButton className={classNames("text-white", globalStyles.addFeedbackButton)}>
+                                        <AddIcon />
+                                    </IconButton>
+                                </Hidden>
+                            </a>
+                    </Link>
+                    <Avatar 
+                        alt="RT"
+                        className={classNames(`ml-3 user-avatar`)}
+                        onClick={handleClick(setUserAnchorEl)}
+                    >RT</Avatar>
+                   </div>
+                   <Popover
+                        id={userPopoverId}
+                        open={openUserPopover}
+                        anchorEl={userAnchorEl}
+                        onClose={handleClose(setUserAnchorEl)}
+                        classes={{ paper: classes.popoverRoot}}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        >
+                        <List className={classNames(`p-0 w-[174px]`)}>
+                            <ListItem 
+                                disablePadding 
+                                onClick={logout} 
+                                className={classNames(classes.filterListItem)}>
+                                <ListItemButton>
+                                    <ListItemText 
+                                        classes={{ root: classes.filterListItemText}} 
+                                        primary="Log out" 
+                                    />
+                                    <ListItemIcon classes={{ root: classes.filterListIcon }}>
+                                        <LogoutIcon />
+                                    </ListItemIcon>
+                                </ListItemButton>
+                            </ListItem>
+                        </List>
+                    </Popover>
                     <Popover
                         id={id}
                         open={openPopover}
                         anchorEl={anchorEl}
-                        onClose={handleClose}
+                        onClose={handleClose(setAnchorEl)}
                         classes={{ paper: classes.popoverRoot}}
                         anchorOrigin={{
                             vertical: 'bottom',

@@ -9,8 +9,10 @@ export const LoginContextProvider = ({ children }) => {
         setUser(loggedUser)
     }, []);
 
+    const logout = useCallback(() => setUser(null), []);
+
     return (
-        <LoginContext.Provider value={{ addUser, user }}>
+        <LoginContext.Provider value={{ addUser, logout, user }}>
             { children }
         </LoginContext.Provider>
     );

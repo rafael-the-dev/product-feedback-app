@@ -12,6 +12,10 @@ a {
   background-color: #F2F4FF;
 }
 
+.user-avatar {
+  background-color: #4661E6 !important;
+}
+
 .categories {
   padding: .2rem .3rem !important;
 }
