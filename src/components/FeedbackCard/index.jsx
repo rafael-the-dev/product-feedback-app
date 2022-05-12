@@ -14,7 +14,7 @@ const FeedbackCard = ({ comments, category, description, ID, title, upVotes, isC
    // const classes = useStyles();
 
     const router = useRouter();
-    const { startLoading, stopLoading } = useContext(AppContext)
+    const { errorHandler, startLoading, stopLoading } = useContext(AppContext)
     
     const mutation = useMutation(UPVOTE_FEEDBACK, { 
         refetchQueries: router.pathname === "/" ? [ GET_FEEDBACKS ] : [ GET_FEEDBACK] 
@@ -27,7 +27,7 @@ const FeedbackCard = ({ comments, category, description, ID, title, upVotes, isC
         addUpVote({ 
             variables: { id: ID } ,
             onCompleted() { stopLoading() },
-            onError() { stopLoading() }
+            onError(err) { errorHandler(err); stopLoading() }
         });
     }, [ mutation, ID, startLoading, stopLoading ]);
 

@@ -24,7 +24,7 @@ const NewFeedback = () => {
     const router = useRouter();
     const { id } = router.query;
 
-    const { startLoading, stopLoading } = useContext(AppContext);
+    const { errorHandler, startLoading, stopLoading } = useContext(AppContext);
 
     const feedbackStatus = useQuery(GET_FEEDBACK, { variables: { id: id ? id : "" }, });
     const deleteMutation = useMutation(DELETE_FEEDBACK);
@@ -98,9 +98,13 @@ const NewFeedback = () => {
             onCompleted() {
                 stopLoading();
                 router.push('/')
+            },
+            onError(err) {
+                errorHandler(err);
+                stopLoading();
             }
         })
-    }, [ deleteMutation, id, router, startLoading, stopLoading ]);
+    }, [ deleteMutation, errorHandler, id, router, startLoading, stopLoading ]);
 
     const editClickHandler = useCallback(() => {
         const editFeedback = editMutation[0];
@@ -125,10 +129,14 @@ const NewFeedback = () => {
                 setSnackbarMessage('Changes saved.');
                 setOpenSnackbar(true);
                 stopLoading();
+            },
+            onError(err) {
+                errorHandler(err);
+                stopLoading();
             }
         });
         
-    }, [ editMutation, feedback, getValues, reset, startLoading, stopLoading ]);
+    }, [ editMutation, errorHandler, feedback, getValues, reset, startLoading, stopLoading ]);
 
     const onSubmit = data => {
         const addFeedback = addFeedbackMutation[0];
@@ -148,6 +156,10 @@ const NewFeedback = () => {
                 setSnackbarMessage('New feedback saved.');
                 setOpenSnackbar(true);
                 reset();
+                stopLoading();
+            },
+            onError(err) {
+                errorHandler(err);
                 stopLoading();
             }
         })

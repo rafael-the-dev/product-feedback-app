@@ -13,6 +13,7 @@ AppContext.displayName = 'AppContext';
 export const AppContextProvider = ({ children }) => {
     const [ isLoading, setIsLoading ] = useState(false);
     const [ feedbacksList, setFeedbackList ] = useState([]);
+    const [ error, setError ] = useState({ hasError: false, message: "" })
 
     const startLoading = useCallback(() => setIsLoading(true), [])
     const stopLoading = useCallback(() => setIsLoading(false), [])
@@ -103,6 +104,10 @@ export const AppContextProvider = ({ children }) => {
           }
         }
         return result;
+    }, []);
+
+    const errorHandler = useCallback((err) => {
+
     }, []);
 
     const nextUser = useRef({ name: 'unknown'});
@@ -222,7 +227,7 @@ export const AppContextProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{ feedbacksList, getInitialsNameLetters, generateNextUser, isLoading, nextUser, setFeedbackList, 
+            value={{ errorHandler, feedbacksList, getInitialsNameLetters, generateNextUser, isLoading, nextUser, setFeedbackList, 
             startLoading, stopLoading, updateAllFeedbacks }}>
             { children }
         </AppContext.Provider>

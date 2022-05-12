@@ -21,7 +21,7 @@ const CommentCard = ({ commentID, content, isMainCommentCard, replies, replyingT
 
     const loginContext = useContext(LoginContext);
     const loggedUser = loginContext.user;
-    const { getInitialsNameLetters, startLoading, stopLoading } = useContext(AppContext)
+    const { errorHandler, getInitialsNameLetters, startLoading, stopLoading } = useContext(AppContext)
 
     const [ openCommetsCollapse, setOpenCommentsCollapse ] = useState(false);
     const [ openCollapse, setOpenCollapse ] = useState(false);
@@ -69,12 +69,13 @@ const CommentCard = ({ commentID, content, isMainCommentCard, replies, replyingT
                 stopLoading();
             },
             onError(err) {
+                errorHandler(err);
                 stopLoading();
                 console.log(err)
             }
         });
 
-    }, [ addCommentReply, commentID, feedbackID, loggedUser, setIsSuccefulReply, 
+    }, [ addCommentReply, commentID, errorHandler, feedbackID, loggedUser, setIsSuccefulReply, 
         setOpenOpenCommentSnackbar, user, startLoading, stopLoading ]);
 
     return (

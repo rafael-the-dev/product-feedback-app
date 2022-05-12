@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import { useContext, useEffect } from 'react'
-import { LinearProgress } from "@mui/material"
+import { Alert, Collapse, LinearProgress } from "@mui/material"
 import classNames from 'classnames'
 
 import { LoginContext } from 'src/context/LoginContext';
@@ -11,7 +11,7 @@ const Container = ({ children }) => {
     const router = useRouter();
 
     const { user } = useContext(LoginContext)
-    const { isLoading } = useContext(AppContext)
+    const { isLoading, error } = useContext(AppContext)
 
     const rootRef = useRef(null)
 
@@ -33,6 +33,9 @@ const Container = ({ children }) => {
     return (
         <>
             <LinearProgress className={classNames({ "hidden": !isLoading }, `fixed top-0 left-0 w-full z-10`)} />
+            <Collapse in={ error.hasError }>
+                <Alert ></Alert>
+            </Collapse>
             <div id="root" ref={rootRef}>
                 { children }
             </div>

@@ -16,7 +16,7 @@ import { AppContext } from 'src/context/AppContext';
 
 const Container = () => {
     const { addUser } = useContext(LoginContext)
-    const { startLoading, stopLoading } = useContext(AppContext);
+    const { errorHandler, startLoading, stopLoading } = useContext(AppContext);
 
     const loginMutation = useMutation(LOGIN)
     const router = useRouter()

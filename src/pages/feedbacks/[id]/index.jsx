@@ -25,6 +25,8 @@ const FeedbackDetails = () => {
     const { id } = router.query;
 
     const { user } = useContext(LoginContext);
+    const { errorHandler, startLoading, stopLoading } = useContext(AppContext)
+    
     const subscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
         variables: { 
             id
@@ -49,7 +51,6 @@ const FeedbackDetails = () => {
     //const dispatch = useDispatch();
     const feedbacksList = useSelector(selectAllProducts);
 
-    const { startLoading, stopLoading } = useContext(AppContext)
     const [ feedback, setFeedback ] = useState({ comments: [] });
     const [ openCommentSnackbar, setOpenOpenCommentSnackbar ] = useState(false);
 
@@ -101,6 +102,7 @@ const FeedbackDetails = () => {
                 stopLoading();
             },
             onError(err) {
+                errorHandler(err);
                 stopLoading();
                 console.log(err)
             }
