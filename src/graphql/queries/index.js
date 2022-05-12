@@ -16,6 +16,10 @@ export const GET_FEEDBACKS = gql`
             status
             title
             upVotes
+            user {
+                name
+                username
+            }
         }
     }
 `;
@@ -32,13 +36,11 @@ export const GET_FEEDBACK = gql`
                     content 
                     replyingTo
                     user {
-                        image
                         name
                         username
                     }
                 }
                 user {
-                    image
                     name
                     username
                 }
@@ -47,6 +49,10 @@ export const GET_FEEDBACK = gql`
             status
             title
             upVotes
+            user {
+                name
+                username
+            }
         }
     }
 `;

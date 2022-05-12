@@ -11,14 +11,17 @@ import { useMutation } from "@apollo/client"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ADD_REPLY } from "src/graphql/mutations";
 import { GET_FEEDBACK, GET_FEEDBACKS } from "src/graphql/queries";
+import { LoginContext } from 'src/context/LoginContext';
 
-const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, replyingTo, user,  feedbackID, setOpenOpenCommentSnackbar }) => {
+const CommentCard = ({ commentID, content, isMainCommentCard, replies, replyingTo, user,  feedbackID, setOpenOpenCommentSnackbar }) => {
     //const globalStyles = useGlobalStyles();
     const addCommentReply = useMutation(ADD_REPLY, {
         refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
     });
 
-    const { generateNextUser, nextUser, startLoading, stopLoading } = useContext(AppContext)
+    const loginContext = useContext(LoginContext);
+    const loggedUser = loginContext.user;
+    const { getInitialsNameLetters, startLoading, stopLoading } = useContext(AppContext)
 
     const [ openCommetsCollapse, setOpenCommentsCollapse ] = useState(false);
     const [ openCollapse, setOpenCollapse ] = useState(false);
@@ -55,13 +58,12 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
                     commentID,
                     feedbackID,
                     replyingTo: user.username,
-                    user: nextUser.current
+                    user: loggedUser
                 }
             },
             onCompleted() {
                 setOpenCollapse(false)
                 setComment('');
-                generateNextUser();
                 setOpenOpenCommentSnackbar(true);
                 setIsSuccefulReply(false);
                 stopLoading();
@@ -72,7 +74,7 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
             }
         });
 
-    }, [ addCommentReply, commentID, feedbackID, generateNextUser, nextUser, setIsSuccefulReply, 
+    }, [ addCommentReply, commentID, feedbackID, loggedUser, setIsSuccefulReply, 
         setOpenOpenCommentSnackbar, user, startLoading, stopLoading ]);
 
     return (
@@ -83,7 +85,7 @@ const CommentCard = ({ commentID, content, id, isMainCommentCard, replies, reply
                     <Avatar 
                         src={'/images/user-images/' + user.image}
                         alt={user.name}
-                    />
+                    >{ getInitialsNameLetters(user.name) }</Avatar>
                 </Hidden>
                 <div className={classNames('grow sm:ml-8')}>
                    <div className={classNames('flex', 'justify-between', 'items-center')}>

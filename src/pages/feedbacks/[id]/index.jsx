@@ -18,11 +18,13 @@ import { useMutation, useQuery, useSubscription } from "@apollo/client"
 import { GET_FEEDBACK, GET_FEEDBACKS } from 'src/graphql/queries';
 import { ADD_COMMENT } from 'src/graphql/mutations';
 import { GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
+import { LoginContext } from 'src/context/LoginContext';
 
 const FeedbackDetails = () => {
     const router = useRouter();
     const { id } = router.query;
 
+    const { user } = useContext(LoginContext);
     const subscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
         variables: { 
             id
@@ -47,7 +49,7 @@ const FeedbackDetails = () => {
     //const dispatch = useDispatch();
     const feedbacksList = useSelector(selectAllProducts);
 
-    const { generateNextUser, nextUser, startLoading, stopLoading } = useContext(AppContext)
+    const { startLoading, stopLoading } = useContext(AppContext)
     const [ feedback, setFeedback ] = useState({ comments: [] });
     const [ openCommentSnackbar, setOpenOpenCommentSnackbar ] = useState(false);
 
@@ -91,10 +93,9 @@ const FeedbackDetails = () => {
                 content: commentRef.current,
                 feedbackID: id,
                 replies: [],
-                user: nextUser.current
+                user: user
             }},
             onCompleted() {
-                generateNextUser();
                 setComment('');
                 setOpenOpenCommentSnackbar(true);
                 stopLoading();
@@ -104,7 +105,7 @@ const FeedbackDetails = () => {
                 console.log(err)
             }
         });
-    }, [ addCommentMutation, generateNextUser, id, nextUser, startLoading, stopLoading ]);
+    }, [ addCommentMutation, id, startLoading, stopLoading, user ]);
 
     useEffect(() => {
         //console.log(data)
