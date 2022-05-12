@@ -32,13 +32,11 @@ export const GET_FEEDBACK__SUBSCRIPTION = gql`
                     content 
                     replyingTo
                     user {
-                        image
                         name
                         username
                     }
                 }
                 user {
-                    image
                     name
                     username
                 }

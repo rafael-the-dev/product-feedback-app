@@ -227,7 +227,7 @@ export const AppContextProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{ errorHandler, feedbacksList, getInitialsNameLetters, generateNextUser, isLoading, nextUser, setFeedbackList, 
+            value={{ hasError: error.hasError, errorHandler, feedbacksList, getInitialsNameLetters, generateNextUser, isLoading, nextUser, setFeedbackList, 
             startLoading, stopLoading, updateAllFeedbacks }}>
             { children }
         </AppContext.Provider>

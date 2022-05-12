@@ -1,4 +1,4 @@
-import { Button, FormControl, InputAdornment, InputLabel, IconButton, OutlinedInput, Paper, TextField, Typography } from '@mui/material';
+import { Alert, AlertTitle, Button, FormControl, InputAdornment, InputLabel, IconButton, OutlinedInput, Paper, TextField, Typography } from '@mui/material';
 import { useCallback, useContext, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -21,6 +21,7 @@ const Container = () => {
     const loginMutation = useMutation(LOGIN)
     const router = useRouter()
 
+    const alertRef = useRef(null);
     const userNameRef = useRef(null);
     const [ values, setValues ] = useState({
         password: '',
@@ -45,7 +46,8 @@ const Container = () => {
     //const hasSubmitedData = useRef(false);
     const onSubmitHandler = event => {
         event.preventDefault();
-
+        alertRef.current.classList.add("hidden");
+        
         let username = userNameRef.current.value;
         let password = values.password;
         const signIn = loginMutation[0];
@@ -65,6 +67,11 @@ const Container = () => {
                 onError(err) {
                     stopLoading();
                     console.log(err)
+                    err.graphQLErrors.forEach(error => {
+                        if(error.extensions.code === "BAD_USER_INPUT" && error.message === "Username or password Invalid") {
+                            alertRef.current.classList.remove("hidden")
+                        }
+                    })
                 }
             });
             //hasSubmitedData.current = true;
@@ -81,6 +88,10 @@ const Container = () => {
                 <Typography className="font-bold mb-8 text-center text-2xl uppercase">
                     Login
                 </Typography>
+                <Alert className={classNames("hidden mb-4")} ref={alertRef} severity="error">
+                    <AlertTitle>Error</AlertTitle>
+                   Username or password invalid!
+                </Alert>
                 <fieldset>
                     <TextField
                         id="username-textfield"
