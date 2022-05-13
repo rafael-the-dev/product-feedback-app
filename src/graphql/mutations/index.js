@@ -17,9 +17,9 @@ export const ADD_FEEDBACK = gql`
 `;
 
 export const CREATE_NEW_USER = gql`
-    mutation createUser($user: UserInput) {
+    mutation createUser($user: RegisteredUserInput!) {
         registerUser(user: $user) {
-            ID
+            name
             username
         }
     }
@@ -56,6 +56,7 @@ export const LOGIN = gql`
     mutation Login($username: String!, $password: String!) {
         login(username: $username, password: $password) {
             name
+            token
             username
         }
     }

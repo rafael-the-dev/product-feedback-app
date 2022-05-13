@@ -16,13 +16,15 @@ const Container = ({ children }) => {
 
     const rootRef = useRef(null);
 
-    const isLogged = useMemo(() => ![ '/login', '/signup' ].includes(pathname) && user !== null, [ pathname, user ])
+    const isLogged = useMemo(() => (![ '/login', '/signup' ].includes(pathname)) && user !== null, [ pathname, user ])
 
     useEffect(() => {
-        if(!isLogged) {
+        if(!isLogged && (![ '/login', '/signup' ].includes(pathname))) {
             router.push("/login")
         }
+    }, [ isLogged, pathname, router ]);
 
+    useEffect(() => {
         if(isLogged) { //[ '/login', '/signup' ].includes(pathname)
             if(rootRef.current !== null) {
                 rootRef.current.classList.remove("remove-root-padding")
@@ -34,7 +36,7 @@ const Container = ({ children }) => {
                 rootRef.current.classList.add("remove-root-padding")
             }
         }
-    }, [ isLogged, router ]);
+    }, [ isLogged ])
 
     //if(!isLogged) return <></>;
 

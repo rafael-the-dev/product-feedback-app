@@ -60,7 +60,8 @@ const Container = () => {
                     password
                 },
                 onCompleted(data) {
-                    addUser(data.login);
+                    addUser({ name: data.login.name, username: data.login.username });
+                    localStorage.setItem("__product-feedback-app-token", data.login.token)
                     stopLoading();
                     router.push('/');
                 },

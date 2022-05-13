@@ -19,11 +19,13 @@ import { useMutation } from "@apollo/client"
 import { ADD_FEEDBACK, DELETE_FEEDBACK, EDIT_FEEDBACK } from "src/graphql/mutations"
 import { GET_FEEDBACK } from "src/graphql/queries"
 import { AppContext } from 'src/context/AppContext';
+//import { LoginContext } from 'src/context/LoginContext';
 
 const NewFeedback = () => {
     const router = useRouter();
     const { id } = router.query;
 
+    //const { user } = useContext(LoginContext);
     const { errorHandler, startLoading, stopLoading } = useContext(AppContext);
 
     const feedbackStatus = useQuery(GET_FEEDBACK, { variables: { id: id ? id : "" }, });

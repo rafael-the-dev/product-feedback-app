@@ -11,7 +11,7 @@ import { useMutation } from "@apollo/client"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ADD_REPLY } from "src/graphql/mutations";
 import { GET_FEEDBACK, GET_FEEDBACKS } from "src/graphql/queries";
-import { LoginContext } from 'src/context/LoginContext';
+//import { LoginContext } from 'src/context/LoginContext';
 
 const CommentCard = ({ commentID, content, isMainCommentCard, replies, replyingTo, user,  feedbackID, setOpenOpenCommentSnackbar }) => {
     //const globalStyles = useGlobalStyles();
@@ -19,8 +19,8 @@ const CommentCard = ({ commentID, content, isMainCommentCard, replies, replyingT
         refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
     });
 
-    const loginContext = useContext(LoginContext);
-    const loggedUser = loginContext.user;
+    //const loginContext = useContext(LoginContext);
+    //const loggedUser = loginContext.user;
     const { errorHandler, getInitialsNameLetters, startLoading, stopLoading } = useContext(AppContext)
 
     const [ openCommetsCollapse, setOpenCommentsCollapse ] = useState(false);
@@ -57,8 +57,7 @@ const CommentCard = ({ commentID, content, isMainCommentCard, replies, replyingT
                     content: commentRef.current,
                     commentID,
                     feedbackID,
-                    replyingTo: user.username,
-                    user: loggedUser
+                    replyingTo: user.username
                 }
             },
             onCompleted() {
@@ -75,7 +74,7 @@ const CommentCard = ({ commentID, content, isMainCommentCard, replies, replyingT
             }
         });
 
-    }, [ addCommentReply, commentID, errorHandler, feedbackID, loggedUser, setIsSuccefulReply, 
+    }, [ addCommentReply, commentID, errorHandler, feedbackID, setIsSuccefulReply, 
         setOpenOpenCommentSnackbar, user, startLoading, stopLoading ]);
 
     return (
@@ -86,6 +85,7 @@ const CommentCard = ({ commentID, content, isMainCommentCard, replies, replyingT
                     <Avatar 
                         src={'/images/user-images/' + user.image}
                         alt={user.name}
+                        className="uppercase"
                     >{ getInitialsNameLetters(user.name) }</Avatar>
                 </Hidden>
                 <div className={classNames('grow sm:ml-8')}>

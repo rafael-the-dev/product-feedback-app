@@ -18,13 +18,13 @@ import { useMutation, useQuery, useSubscription } from "@apollo/client"
 import { GET_FEEDBACK, GET_FEEDBACKS } from 'src/graphql/queries';
 import { ADD_COMMENT } from 'src/graphql/mutations';
 import { GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
-import { LoginContext } from 'src/context/LoginContext';
+//import { LoginContext } from 'src/context/LoginContext';
 
 const FeedbackDetails = () => {
     const router = useRouter();
     const { id } = router.query;
 
-    const { user } = useContext(LoginContext);
+    //const { user } = useContext(LoginContext);
     const { errorHandler, startLoading, stopLoading } = useContext(AppContext)
     
     const subscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
@@ -93,8 +93,7 @@ const FeedbackDetails = () => {
             comment: {
                 content: commentRef.current,
                 feedbackID: id,
-                replies: [],
-                user: user
+                replies: []
             }},
             onCompleted() {
                 setComment('');
@@ -107,7 +106,7 @@ const FeedbackDetails = () => {
                 console.log(err)
             }
         });
-    }, [ addCommentMutation, id, startLoading, stopLoading, user ]);
+    }, [ addCommentMutation, errorHandler, id, startLoading, stopLoading ]);
 
     useEffect(() => {
         //console.log(data)
