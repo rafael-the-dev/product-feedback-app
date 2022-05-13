@@ -154,10 +154,10 @@ const Home = () => {
                             </a>
                     </Link>
                     <Avatar 
-                        alt={user.name}
+                        alt={user? user.name : ""}
                         className={classNames(`ml-3 uppercase user-avatar`)}
                         onClick={handleClick(setUserAnchorEl)}
-                    >{ getInitialsNameLetters(user.name) }</Avatar>
+                    >{ getInitialsNameLetters(user ? user.name : "") }</Avatar>
                    </div>
                    <Popover
                         id={userPopoverId}
