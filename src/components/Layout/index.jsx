@@ -12,7 +12,7 @@ const Container = ({ children }) => {
     const { pathname } = router;
 
     const { user } = useContext(LoginContext)
-    const { isLoading, hasError } = useContext(AppContext)
+    const { errorMessage, hasError, isLoading } = useContext(AppContext)
 
     const rootRef = useRef(null);
 
@@ -46,9 +46,11 @@ const Container = ({ children }) => {
         <>
             <LinearProgress className={classNames({ "hidden": !isLoading }, `fixed top-0 left-0 w-full z-10`)} />
             <Collapse in={ hasError }>
-                <Alert className={classNames()} severity="error">
-                    <AlertTitle>Error</AlertTitle>
-                   Username or password invalid!
+                <Alert className={classNames("flex items-center py-6 px-5 md:px-[10%]")} severity="error">
+                    <div className="flex items-center text-lg">
+                        <AlertTitle className="mr-3 my-0 text-2xl">Error</AlertTitle>
+                        { errorMessage }
+                    </div>
                 </Alert>
             </Collapse>
             <div id="root" ref={rootRef}>

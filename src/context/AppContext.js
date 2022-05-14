@@ -13,11 +13,12 @@ AppContext.displayName = 'AppContext';
 export const AppContextProvider = ({ children }) => {
     const [ isLoading, setIsLoading ] = useState(false);
     const [ feedbacksList, setFeedbackList ] = useState([]);
-    const [ error, setError ] = useState({ hasError: false, message: "" })
+    const [ error, setError ] = useState({ hasError: false, errorMessage: "" })
 
     const startLoading = useCallback(() => setIsLoading(true), [])
     const stopLoading = useCallback(() => setIsLoading(false), [])
 
+    const addError = useCallback(({ hasError, errorMessage }) => setError({ hasError, errorMessage }), [])
     const feedbackSubscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
         variables: { 
             id: "null"
@@ -107,7 +108,17 @@ export const AppContextProvider = ({ children }) => {
     }, []);
 
     const errorHandler = useCallback((err) => {
-
+        err.graphQLErrors.forEach(error => {
+            switch(error.extensions.code) {
+                case "BAD_USER_INPUT": {
+                    addError({ hasError: true, errorMessage: error.message })
+                    return;
+                }
+                default: {
+                    addError({ hasError: true, errorMessage: error.message })
+                }
+            }
+        })
     }, []);
 
     const nextUser = useRef({ name: 'unknown'});
@@ -227,7 +238,7 @@ export const AppContextProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{ hasError: error.hasError, errorHandler, feedbacksList, getInitialsNameLetters, generateNextUser, isLoading, nextUser, setFeedbackList, 
+            value={{ ...error.hasError, errorHandler, feedbacksList, getInitialsNameLetters, generateNextUser, isLoading, nextUser, setFeedbackList, 
             refreshAllFeedbacks: result.refetch, startLoading, stopLoading, updateAllFeedbacks }}>
             { children }
         </AppContext.Provider>
