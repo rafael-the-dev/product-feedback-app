@@ -1,13 +1,15 @@
 import { Button, Paper, TextField, Typography } from '@mui/material';
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { useMutation } from "@apollo/client";
 import Link from 'next/link'
 import classNames from 'classnames'
 import classes from './styles.module.css'
 
 import { CREATE_NEW_USER } from 'src/graphql/mutations'
+import { AppContext } from 'src/context/AppContext';
 
 const Container = () => {
+    const { errorHandler } = useContext(AppContext)
     const [ password, setPassword ] = useState("");
     const [ comfirmPassword, setComfirmPassword ] = useState("");
     const [ username, setUsername ] = useState("");
@@ -99,10 +101,13 @@ const Container = () => {
                         password: passwordRef.current.value,
                         username: userNameRef.current.value,
                     }
+                },
+                onError(err) {
+                    errorHandler(err);
                 }
             })
         }
-    }, [ hasFormError, mutation ]);
+    }, [ hasFormError, errorHandler, mutation ]);
 
     const legendMemo = useMemo(() => (
         <Typography component="legend" className="font-bold mb-8 text-center text-2xl uppercase">

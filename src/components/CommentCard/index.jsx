@@ -70,7 +70,7 @@ const CommentCard = ({ commentID, content, isMainCommentCard, replies, replyingT
             onError(err) {
                 errorHandler(err);
                 stopLoading();
-                console.log(err)
+                //console.log(err)
             }
         });
 

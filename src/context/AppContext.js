@@ -119,7 +119,7 @@ export const AppContextProvider = ({ children }) => {
                 }
             }
         })
-    }, []);
+    }, [ addError ]);
 
     const nextUser = useRef({ name: 'unknown'});
     const generateNextUser = useCallback(() => {
@@ -199,6 +199,7 @@ export const AppContextProvider = ({ children }) => {
  
     useEffect(() => {
         const data = result.data;
+        console.log(data)
         if(data) {
             setFeedbackList(data.feedbacks)
         }

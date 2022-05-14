@@ -2,6 +2,7 @@ import { Alert, AlertTitle, Button, FormControl, InputAdornment, InputLabel, Ico
 import { useCallback, useContext, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import client from "src/graphql/apollo-client"
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -13,11 +14,12 @@ import { useMutation } from '@apollo/client';
 import { LOGIN } from 'src/graphql/mutations';
 import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from 'src/context/AppContext';
+import { GET_FEEDBACKS } from 'src/graphql/queries'
 
 const Container = () => {
     const { addUser } = useContext(LoginContext)
     const { errorHandler, refreshAllFeedbacks, startLoading, stopLoading } = useContext(AppContext);
-
+    //console.log(client)
     const loginMutation = useMutation(LOGIN)
     const router = useRouter()
 
@@ -43,7 +45,6 @@ const Container = () => {
         setValues(currentValues => ({ ...currentValues, [prop]: event.target.value }));
     }, []);
 
-    //const hasSubmitedData = useRef(false);
     const onSubmitHandler = event => {
         event.preventDefault();
         alertRef.current.classList.add("hidden");
@@ -59,9 +60,9 @@ const Container = () => {
                     username,
                     password
                 },
-                onCompleted(data) {
-                    addUser({ name: data.login.name, username: data.login.username });
+                async onCompleted(data) {
                     localStorage.setItem("__product-feedback-app-token", data.login.token)
+                    addUser({ name: data.login.name, username: data.login.username });
                     stopLoading();
                     refreshAllFeedbacks();
                     router.push('/');
@@ -76,7 +77,6 @@ const Container = () => {
                     })
                 }
             });
-            //hasSubmitedData.current = true;
         } 
     };
 

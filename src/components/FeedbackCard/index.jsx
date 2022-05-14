@@ -29,7 +29,7 @@ const FeedbackCard = ({ comments, category, description, ID, title, upVotes, isC
             onCompleted() { stopLoading() },
             onError(err) { errorHandler(err); stopLoading() }
         });
-    }, [ mutation, ID, startLoading, stopLoading ]);
+    }, [ errorHandler, ID, mutation, startLoading, stopLoading ]);
 
     const toggleButton = useMemo(() => (
         <button 

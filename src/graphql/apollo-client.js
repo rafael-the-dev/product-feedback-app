@@ -1,28 +1,40 @@
 //import { split, HttpLink } from '@apollo/client';
 //import { getMainDefinition } from '@apollo/client/utilities';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { setContext } from '@apollo/client/link/context';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+//import { setContext } from '@apollo/client/link/context';
+import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, split, concat } from '@apollo/client';
 import { createClient } from 'graphql-ws';
-import { split, HttpLink } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 //import WebSocket from 'ws'; Eu vou nas duas 
 
 const getToken = () => {
   if(typeof window !== "undefined") {
-    const token = localStorage.getItem('__product-feedback-app-token') || "";
+    const token = localStorage.getItem('__product-feedback-app-token');
+    console.log(token)
     return token;
   }
-  return "";
+  return "rtt";
 };
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:5000/graphql',
   //credentials: "include",
-  headers: {
-    authorization: getToken(),
-  }
+  //headers: {
+    //authorization: getToken(),
+ // }
 });
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  // add the authorization to the headers
+  operation.setContext(({ headers = {} }) => ({
+    headers: {
+      ...headers,
+      authorization: localStorage.getItem('__product-feedback-app-token') || null,
+    }
+  }));
+
+  return forward(operation);
+})
 
 const wsLink =
     typeof window !== "undefined"
@@ -48,10 +60,10 @@ const wsLink =
       );
     },
     wsLink,
-    httpLink,
+    concat(authMiddleware, httpLink),
   ) : null;
 
-const authLink = setContext(( prevContext, headers ) => {
+/*const authLink = setContext(( prevContext, headers ) => {
   // get the authentication token from local storage if it exists
   const token = getToken();
   console.log(prevContext)
@@ -64,7 +76,7 @@ const authLink = setContext(( prevContext, headers ) => {
       authorization: token ? `Bearer ${token}` : "",
     }
   }
-});
+});*/
 
 /*const httpLink = new HttpLink({
   uri: 'http://localhost:5000/graphql'
@@ -105,10 +117,12 @@ wsLink.request = operation => {
 };*/
 
 const client = new ApolloClient({
-  link: splitLink !== null ? splitLink : null,
+  link: splitLink,
   uri: "http://localhost:5000/graphql",
   cache: new InMemoryCache()
 });
+
+//client.
 
 
 export default client;

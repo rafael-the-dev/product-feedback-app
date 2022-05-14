@@ -10,6 +10,7 @@ a {
 
 #root {
   background-color: #F2F4FF;
+  min-height: 100vh;
 }
 
 .remove-root-padding {

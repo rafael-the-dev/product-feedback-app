@@ -14,7 +14,10 @@ export const LoginContextProvider = ({ children }) => {
         setUser(loggedUser)
     }, []);
 
-    const logout = useCallback(() => setUser(null), []);
+    const logout = useCallback(() => {
+        localStorage.setItem("__product-feedback-app-token", "")
+        setUser(null);
+    }, []);
 
     useEffect(() => {
         const token = localStorage.getItem("__product-feedback-app-token") || "";
@@ -43,7 +46,7 @@ export const LoginContextProvider = ({ children }) => {
                 isFirstRender.current = false;
             }
         };
-    }, [ validateToken ])
+    }, [ addUser, validateToken ]);
 
     return (
         <LoginContext.Provider value={{ addUser, logout, user }}>
