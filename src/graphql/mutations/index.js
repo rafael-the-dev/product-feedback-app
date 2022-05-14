@@ -62,6 +62,15 @@ export const LOGIN = gql`
     }
 `;
 
+export const VALIDATE_TOKEN = gql`
+    mutation ValidateToken($token: String!) {
+        validateToken(token: $token) {
+            name
+            username
+        }
+    }
+`;
+
 export const UPVOTE_FEEDBACK = gql`
     mutation UpVoteFeedback($id: String!) {
         upVoteFeedback(id: $id) {

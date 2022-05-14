@@ -16,7 +16,7 @@ import { AppContext } from 'src/context/AppContext';
 
 const Container = () => {
     const { addUser } = useContext(LoginContext)
-    const { errorHandler, startLoading, stopLoading } = useContext(AppContext);
+    const { errorHandler, refreshAllFeedbacks, startLoading, stopLoading } = useContext(AppContext);
 
     const loginMutation = useMutation(LOGIN)
     const router = useRouter()
@@ -63,6 +63,7 @@ const Container = () => {
                     addUser({ name: data.login.name, username: data.login.username });
                     localStorage.setItem("__product-feedback-app-token", data.login.token)
                     stopLoading();
+                    refreshAllFeedbacks();
                     router.push('/');
                 },
                 onError(err) {

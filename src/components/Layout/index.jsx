@@ -19,10 +19,12 @@ const Container = ({ children }) => {
     const isLogged = useMemo(() => (![ '/login', '/signup' ].includes(pathname)) && user !== null, [ pathname, user ])
 
     useEffect(() => {
-        if(!isLogged && (![ '/login', '/signup' ].includes(pathname))) {
+        if([ '/login' ].includes(pathname) && user !== null) {
+            router.push("/")
+        }else if(!isLogged && (![ '/login', '/signup' ].includes(pathname))) {
             router.push("/login")
         }
-    }, [ isLogged, pathname, router ]);
+    }, [ isLogged, pathname, router, user ]);
 
     useEffect(() => {
         if(isLogged) { //[ '/login', '/signup' ].includes(pathname)
