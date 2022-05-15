@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import globalStyles from 'src/styles/global-styles.module.css'
 import classes from 'src/styles/Home.module.css'
 import { Avatar, Button, Grid, Hidden, IconButton, List, ListItem, ListItemButton, ListItemText, ListItemIcon,
-    Popover, Typography } from '@mui/material';
+    Paper, Popover, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FeedbackCard from 'src/components/FeedbackCard';
@@ -241,9 +241,36 @@ const Home = () => {
                         </List>
                     </Popover>
                 </div>
-                <Grid container className={classNames("mt-8 px-5 md:px-0")}>
-                    { feedbackList }
-                </Grid>
+                { feedbackList.length > 0 ?
+                    <Grid container className={classNames("mt-8 px-5 md:px-0")}>
+                        { feedbackList }
+                    </Grid> :
+                    <Paper 
+                        className={classNames(classes.noFeedbackSection, `flex flex-col grow items-center justify-center mt-6 px-5 rounded-lg sm:px-[10%]`)}
+                        component="section"
+                        elevation={0}>
+                        <Typography
+                            className={classNames(globalStyles.darkBlueColor, classes.noFeedbackIcon, `font-bold text-2xl before:block before:mx-auto before:bg-no-repeat`)}
+                            component="h1"
+                        >
+                            There is not feedback yet.
+                        </Typography>
+                        <Typography className={classNames(globalStyles.lightBlueColor, "mt-6 text-center")}>
+                            Got a suggestion? Found a bug that needs to be squashed? We love hearing 
+                            about new ideas to improve our app.
+                        </Typography>
+                        <Link href="/new-feedback">
+                            <a className="mt-6">
+                                <Button
+                                    className={classNames("capitalize", classes.addFeedbackButton, globalStyles.addFeedbackButton)}
+                                    endIcon={<AddIcon />}
+                                    variant="contained">
+                                    Add feedback
+                                </Button>
+                            </a>
+                        </Link>
+                    </Paper>
+                }
             </main>
         </>
     )

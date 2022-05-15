@@ -54,6 +54,17 @@
     min-width: 23px !important
 }
 
+.noFeedbackSection {
+    min-height: 70vh;
+}
+
+.noFeedbackIcon::before {
+    background-image: url(/images/illustration-empty.svg);
+    content: "" !important;
+    height: 150px;
+    width: 150px;
+}
+
 @media screen and (min-width: 600px) {
     .toolsContainer {
         border-radius: 12px;

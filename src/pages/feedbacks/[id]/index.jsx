@@ -119,6 +119,7 @@ const FeedbackDetails = () => {
     
         if(Boolean(data) && isUpdated.current) {
             const fb = data.feedback;
+            console.log("hello")                            
             console.log(fb)
             setFeedback({ ...fb })
             isUpdated.current = false;
