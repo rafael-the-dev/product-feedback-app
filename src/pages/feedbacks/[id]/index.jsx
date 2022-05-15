@@ -18,13 +18,13 @@ import { useMutation, useQuery, useSubscription } from "@apollo/client"
 import { GET_FEEDBACK, GET_FEEDBACKS } from 'src/graphql/queries';
 import { ADD_COMMENT } from 'src/graphql/mutations';
 import { GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
-//import { LoginContext } from 'src/context/LoginContext';
+import { LoginContext } from 'src/context/LoginContext';
 
 const FeedbackDetails = () => {
     const router = useRouter();
     const { id } = router.query;
 
-    //const { user } = useContext(LoginContext);
+    const { user } = useContext(LoginContext);
     const { errorHandler, startLoading, stopLoading } = useContext(AppContext)
     
     const subscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
@@ -51,8 +51,12 @@ const FeedbackDetails = () => {
     //const dispatch = useDispatch();
     const feedbacksList = useSelector(selectAllProducts);
 
-    const [ feedback, setFeedback ] = useState({ comments: [] });
+    const [ feedback, setFeedback ] = useState({ comments: [], user: { username: "" } });
     const [ openCommentSnackbar, setOpenOpenCommentSnackbar ] = useState(false);
+
+    const editClickHandler = useCallback(() => {
+        router.push(`/new-feedback?id=${id}`)
+    }, [ id, router ])
 
     const commentsTotal = useMemo(() => {
         let total = 0;
@@ -151,17 +155,15 @@ const FeedbackDetails = () => {
                         </Button>
                     </a>
                 </Link>
-                <Link href={`/new-feedback?id=${id}`} className={classNames()}>
-                    <a>
-                        <Button 
-                            variant="contained"
-                            type="submit"
-                            className={classNames(
-                                globalStyles.button, 'capitalize hover:opacity-80')}>
-                            Edit feedback
-                        </Button>
-                    </a>
-                </Link>
+                <Button 
+                    disabled={feedback.user.username !== user.username }
+                    variant="contained"
+                    type="submit"
+                    className={classNames(
+                        globalStyles.button, 'capitalize hover:opacity-80')}
+                    onClick={editClickHandler}>
+                    Edit feedback
+                </Button>
             </div>
             <FeedbackCard { ...feedback } />
             { feedback.comments ? <Paper elevation={0} className={classNames(globalStyles.borderRadius, 'px-5 pt-8')}>
