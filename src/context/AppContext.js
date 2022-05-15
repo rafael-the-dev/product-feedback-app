@@ -27,11 +27,6 @@ export const AppContextProvider = ({ children }) => {
 
     const deleteFeedbackSubscription = useSubscription(DELETE_FEEDBACK_SUBSCRIPTION);
 
-    //const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
-    //const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
-
-    //console.log(data)
-
     const usersList = useMemo(() => [
         {
             "image": "image-zena.jpg",
@@ -108,6 +103,7 @@ export const AppContextProvider = ({ children }) => {
     }, []);
 
     const errorHandler = useCallback((err) => {
+        console.log(err)
         err.graphQLErrors.forEach(error => {
             switch(error.extensions.code) {
                 case "BAD_USER_INPUT": {
@@ -115,7 +111,8 @@ export const AppContextProvider = ({ children }) => {
                     return;
                 }
                 default: {
-                    addError({ hasError: true, errorMessage: error.message })
+                    addError({ hasError: true, errorMessage: error.message });
+                    return;
                 }
             }
         })
@@ -171,7 +168,7 @@ export const AppContextProvider = ({ children }) => {
                 });
             }
         });
-    }, [ feedbackSubscription, subscribeToMore ]);
+    }, [ feedbackSubscription, subscribeToMore ]); //
 
     useEffect(() => {
         subscribeToMore({

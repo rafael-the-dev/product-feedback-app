@@ -45,9 +45,13 @@ export const GET_FEEDBACK__SUBSCRIPTION = gql`
             status
             title
             upVotes
+            user {
+                name
+                username
+            }
         }
     }
-`;
+`; //
 
 export const DELETE_FEEDBACK_SUBSCRIPTION = gql`
     subscription DeleteFeedback {

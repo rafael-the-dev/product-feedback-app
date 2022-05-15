@@ -49,6 +49,20 @@ const FeedbackCard = ({ comments, category, description, ID, title, upVotes, isC
             { comments ? comments.length : 0 }
         </button>
     ), [ comments ]);
+
+    const titleMemo = useMemo(() => (
+        <Typography gutterBottom component="h2" variant="h6" className={classNames(classes.darkBlueColor)}>
+            { title }
+        </Typography>
+    ), [ title ]);
+
+    const descriptionMemo = useMemo(() => (
+        <Typography gutterBottom className={classNames("text-sm", classes.description)}>
+            { description }
+        </Typography>
+    ), [ description ]);
+
+    const chipMemo = useMemo(() => <Chip label={ category } className={classNames(classes.chip)} />, [ category ])
     
     //const navigate = useNavigate();
     const clickHandler = useCallback(event => {
@@ -70,13 +84,9 @@ const FeedbackCard = ({ comments, category, description, ID, title, upVotes, isC
                     { toggleButton }
                 </Hidden>
                 <div className={classNames("grow sm:mx-4 md:ml-8", classes.content)}>
-                    <Typography gutterBottom component="h2" variant="h6" className={classNames(classes.darkBlueColor)}>
-                        { title }
-                    </Typography>
-                    <Typography gutterBottom className={classNames("text-sm", classes.description)}>
-                        { description }
-                    </Typography>
-                    <Chip label={ category } className={classNames(classes.chip)} />
+                    { titleMemo }
+                    { descriptionMemo }
+                    { chipMemo }
                 </div>
                 <Hidden smUp>
                     <div className={classNames("flex items-center justify-between mt-4")}>

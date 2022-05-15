@@ -107,13 +107,17 @@ const FeedbackDetails = () => {
             }
         });
     }, [ addCommentMutation, errorHandler, id, startLoading, stopLoading ]);
-
+    //console.log(result)
+    const isUpdated = useRef(true);
     useEffect(() => {
         //console.log(data)
         const data = result.data;
-        if(data) {
-            const result = data.feedback;
-            setFeedback(result)
+    
+        if(Boolean(data) && isUpdated.current) {
+            const fb = data.feedback;
+            console.log(fb)
+            setFeedback({ ...fb })
+            isUpdated.current = false;
         }
     }, [ result ]);
 
@@ -124,15 +128,16 @@ const FeedbackDetails = () => {
                 variables: { id },
                 updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data) return prev;
-                    /*const newComment = subscriptionData.data.feedbackUpdated;
-                    const updatedFeedback =  Object.assign({}, prev.feedback, {
-                        comments: [ ...prev.feedback.comments, newComment ]
-                    });*/
+
+                    isUpdated.current = true;
+                    console.log(subscriptionData.data)
                     return { feedback: subscriptionData.data.feedbackUpdated };
                 }
             });
         }
     }, [ id, subscribeToMore ]);
+
+    //const feedbackCardMemo = useMemo(() => <FeedbackCard { ...feedback } />, [ feedback ]);
 
     return (
         <main className={classNames("px-5 pt-8 pb-12", classes.main)}>
