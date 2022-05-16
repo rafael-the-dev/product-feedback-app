@@ -21,7 +21,7 @@ export const GET_FEEDBACKS__SUBSCRIPTION = gql`
 `;
 
 export const GET_FEEDBACK__SUBSCRIPTION = gql`
-    subscription($id: String!) {
+    subscription FeedbackUpdated($id: String!) {
         feedbackUpdated(id: $id) {
             ID
             category

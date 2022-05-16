@@ -143,7 +143,7 @@ export const AppContextProvider = ({ children }) => {
                 console.log(prev);
 
                 return Object.assign({}, prev, {
-                feedbacks: [...prev.feedbacks, newFeedItem ]
+                    feedbacks: [...prev.feedbacks, newFeedItem ]
                 });
             }
         });
@@ -154,8 +154,6 @@ export const AppContextProvider = ({ children }) => {
             document: GET_FEEDBACK__SUBSCRIPTION,
             variables: { id: "null" },
             updateQuery: (prev, { subscriptionData }) => {
-                console.log(prev)
-                console.log(subscriptionData.data)
                 if (!subscriptionData.data) return prev;
 
                 const feedbacks = [ ...prev.feedbacks ];
@@ -174,8 +172,6 @@ export const AppContextProvider = ({ children }) => {
         subscribeToMore({
             document: DELETE_FEEDBACK_SUBSCRIPTION,
             updateQuery: (prev, { subscriptionData }) => {
-                console.log(prev)
-                console.log(subscriptionData.data)
                 if (!subscriptionData.data) return prev;
 
                 const feedback = subscriptionData.data.feedbackDeleted;

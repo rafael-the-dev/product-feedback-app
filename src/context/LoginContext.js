@@ -13,16 +13,13 @@ export const LoginContextProvider = ({ children }) => {
 
     const [ user, setUser ] = useState(null);
     const [ openRefreshTokenDialog, setOpenRefreshTokenDialog ] = useState(false);
+    
+    const dialogTimeoutRef = useRef(null);
+    const verificationTimeoutRef = useRef(null);
+
     const addUser = useCallback((loggedUser) => {
         setUser(loggedUser)
     }, []);
-
-    const router = useRouter();
-    const logout = useCallback(() => {
-        localStorage.setItem("__product-feedback-app-token", JSON.stringify({ expiresIn: 0, token: ""}))
-        setUser(null);
-        router.push("/login")
-    }, [ router ]);
 
     const getToken = useCallback(() => {
         const token = localStorage.getItem('__product-feedback-app-token');
@@ -64,6 +61,15 @@ export const LoginContextProvider = ({ children }) => {
         };
     }, [ addUser, getToken, validateToken ]);
     
+    const router = useRouter();
+    const logout = useCallback(() => {
+        localStorage.setItem("__product-feedback-app-token", JSON.stringify({ expiresIn: 0, token: ""}))
+        setUser(null);
+        if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)
+        if(dialogTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
+        router.push("/login")
+    }, [ router ]);
+    
     const verifyExpirationTime = useCallback(() => {
         const { expiresIn } = getToken();
 
@@ -86,7 +92,7 @@ export const LoginContextProvider = ({ children }) => {
                     expiresIn = data.revalidateToken.expiresIn;
                     token = data.revalidateToken.token;
                     console.log(data)
-                    localStorage.setItem("__product-feedback-app-token", JSON.stringify({ expiresIn, token: ""}))
+                    localStorage.setItem("__product-feedback-app-token", JSON.stringify({ expiresIn, token }))
         
                     const MS_PER_MINUTE = 60000;
                     const durationInMinutes = 5;
@@ -105,9 +111,6 @@ export const LoginContextProvider = ({ children }) => {
             }
         });
     }, [ getToken, revalidateTokenMutation, verifyExpirationTime ])
-
-    const dialogTimeoutRef = useRef(null);
-    const verificationTimeoutRef = useRef(null);
 
     const checkExpirationToken = useCallback(() => {
         if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)

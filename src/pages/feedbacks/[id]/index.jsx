@@ -43,12 +43,6 @@ const FeedbackDetails = () => {
         refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
     });
 
-    //const classes = useStyles();
-    //const display = useDisplay();
-    //const globalStyles = useGlobalStyles();
-    //const text = useTypography();
-
-    //const dispatch = useDispatch();
     const feedbacksList = useSelector(selectAllProducts);
 
     const [ feedback, setFeedback ] = useState({ comments: [], user: { username: "" } });
@@ -111,18 +105,17 @@ const FeedbackDetails = () => {
             }
         });
     }, [ addCommentMutation, errorHandler, id, startLoading, stopLoading ]);
-    //console.log(result)
-    const isUpdated = useRef(true);
+
+    //const isUpdated = useRef(true);
     useEffect(() => {
         //console.log(data)
         const data = result.data;
-    
-        if(Boolean(data) && isUpdated.current) {
+
+        if(data) {
             const fb = data.feedback;
-            console.log("hello")                            
-            console.log(fb)
-            setFeedback({ ...fb })
-            isUpdated.current = false;
+            //console.log(fb)
+            setFeedback(fb)
+            //isUpdated.current = false;
         }
     }, [ result ]);
 
@@ -134,9 +127,10 @@ const FeedbackDetails = () => {
                 updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data) return prev;
 
-                    isUpdated.current = true;
-                    console.log(subscriptionData.data)
-                    return { feedback: subscriptionData.data.feedbackUpdated };
+                    //isUpdated.current = true;
+                    return Object.assign({}, prev, {
+                        feedback: { ...subscriptionData.data.feedbackUpdated }
+                    });
                 }
             });
         }
