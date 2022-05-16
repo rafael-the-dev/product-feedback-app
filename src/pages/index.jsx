@@ -246,11 +246,13 @@ const Home = () => {
                         { feedbackList }
                     </Grid> :
                     <Paper 
-                        className={classNames(classes.noFeedbackSection, `flex flex-col grow items-center justify-center mt-6 px-5 rounded-lg sm:px-[10%]`)}
+                        className={classNames(classes.noFeedbackSection, `flex flex-col grow items-center 
+                        justify-center mt-6 mx-5 px-5 rounded-lg sm:px-[10%]`)}
                         component="section"
                         elevation={0}>
                         <Typography
-                            className={classNames(globalStyles.darkBlueColor, classes.noFeedbackIcon, `font-bold text-2xl before:block before:mx-auto before:bg-no-repeat`)}
+                            className={classNames(globalStyles.darkBlueColor, `font-bold text-2xl before:block 
+                            before:mx-auto before:bg-no-repeat empty-icon`)}
                             component="h1"
                         >
                             There is not feedback yet.

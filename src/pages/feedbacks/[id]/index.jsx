@@ -167,7 +167,7 @@ const FeedbackDetails = () => {
                 </Button>
             </div>
             <FeedbackCard { ...feedback } />
-            { feedback.comments ? <Paper elevation={0} className={classNames(globalStyles.borderRadius, 'px-5 pt-8')}>
+            { feedback.comments.length > 0 ? <Paper elevation={0} className={classNames(globalStyles.borderRadius, 'px-5 pt-8')}>
                 <Typography 
                     component="h2" 
                     variant="h6"
@@ -188,7 +188,22 @@ const FeedbackDetails = () => {
                     }
                 </Grid>
             </Paper> : (
-                <></>
+            <Paper 
+                className={classNames(`flex flex-col grow items-center justify-center mt-6 px-5 py-12
+                rounded-lg sm:px-[10%]`)}
+                component="section"
+                elevation={0}>
+                <Typography
+                    className={classNames(globalStyles.darkBlueColor, `font-bold text-2xl before:block 
+                    before:mx-auto before:bg-no-repeat empty-icon`)}
+                    component="h1"
+                >
+                    There is not comment yet.
+                </Typography>
+                <Typography className={classNames(globalStyles.lightBlueColor, "mt-4 text-center")}>
+                    add new comment.
+                </Typography>
+            </Paper>
             ) }
             <Paper 
                 className={classNames(`px-5 pt-4 pb-8 mt-8`, globalStyles.borderRadius2)}

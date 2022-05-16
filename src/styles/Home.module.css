@@ -58,17 +58,11 @@
     min-height: 70vh;
 }
 
-.noFeedbackIcon::before {
-    background-image: url(/images/illustration-empty.svg);
-    content: "" !important;
-    height: 150px;
-    width: 150px;
-}
-
 @media screen and (min-width: 600px) {
     .toolsContainer {
         border-radius: 12px;
         padding-left: 1.5rem;
         padding-right: 1.2rem;
     }
+    
 }

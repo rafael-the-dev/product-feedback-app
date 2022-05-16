@@ -43,6 +43,14 @@ a {
   border: none !important;
 }
 
+.empty-icon::before {
+  background-image: url(/images/illustration-empty.svg);
+  background-position: center top;
+  content: "" !important;
+  height: 150px;
+  width: 150px;
+}
+
 @media screen  and (min-width: 900px){
   #root {
       align-items: flex-start;

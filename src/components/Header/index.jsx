@@ -129,7 +129,7 @@ const Header = () => {
                     onClose={closeMenu}
                     classes={{ paper: classes.drawerPaper, root: classes.drawerRoot }}
                     >
-                    <div className={classNames("px-5 py-8", classes.drawerContent)}>
+                    <div className={classNames("h-full px-5 py-8", classes.drawerContent)}>
                         { drawerContent }
                     </div>
                 </Drawer>
