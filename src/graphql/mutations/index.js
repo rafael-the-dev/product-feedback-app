@@ -55,9 +55,21 @@ export const EDIT_FEEDBACK = gql`
 export const LOGIN = gql`
     mutation Login($username: String!, $password: String!) {
         login(username: $username, password: $password) {
+            acessToken {
+                expiresIn
+                token
+            }
             name
-            token
             username
+        }
+    }
+`;
+
+export const REVALIDATE_TOKEN = gql`
+    mutation RevalidateToken {
+        revalidateToken {
+            expiresIn
+            token
         }
     }
 `;
@@ -65,6 +77,10 @@ export const LOGIN = gql`
 export const VALIDATE_TOKEN = gql`
     mutation ValidateToken($token: String!) {
         validateToken(token: $token) {
+            acessToken {
+                expiresIn
+                token
+            }
             name
             username
         }

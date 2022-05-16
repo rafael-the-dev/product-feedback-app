@@ -61,7 +61,7 @@ const Container = () => {
                     password
                 },
                 async onCompleted(data) {
-                    localStorage.setItem("__product-feedback-app-token", data.login.token)
+                    localStorage.setItem("__product-feedback-app-token", JSON.stringify(data.login.acessToken))
                     addUser({ name: data.login.name, username: data.login.username });
                     stopLoading();
                     refreshAllFeedbacks();

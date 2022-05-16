@@ -51,6 +51,16 @@ a {
   width: 150px;
 }
 
+
+.comment-grid-item .comment-grid-item__wrapper {
+  border-bottom: 1px solid #9797978c;
+}
+
+.comment-grid-item:last-child .comment-grid-item__wrapper {
+  border-bottom: none;
+}
+
+
 @media screen  and (min-width: 900px){
   #root {
       align-items: flex-start;

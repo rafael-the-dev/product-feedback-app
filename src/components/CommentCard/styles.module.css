@@ -1,12 +1,4 @@
-
-.gridItem .grid-item-container {
-    border-bottom: 1px solid #9797978c,
-}
-
-.gridItem:last-child .grid-item-container {
-    border-bottom: none,
-}
-    
+   
 .arrowUp {
     transform: rotate(180deg)
 }

@@ -10,10 +10,15 @@ import { getMainDefinition } from '@apollo/client/utilities';
 const getToken = () => {
   if(typeof window !== "undefined") {
     const token = localStorage.getItem('__product-feedback-app-token');
-    console.log(token)
-    return token;
+
+    if(token === null) return "";
+
+    try {
+      const acessToken = JSON.parse(token).token;
+      return acessToken;
+    } catch(e) { return ""; }
   }
-  return "rtt";
+  return "";
 };
 
 const httpLink = new HttpLink({
@@ -29,7 +34,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      authorization: localStorage.getItem('__product-feedback-app-token') || null,
+      authorization: getToken()
     }
   }));
 

@@ -247,7 +247,7 @@ const Home = () => {
                     </Grid> :
                     <Paper 
                         className={classNames(classes.noFeedbackSection, `flex flex-col grow items-center 
-                        justify-center mt-6 mx-5 px-5 rounded-lg sm:px-[10%]`)}
+                        justify-center mt-6 mx-5 px-5 rounded-lg sm:px-[10%] md:mx-0`)}
                         component="section"
                         elevation={0}>
                         <Typography

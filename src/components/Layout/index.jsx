@@ -1,23 +1,26 @@
 import { useRouter } from 'next/router'
-import { useContext, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
 import { Alert, AlertTitle, Collapse, LinearProgress } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import classNames from 'classnames'
+import globalStyles from "src/styles/global-styles.module.css"
 
 import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from 'src/context/AppContext';
 
 const Container = ({ children }) => {
     const router = useRouter();
-    console.log(router)
-    const { asPath, pathname } = router;
+    const { pathname } = router;
 
-    const { user } = useContext(LoginContext)
+    const { openRefreshTokenDialog, revalidateToken, setOpenRefreshTokenDialog, user } = useContext(LoginContext)
     const { errorMessage, hasError, isLoading } = useContext(AppContext)
 
     const rootRef = useRef(null);
 
     const isLogged = useMemo(() => (![ '/login', '/signup' ].includes(pathname)) && user !== null, [ pathname, user ])
     const pathnameRef = useRef("");
+    
+    const closeDialog = useCallback(() => { setOpenRefreshTokenDialog(false)}, [ setOpenRefreshTokenDialog ])
 
     useEffect(() => {
         if(pathname !== pathnameRef.current) {
@@ -61,6 +64,35 @@ const Container = ({ children }) => {
             <div id="root" ref={rootRef}>
                 { children }
             </div>
+            <Dialog
+                open={openRefreshTokenDialog && ![ '/login', '/signup' ].includes(pathname)}
+                onClose={closeDialog}
+                aria-describedby="session-dialog-description"
+            >
+                <DialogContent>
+                    <DialogContentText id="session-dialog-description">
+                        Your session will expire in 5 minutes, do you want to keep logged in?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions className="pb-4">
+                    <Button 
+                        variant="contained"
+                        type="button"
+                        className={classNames(globalStyles.deleteFeedbackButton, 
+                        globalStyles.button, 'capitalize hover:opacity-80')}
+                        onClick={closeDialog}>
+                        Close dialog
+                    </Button> 
+                    <Button 
+                        variant="contained"
+                        type="button"
+                        className={classNames("capitalize sm:mr-4", globalStyles.cancelFeedbackButton, 
+                        globalStyles.button)}
+                        onClick={revalidateToken}>
+                        Stay logged in
+                    </Button>    
+                </DialogActions>
+            </Dialog>
         </>
     );
 };

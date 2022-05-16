@@ -78,8 +78,8 @@ const CommentCard = ({ commentID, content, isMainCommentCard, replies, replyingT
         setOpenOpenCommentSnackbar, user, startLoading, stopLoading ]);
 
     return (
-        <Grid item xs={12} component="article" className={classNames({ [classes.gridItem]: isMainCommentCard })}>
-            <div className={classNames("pb-4 mb-4", classes.container, { 'grid-item-container': isMainCommentCard},
+        <Grid item xs={12} component="article" className={classNames({ 'comment-grid-item': isMainCommentCard })}>
+            <div className={classNames("pb-4 mb-4", classes.container, { 'comment-grid-item__wrapper': isMainCommentCard},
                 'items-start sm:flex md:mb-8')}>
                 <Hidden smDown>
                     <Avatar 
