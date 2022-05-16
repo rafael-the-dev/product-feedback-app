@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
-import { useMemo, useRef } from 'react'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useMemo, useRef } from 'react'
 import { Alert, AlertTitle, Collapse, LinearProgress } from "@mui/material"
 import classNames from 'classnames'
 
@@ -9,7 +8,8 @@ import { AppContext } from 'src/context/AppContext';
 
 const Container = ({ children }) => {
     const router = useRouter();
-    const { pathname } = router;
+    console.log(router)
+    const { asPath, pathname } = router;
 
     const { user } = useContext(LoginContext)
     const { errorMessage, hasError, isLoading } = useContext(AppContext)
@@ -17,12 +17,17 @@ const Container = ({ children }) => {
     const rootRef = useRef(null);
 
     const isLogged = useMemo(() => (![ '/login', '/signup' ].includes(pathname)) && user !== null, [ pathname, user ])
+    const pathnameRef = useRef("");
 
     useEffect(() => {
-        if([ '/login' ].includes(pathname) && user !== null) {
-            router.push("/")
-        }else if(!isLogged && (![ '/login', '/signup' ].includes(pathname))) {
-            router.push("/login")
+        if(pathname !== pathnameRef.current) {
+            pathnameRef.current = pathname;
+
+            if([ '/login' ].includes(pathname) && user !== null) {
+                router.push("/")
+            }else if(!isLogged && (![ '/login', '/signup' ].includes(pathname))) {
+                router.push("/login")
+            }
         }
     }, [ isLogged, pathname, router, user ]);
 

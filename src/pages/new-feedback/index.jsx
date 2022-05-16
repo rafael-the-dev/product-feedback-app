@@ -19,13 +19,13 @@ import { useMutation } from "@apollo/client"
 import { ADD_FEEDBACK, DELETE_FEEDBACK, EDIT_FEEDBACK } from "src/graphql/mutations"
 import { GET_FEEDBACK } from "src/graphql/queries"
 import { AppContext } from 'src/context/AppContext';
-//import { LoginContext } from 'src/context/LoginContext';
+import { LoginContext } from 'src/context/LoginContext';
 
 const NewFeedback = () => {
     const router = useRouter();
     const { id } = router.query;
 
-    //const { user } = useContext(LoginContext);
+    const { user } = useContext(LoginContext);
     const { errorHandler, startLoading, stopLoading } = useContext(AppContext);
 
     const feedbackStatus = useQuery(GET_FEEDBACK, { variables: { id: id ? id : "" }, });
@@ -34,7 +34,7 @@ const NewFeedback = () => {
     const addFeedbackMutation = useMutation(ADD_FEEDBACK);
     
     const { register, handleSubmit, getValues , reset, setFocus, setValue, formState: { errors } } = useForm();
-    const [ feedback, setFeedback ] = useState({})
+    const [ feedback, setFeedback ] = useState({ user: { username: "" } })
     const [ openDeleteDialog, setOpenDeleteDialog ] = useState(false);
     const [ openSnackbar, setOpenSnackbar ] = useState(false);
     const [ snackbarMessage, setSnackbarMessage ] = useState("");
@@ -165,7 +165,13 @@ const NewFeedback = () => {
                 stopLoading();
             }
         })
-    }
+    };
+
+
+    const canIEdit = useMemo(() => {
+        if(user === null) return false;
+        return feedback.user.username === user.username;
+    }, [ feedback, user ])
 
     useEffect(() => {
         //startL
@@ -332,6 +338,7 @@ const NewFeedback = () => {
                             sm:items-center mt-8 w-full`, classes.buttonsContainer,)}>
                             <div className={classNames('flex flex-col items-stretch sm:flex-row-reverse')}>
                                 <Button 
+                                    disabled={!canIEdit}
                                     variant="contained"
                                     type="button"
                                     className={classNames(`capitalize mb-4 sm:my-0`, globalStyles.button, 
@@ -352,6 +359,7 @@ const NewFeedback = () => {
                                 </Link>
                             </div>
                             <Button 
+                                disabled={!canIEdit}
                                 variant="contained"
                                 type="button"
                                 className={classNames(globalStyles.deleteFeedbackButton, 

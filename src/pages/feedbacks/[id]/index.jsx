@@ -157,7 +157,7 @@ const FeedbackDetails = () => {
                     </a>
                 </Link>
                 <Button 
-                    disabled={feedback.user.username !== user.username }
+                    disabled={feedback.user.username !== user?.username }
                     variant="contained"
                     type="submit"
                     className={classNames(
