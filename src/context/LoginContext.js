@@ -1,6 +1,7 @@
 import { createContext, useCallback, useEffect, useRef, useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { REVALIDATE_TOKEN, VALIDATE_TOKEN } from "src/graphql/mutations"
+import { useRouter } from 'next/router'
 
 export const LoginContext = createContext();
 LoginContext.displayName = "LoginContext";
@@ -16,10 +17,12 @@ export const LoginContextProvider = ({ children }) => {
         setUser(loggedUser)
     }, []);
 
+    const router = useRouter();
     const logout = useCallback(() => {
         localStorage.setItem("__product-feedback-app-token", JSON.stringify({ expiresIn: 0, token: ""}))
         setUser(null);
-    }, []);
+        router.push("/login")
+    }, [ router ]);
 
     const getToken = useCallback(() => {
         const token = localStorage.getItem('__product-feedback-app-token');
@@ -89,7 +92,8 @@ export const LoginContextProvider = ({ children }) => {
                     const durationInMinutes = 5;
                     const myEndDateTime = new Date(expiresIn * 1000);
                     const myStartDate = new Date(myEndDateTime - durationInMinutes * MS_PER_MINUTE);
-            
+                    setOpenRefreshTokenDialog(false);
+
                     setTimeout(() => {
                         setOpenRefreshTokenDialog(true);
                     }, myStartDate - Date.now());
