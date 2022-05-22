@@ -4,12 +4,13 @@ import { useMutation } from "@apollo/client";
 import Link from 'next/link'
 import classNames from 'classnames'
 import classes from './styles.module.css'
+import { useRouter } from 'next/router'
 
 import { CREATE_NEW_USER } from 'src/graphql/mutations'
 import { AppContext } from 'src/context/AppContext';
 
 const Container = () => {
-    const { errorHandler } = useContext(AppContext)
+    const { errorHandler, startLoading, stopLoading } = useContext(AppContext)
     const [ password, setPassword ] = useState("");
     const [ comfirmPassword, setComfirmPassword ] = useState("");
     const [ username, setUsername ] = useState("");
@@ -19,7 +20,6 @@ const Container = () => {
     const userNameRef = useRef(null);
     const passwordRef = useRef(null);
     const comfirmPasswordRef = useRef(null);
-    //const [ errors, setErrors ] = useState({ passwordMatch: false,  });
 
     const hasErrors = useCallback(({ checkWhiteSpace, checkPasswords, value, value2 }) => {
         let errors = { passwordMatch: false, whiteSpace: false };
@@ -89,6 +89,7 @@ const Container = () => {
         return errorsPanel({ ...comfirmPasswordErrors, htmlFor: "confirm-password-textfield" })
     }, [ comfirmPasswordErrors, errorsPanel ])
 
+    const router = useRouter();
     const mutation = useMutation(CREATE_NEW_USER);
     const onSubmitHandler = useCallback((event) => {
         event.preventDefault();
@@ -96,6 +97,7 @@ const Container = () => {
         const registerUser = mutation[0];
 
         if(!hasFormError) {
+            startLoading();
             registerUser({
                 variables: {
                     user: {
@@ -104,7 +106,12 @@ const Container = () => {
                         username: userNameRef.current.value,
                     }
                 },
+                onCompleted() {
+                    stopLoading();
+                    router.push('/login');
+                },
                 onError(err) {
+                    stopLoading();
                     let responseError = null;
 
                     err.graphQLErrors.forEach(error => {
@@ -119,7 +126,7 @@ const Container = () => {
                 }
             })
         }
-    }, [ hasFormError, errorHandler, mutation ]);
+    }, [ hasFormError, errorHandler, mutation, router, startLoading, stopLoading ]);
 
     const legendMemo = useMemo(() => (
         <Typography component="legend" className="font-bold mb-8 text-center text-2xl uppercase">
@@ -205,9 +212,9 @@ const Container = () => {
                     { comfirmPasswordErrorsPanel }
                 </fieldset>
                 <div 
-                    className={classNames("flex flex-col sm:flex-row-reverse sm:items-center mt-4 sm:justify-end")}>
+                    className={classNames("flex flex-col items-center mt-4")}>
                     <Typography component="p" className="ml-4 text-sm">
-                        don't you have an account? 
+                        do you have an account? 
                         <Link href="/login">
                             <a className={classNames(classes.signUpLink, "ml-2 underline hover:opacity-90")}>
                                 sign in.
@@ -215,7 +222,7 @@ const Container = () => {
                         </Link>
                     </Typography>
                     <Button 
-                        className="mt-4 py-2 sm:mt-0"
+                        className="mt-4 py-2 w-full"
                         disabled={hasFormError}
                         variant="contained"
                         type="submit"
