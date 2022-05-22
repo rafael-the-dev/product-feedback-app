@@ -143,7 +143,7 @@ export const AppContextProvider = ({ children }) => {
                 console.log(prev);
 
                 return Object.assign({}, prev, {
-                    feedbacks: [...prev.feedbacks, newFeedItem ]
+                    feedbacks: [ newFeedItem, ...prev.feedbacks ]
                 });
             }
         });
@@ -176,8 +176,6 @@ export const AppContextProvider = ({ children }) => {
 
                 const feedback = subscriptionData.data.feedbackDeleted;
                 const feedbacks = [ ...prev.feedbacks.filter(item => item.ID !== feedback.ID) ];
-                //const index = feedbacks.findIndex(element => element.ID === feedback.ID);
-                //feedbacks[index] = feedback;
 
                 return Object.assign({}, prev, {
                     feedbacks

@@ -100,10 +100,10 @@ export const LoginContextProvider = ({ children }) => {
                     const myStartDate = new Date(myEndDateTime - durationInMinutes * MS_PER_MINUTE);
                     setOpenRefreshTokenDialog(false);
 
-                    setTimeout(() => {
+                    dialogTimeoutRef.current = setTimeout(() => {
                         setOpenRefreshTokenDialog(true);
                     }, myStartDate - Date.now());
-                    setTimeout(() => verifyExpirationTime(), myEndDateTime - Date.now());
+                    verificationTimeoutRef.current = setTimeout(() => verifyExpirationTime(), myEndDateTime - Date.now());
                 }
             },
             onError(err) {
@@ -114,7 +114,7 @@ export const LoginContextProvider = ({ children }) => {
 
     const checkExpirationToken = useCallback(() => {
         if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)
-        if(dialogTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
+        if(verificationTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
 
         const { expiresIn } = getToken();
 

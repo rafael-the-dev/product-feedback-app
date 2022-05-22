@@ -1,4 +1,4 @@
-import { Button, Paper, TextField, Typography } from '@mui/material';
+import { Alert, AlertTitle, Button, Paper, TextField, Typography } from '@mui/material';
 import { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { useMutation } from "@apollo/client";
 import Link from 'next/link'
@@ -14,6 +14,7 @@ const Container = () => {
     const [ comfirmPassword, setComfirmPassword ] = useState("");
     const [ username, setUsername ] = useState("");
 
+    const alertRef = useRef(null);
     const nameRef = useRef(null);
     const userNameRef = useRef(null);
     const passwordRef = useRef(null);
@@ -91,6 +92,7 @@ const Container = () => {
     const mutation = useMutation(CREATE_NEW_USER);
     const onSubmitHandler = useCallback((event) => {
         event.preventDefault();
+        alertRef.current.classList.add("hidden");
         const registerUser = mutation[0];
 
         if(!hasFormError) {
@@ -103,7 +105,17 @@ const Container = () => {
                     }
                 },
                 onError(err) {
-                    errorHandler(err);
+                    let responseError = null;
+
+                    err.graphQLErrors.forEach(error => {
+                        if(error.extensions.code === "BAD_USER_INPUT" && error.message === "Username exists") {
+                            //alertRef.current.classList.remove("hidden");
+                            responseError = error;
+                        }
+                    });
+
+                    if(responseError) { alertRef.current.classList.remove("hidden"); }
+                    else errorHandler(err);
                 }
             })
         }
@@ -178,8 +190,12 @@ const Container = () => {
                 component="form"
                 elavation={0}
                 onSubmit={onSubmitHandler}>
-                { legendMemo }
                 <fieldset>
+                    { legendMemo }
+                    <Alert className={classNames("hidden mb-4")} ref={alertRef} severity="error">
+                        <AlertTitle>Error</AlertTitle>
+                        Username not available!
+                    </Alert>
                     { nameMemo }
                     { usernameMemo }
                     { usernameErrorsPanel }
