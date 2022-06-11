@@ -47,13 +47,13 @@ const Header = () => {
     ), [ ]);
 
     const chipCategories = useMemo(() => (
-        feedbacksList.map(item => item.category)
-    ), [ feedbacksList ])
+        [ "enhancement", "bug", "UI", "feature", "UX" ]//feedbacksList.map(item => item.category)
+    ), [ ])
 
     const drawerContent = useMemo(() => (
         <>
             <Paper 
-                className={classNames("flex flex-wrap items-center pt-4 pb-8 px-5 md:mt-4",
+                className={classNames("flex flex-wrap items-center pt-4 pb-4 px-5 md:mt-4",
                 classes.paper, classes.smPx)}
                 elevation={0}>
                     {
@@ -63,7 +63,7 @@ const Header = () => {
                     }
             </Paper>
             <Paper 
-                className={classNames("flex flex-wrap items-center pt-4 pb-8 px-5 md:mt-4",
+                className={classNames("flex flex-wrap items-center pt-4 pb-8 px-5 mt-4",
                 classes.paper, classes.smPx)}
                 elevation={0}>
                     <header className={classNames("flex items-center justify-between w-full")}>

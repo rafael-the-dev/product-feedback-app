@@ -135,7 +135,7 @@ const Container = () => {
                         />
                     </FormControl>
                     <div 
-                        className={classNames("flex flex-col sm:flex-row-reverse sm:items-center mt-4")}>
+                        className={classNames("flex flex-col items-center mt-4")}>
                         <Typography component="p" className="ml-4 text-sm">
                             don't you have an account? 
                             <Link href="/signup">
@@ -143,7 +143,7 @@ const Container = () => {
                             </Link>
                         </Typography>
                         <Button 
-                            className="mt-4 py-2 sm:mt-0"
+                            className="mt-4 py-2 w-full"
                             variant="contained"
                             type="submit"
                         >Submit

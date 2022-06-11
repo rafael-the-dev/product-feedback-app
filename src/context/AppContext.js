@@ -156,7 +156,7 @@ export const AppContextProvider = ({ children }) => {
             updateQuery: (prev, { subscriptionData }) => {
                 if (!subscriptionData.data) return prev;
 
-                const feedbacks = [ ...prev.feedbacks ];
+                const feedbacks = prev.feedbacks ? [ ...prev.feedbacks ] : [];
                 const feedback = subscriptionData.data.feedbackUpdated;
                 const index = feedbacks.findIndex(element => element.ID === feedback.ID);
                 feedbacks[index] = feedback;

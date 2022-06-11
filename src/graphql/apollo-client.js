@@ -22,7 +22,7 @@ const getToken = () => {
 };
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:5000/graphql',
+  uri: "https:deserted-flaxen-reaction.glitch.me/graphql",//'http://localhost:5000/graphql',
   //credentials: "include",
   //headers: {
     //authorization: getToken(),
@@ -45,7 +45,7 @@ const wsLink =
     typeof window !== "undefined"
         ? new GraphQLWsLink(
                 createClient({
-                    url: "ws://localhost:5000/graphql", 
+                    url: "wss://deserted-flaxen-reaction.glitch.me/graphql", //"ws://localhost:5000/graphql"
                     connectionParams: {
                       authToken: getToken(),
                       authorization: getToken(),
@@ -123,7 +123,7 @@ wsLink.request = operation => {
 
 const client = new ApolloClient({
   link: splitLink,
-  uri: "http://localhost:5000/graphql",
+  uri: "https:deserted-flaxen-reaction.glitch.me/graphql",//"http://localhost:5000/graphql",
   cache: new InMemoryCache()
 });
 

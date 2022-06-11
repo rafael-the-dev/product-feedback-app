@@ -242,7 +242,7 @@ const Home = () => {
                     </Popover>
                 </div>
                 { feedbackList.length > 0 ?
-                    <Grid container className={classNames("mt-8 px-5 md:px-0")}>
+                    <Grid component="ul" container className={classNames("mt-8 pb-8 px-5 md:px-0")}>
                         { feedbackList }
                     </Grid> :
                     <Paper 

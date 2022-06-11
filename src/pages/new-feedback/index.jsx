@@ -347,11 +347,11 @@ const NewFeedback = () => {
                                     Save changes
                                 </Button>
                                 <Link href={`/`}>
-                                    <a>
+                                    <a className="w-full">
                                         <Button 
                                             variant="contained"
                                             type="button"
-                                            className={classNames("capitalize sm:mr-4", globalStyles.cancelFeedbackButton, 
+                                            className={classNames("capitalize w-full sm:mr-4", globalStyles.cancelFeedbackButton, 
                                                 globalStyles.button)}>
                                             cancel
                                         </Button>
@@ -379,11 +379,11 @@ const NewFeedback = () => {
                                 Add Feedback
                             </Button>
                             <Link href="/">
-                                <a>
+                                <a className="w-full">
                                     <Button 
                                         variant="contained"
                                         type="button"
-                                        className={classNames(`capitalize mt-4 sm:mt-0 sm:mr-4`, globalStyles.button, 
+                                        className={classNames(`capitalize mt-4 w-full sm:mt-0 sm:mr-4`, globalStyles.button, 
                                         globalStyles.cancelFeedbackButton)}>
                                         Cancel
                                     </Button>

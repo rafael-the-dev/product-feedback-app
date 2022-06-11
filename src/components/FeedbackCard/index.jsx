@@ -74,7 +74,7 @@ const FeedbackCard = ({ comments, category, description, ID, title, upVotes, isC
     }, [ ID, router ]);
 
     return (
-        <Grid component="article" item xs={12}>
+        <Grid component="li" className="list-none" item xs={12}>
             <Paper 
                 elevation={0} 
                 onClick={clickHandler}
