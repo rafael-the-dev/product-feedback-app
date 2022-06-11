@@ -1,4 +1,4 @@
-import Header from '../../components/Header'
+/*import Header from '../../components/Header'
 import classNames from 'classnames';
 import { useDisplay, useGlobalStyles, useResponsive, useTypography } from '../../styles'
 import { useStyles } from './styles'
@@ -195,4 +195,4 @@ const Home = () => {
     )
 };
 
-export default Home;
+export default Home;*/
