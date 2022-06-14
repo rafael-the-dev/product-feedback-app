@@ -35,7 +35,7 @@ export const LoginContextProvider = ({ children }) => {
     useEffect(() => {
         const { token } = getToken();
         const validate = validateToken[0];
-        if(isFirstRender.current) {
+        if(isFirstRender.current && Boolean(token)) {
             validate({ 
                 variables: {
                     token

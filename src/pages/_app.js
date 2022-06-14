@@ -6,9 +6,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
 import { theme } from 'src/material-ui/theme';
 import createEmotionCache from 'src/material-ui/createEmotionCache';
-import { Provider } from 'react-redux';
+//import { Provider } from 'react-redux';
 import { ApolloProvider } from "@apollo/client"
-import { store } from 'src/redux/store';
+//import { store } from 'src/redux/store';
 
 import Layout from 'src/components/Layout';
 import 'src/styles/reset.css'
@@ -17,6 +17,8 @@ import 'src/styles/tailwind.css'
 import { AppContextProvider } from 'src/context/AppContext';
 import client from 'src/graphql/apollo-client';
 import { LoginContextProvider } from 'src/context/LoginContext';
+
+import { SubscriptionContextProvider } from "src/context/SubscriptionContext"
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -29,9 +31,9 @@ function MyApp(props) {
             <Head>
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
-            <Provider store={store}>
-                <ApolloProvider client={client}>
-                    <LoginContextProvider>
+            <ApolloProvider client={client}>
+                <LoginContextProvider>
+                    <SubscriptionContextProvider>
                         <AppContextProvider>
                             <CacheProvider value={emotionCache}>
                                 <ThemeProvider theme={theme}>
@@ -43,9 +45,9 @@ function MyApp(props) {
                                 </ThemeProvider>
                             </CacheProvider>
                         </AppContextProvider>
-                    </LoginContextProvider>
-                </ApolloProvider>
-            </Provider>
+                    </SubscriptionContextProvider>
+                </LoginContextProvider>
+            </ApolloProvider>
         </>
     );
 }
