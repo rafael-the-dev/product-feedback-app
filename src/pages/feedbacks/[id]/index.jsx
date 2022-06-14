@@ -5,14 +5,10 @@ import { Button, Grid, IconButton, Paper, Snackbar, Typography } from '@mui/mate
 import FeedbackCard from 'src/components/FeedbackCard'
 import CommentCard from 'src/components/CommentCard'
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-//import { Link, useParams } from 'react-router-dom'
 import { useRouter } from 'next/router';
 import Link from 'next/link'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { AppContext } from 'src/context/AppContext'
-import { useSelector } from 'react-redux'
-//import { addComent } from 'src/redux/actions';
-import { selectAllProducts } from 'src/redux/selectors';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMutation, useQuery, useSubscription } from "@apollo/client"
 import { GET_FEEDBACK, GET_FEEDBACKS } from 'src/graphql/queries';
@@ -43,7 +39,7 @@ const FeedbackDetails = () => {
         refetchQueries: [ GET_FEEDBACK, GET_FEEDBACKS ]
     });
 
-    const feedbacksList = useSelector(selectAllProducts);
+    //const feedbacksList = useSelector(selectAllProducts);
 
     const [ feedback, setFeedback ] = useState({ comments: [], user: { username: "" } });
     const [ openCommentSnackbar, setOpenOpenCommentSnackbar ] = useState(false);
@@ -54,7 +50,7 @@ const FeedbackDetails = () => {
 
     const commentsTotal = useMemo(() => {
         let total = 0;
-        console.log(feedbacksList.length)
+        //console.log(feedbacksList.length)
         if(feedback.comments) {
             feedback.comments.forEach(item => {
                 total += 1;
@@ -66,7 +62,7 @@ const FeedbackDetails = () => {
             });
         }
         return total;
-    }, [ feedback, feedbacksList ])
+    }, [ feedback ])
     
     const [ comment, setComment ] = useState('');
     const commentRef = useRef('');

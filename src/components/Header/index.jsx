@@ -1,13 +1,10 @@
 import { Chip, Drawer, Hidden, IconButton, Paper, Typography } from '@mui/material';
 import classNames from 'classnames'
-//import { useDisplay, useGlobalStyles, useResponsive, useTypography } from 'src/styles'
 import MenuIcon from '@mui/icons-material/Menu';
 import classes from './header.module.css'
 import { useCallback, useContext, useMemo, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import Link from 'next/link';
-//import { useSelector } from 'react-redux'
-//import { selectAllProducts } from 'src/redux/selectors'
 import { AppContext } from 'src/context/AppContext'
 
 const Header = () => {

@@ -6,10 +6,7 @@ import RoadmapFeedbackCard from 'src/components/RoadmapFeedbackCard';
 import { Button, Hidden, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-//import { Link } from 'react-router-dom'
 import Link from 'next/link'
-//import { useSelector } from 'react-redux'
-//import { selectAllProducts} from 'src/redux/selectors'
 
 //import { FeedbacksContext, FeedbacksContextProvider } from "src/context/FeedbacksContext"
 import { AppContext } from 'src/context/AppContext';
