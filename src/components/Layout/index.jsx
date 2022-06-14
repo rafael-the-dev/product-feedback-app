@@ -35,6 +35,14 @@ const Container = ({ children }) => {
     }, [ isLogged, pathname, router, user ]);
 
     useEffect(() => {
+        if(pathname === "/") {
+            document.querySelector("#root").classList.add("root--home")
+        } else {
+            document.querySelector("#root").classList.remove("root--home")
+        }
+    }, [ pathname ])
+
+    useEffect(() => {
         if(isLogged) { //[ '/login', '/signup' ].includes(pathname)
             if(rootRef.current !== null) {
                 rootRef.current.classList.remove("remove-root-padding")

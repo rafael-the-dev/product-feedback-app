@@ -117,7 +117,7 @@ const Home = () => {
             <main className={classNames("grow md:ml-8")}>
                 <div className={classNames("flex items-center justify-between px-5", classes.toolsContainer)}>
                    <div className={classNames("flex items-center")}>
-                       <Hidden smDown>
+                       <Hidden lgDown>
                             <Typography 
                                 component="h2" 
                                 variant="h6" 
@@ -126,7 +126,7 @@ const Home = () => {
                             </Typography>
                        </Hidden>
                         <Button
-                            className={classNames("capitalize text-white sm:ml-8")}
+                            className={classNames("capitalize text-white md:ml-8")}
                             endIcon={<KeyboardArrowDownIcon />}
                             onClick={handleClick(setAnchorEl)}>
                             Sort by:

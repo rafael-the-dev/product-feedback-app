@@ -61,11 +61,21 @@ a {
 }
 
 
-@media screen  and (min-width: 900px){
+@media screen  and (min-width: 900px) {
   #root {
       align-items: flex-start;
       display: flex;
       justify-content: space-between;
       padding: 3rem 10%;
+  }
+
+  .root--home {
+    padding: 3rem 5% !important;
+  }
+}
+
+@media screen  and (min-width: 1200px) {
+  .root--home {
+    padding: 3rem 10% !important;
   }
 }

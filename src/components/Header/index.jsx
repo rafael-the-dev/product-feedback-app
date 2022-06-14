@@ -6,6 +6,8 @@ import { useCallback, useContext, useMemo, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import Link from 'next/link';
 import { AppContext } from 'src/context/AppContext'
+import { useRouter } from 'next/router';
+
 
 const Header = () => {
     //const classes = useStyles();
@@ -45,7 +47,10 @@ const Header = () => {
 
     const chipCategories = useMemo(() => (
         [ "enhancement", "bug", "UI", "feature", "UX" ]//feedbacksList.map(item => item.category)
-    ), [ ])
+    ), [ ]);
+    
+    const router = useRouter();
+    const viewClickHandler = useCallback((event) => { router.push("/roadmap"); }, [ router ])
 
     const drawerContent = useMemo(() => (
         <>
@@ -65,11 +70,11 @@ const Header = () => {
                 elevation={0}>
                     <header className={classNames("flex items-center justify-between w-full")}>
                         <Typography component="h2" className={classNames(classes.roadmapTitle)}>Roadmap</Typography>
-                        <Link 
-                            href="/roadmap" 
-                            className={classNames(' underline-none hover:underline')}>
-                            <a><button className="border-0 outline-none bg-transparent text-sky-600 px-0 hover:underline">View</button></a>
-                        </Link>
+                        <button 
+                            className="border-0 outline-none bg-transparent text-sky-600 px-0 hover:underline"
+                            onClick={viewClickHandler}>
+                            View
+                        </button>
                     </header>
                     <div className={classNames("mt-4 w-full")}>
                         <Typography 
@@ -97,29 +102,29 @@ const Header = () => {
                     </div>
             </Paper>
         </>
-    ), [ chipCategories, plansTotal ]);
+    ), [ chipCategories, plansTotal, viewClickHandler ]);
 
     return (
-        <header className={classNames("sm:px-5 sm:flex sm:justify-between sm:pt-12 sm:pb-8 md:px-0 md:flex-col md:pt-0", 
+        <header className={classNames("sm:flex sm:justify-between md:px-0 md:flex-col md:pt-0", 
             classes.header, "sm:items-stretch")}>
             <div
-                className={classNames("flex items-center justify-between py-4 px-5 text-white md:pt-12 md:pb-8", 
+                className={classNames("flex items-center justify-between py-4 px-5 text-white w-full md:pt-12 md:pb-8", 
                 classes.headerHighlight, classes.smPx)} >
                 <div>
                     <Typography component="h1" variant="h6">Frontend Mentor</Typography>
                     <Typography className={classNames("opacity-90 text-sm")}>Feedback Board</Typography>
                 </div>
-                <Hidden smUp>
+                <Hidden mdUp>
                     <IconButton
                         onClick={toggleMenu}>
                         { open ? <CloseIcon className={classNames("text-white")} /> : <MenuIcon className={classNames("text-white")} /> }
                     </IconButton>
                 </Hidden>
             </div>
-            <Hidden smDown>
+            <Hidden mdDown>
                 { drawerContent }
             </Hidden>
-            <Hidden smUp>
+            <Hidden mdUp>
                 <Drawer
                     anchor="right"
                     open={open}
