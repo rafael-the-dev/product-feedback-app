@@ -49,9 +49,9 @@ const Home = () => {
 
         if(filter === filterOptions.mostUpvotes) {
             //list = list.filter(item => item.upvotes >= 61);
-            list = list.sort((a, b) => b.upvotes - a.upvotes);
+            list = list.sort((a, b) => b.upVotes - a.upVotes);
         } else if(filter === filterOptions.leastUpvotes) {
-            list = list.sort((a, b) => a.upvotes - b.upvotes);
+            list = list.sort((a, b) => a.upVotes - b.upVotes);
         } else if(filter === filterOptions.mostComments) {
             list = list.sort((a, b) => {
                 let aValue = 0

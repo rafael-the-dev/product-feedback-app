@@ -67,8 +67,8 @@ const Header = () => {
                         <Typography component="h2" className={classNames(classes.roadmapTitle)}>Roadmap</Typography>
                         <Link 
                             href="/roadmap" 
-                            className={classNames('text-sky-600 underline-none hover:underline')}>
-                            <a>View</a>
+                            className={classNames(' underline-none hover:underline')}>
+                            <a><button className="border-0 outline-none bg-transparent text-sky-600 px-0 hover:underline">View</button></a>
                         </Link>
                     </header>
                     <div className={classNames("mt-4 w-full")}>
