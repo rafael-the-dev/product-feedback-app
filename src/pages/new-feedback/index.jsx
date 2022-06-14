@@ -347,7 +347,7 @@ const NewFeedback = () => {
                                     Save changes
                                 </Button>
                                 <Link href={`/`}>
-                                    <a className="w-full">
+                                    <a className="w-full sm:w-auto sm:mr-4">
                                         <Button 
                                             variant="contained"
                                             type="button"
@@ -379,7 +379,7 @@ const NewFeedback = () => {
                                 Add Feedback
                             </Button>
                             <Link href="/">
-                                <a className="w-full">
+                                <a className="w-full sm:w-auto sm:mr-4">
                                     <Button 
                                         variant="contained"
                                         type="button"

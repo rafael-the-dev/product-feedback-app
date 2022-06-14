@@ -6,11 +6,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useMemo } from 'react';
 
 const FeedbackCard = ({ comments, category, description, status, title, upVotes }) => {
-    //const bg = useBackground();
-    //const classes = useStyles();
-    //const display = useDisplay();
-    //const globalStyles = useGlobalStyles();
-    //const text = useTypography();
 
     const toggleButton = useMemo(() => (
         <button className={classNames("border-0 outline-none flex items-center rounded-2xl", classes.button)}>

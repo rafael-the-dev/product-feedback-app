@@ -4,14 +4,11 @@ import classes from './styles.module.css'
 import { Avatar, Button, Collapse, Grid, Hidden, IconButton, Typography } from '@mui/material';
 import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { AppContext } from 'src/context/AppContext';
-//import { replayComment } from 'src/redux/actions'
-//import { useDispatch } from 'react-redux'
 import SendIcon from '@mui/icons-material/Send';
 import { useMutation } from "@apollo/client"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ADD_REPLY } from "src/graphql/mutations";
 import { GET_FEEDBACK, GET_FEEDBACKS } from "src/graphql/queries";
-//import { LoginContext } from 'src/context/LoginContext';
 
 const CommentCard = ({ commentID, content, isMainCommentCard, replies, replyingTo, user,  feedbackID, setOpenOpenCommentSnackbar }) => {
     //const globalStyles = useGlobalStyles();
