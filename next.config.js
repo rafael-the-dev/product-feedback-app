@@ -8,7 +8,7 @@ module.exports = {
     }
     if (!isServer) {
       // don't resolve 'fs' module on the client to prevent this error on build --> Error: Can't resolve 'fs'
-      config.resolve.fallback = {
+      /*config.resolve.fallback = {
         crypto: false,
           fs: false,
           net: false,
@@ -16,7 +16,7 @@ module.exports = {
           stream: false,
           tls: false,
           zlib: false
-      }
+      }*/
   }
     return config
   }
